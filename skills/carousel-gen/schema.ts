@@ -6,20 +6,25 @@
  * contract; any drift here breaks downstream consumers.
  *
  * Design highlights:
+ *   - Discriminated union on `status` — `complete` envelopes carry all
+ *     narrative slides + invariants, `failed` envelopes carry an optional
+ *     error message and no slide constraints. Lets the LLM emit a clean
+ *     failure response that still parses (vs. blowing up on `slides.min(5)`).
  *   - Bilingual support: a slide may carry single-language `copy` OR a
  *     bilingual `copy_id` + `copy_en` pair, never both. Enforced by
  *     CarouselSlideSchema.superRefine.
  *   - Five LinkedIn-aware narrative layout types: cover, body,
  *     human_fingerprint, direct_answer, cta.
  *   - direct_answer slides carry an optional `direct_answer_block`
- *     (150-600 chars) — used by the backend to render a callout block.
+ *     (150-600 chars). Constrained to `layout_hint='direct_answer'` only —
+ *     a body/cover/cta slide carrying a direct_answer_block is rejected.
  *   - Optional `alt_aspect` slot reserves the contract for a future
  *     TikTok/Reels (9:16) parallel render of the same narrative.
- *   - Top-level superRefine enforces structural invariants the LLM is
- *     known to drift on: total_slides ≡ slides.length, slide 1 = cover,
- *     last slide = cta, slide_number gapless 1..N.
+ *   - Top-level superRefine on the complete envelope enforces structural
+ *     invariants the LLM is known to drift on: total_slides ≡ slides.length,
+ *     slide 1 = cover, last slide = cta, slide_number gapless 1..N.
  *
- * Source: docs/plans/2026-04-28-linkedin-carousel-decoupling.md (Task A1).
+ * Source: docs/plans/2026-04-28-linkedin-carousel-engine-decoupling.md (Task A1).
  */
 
 import { z } from 'zod';
@@ -48,25 +53,50 @@ export const CarouselSlideSchema = z
     image_prompt: z.string().min(300).max(2500),
     is_cover: z.boolean(),
     is_cta: z.boolean(),
-    // Only meaningful on direct_answer slides; freeform on others.
+    // Only valid on direct_answer slides; constraint enforced in superRefine.
     direct_answer_block: z.string().min(150).max(600).optional(),
   })
   .superRefine((slide, ctx) => {
     const hasSingle = !!slide.copy;
     const hasBilingual = !!(slide.copy_id && slide.copy_en);
+    const hasPartialBilingual =
+      (!!slide.copy_id && !slide.copy_en) ||
+      (!slide.copy_id && !!slide.copy_en);
 
-    if (!hasSingle && !hasBilingual) {
+    if (!hasSingle && !hasBilingual && !hasPartialBilingual) {
       ctx.addIssue({
         code: 'custom',
         message: 'slide must have copy OR (copy_id + copy_en)',
         path: ['copy'],
       });
     }
+    if (hasPartialBilingual) {
+      // Point at the missing-side field so the operator sees which one to add.
+      const missingPath = !slide.copy_en ? ['copy_en'] : ['copy_id'];
+      ctx.addIssue({
+        code: 'custom',
+        message:
+          'bilingual mode requires BOTH copy_id and copy_en (one is missing)',
+        path: missingPath,
+      });
+    }
     if (hasSingle && hasBilingual) {
       ctx.addIssue({
         code: 'custom',
-        message: 'slide cannot mix single + bilingual copy',
+        message:
+          'slide cannot mix single + bilingual copy (remove either copy or copy_id+copy_en)',
         path: ['copy'],
+      });
+    }
+    if (
+      slide.direct_answer_block !== undefined &&
+      slide.layout_hint !== 'direct_answer'
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message:
+          'direct_answer_block is only valid on direct_answer layout slides',
+        path: ['direct_answer_block'],
       });
     }
   });
@@ -75,28 +105,53 @@ export type CarouselSlide = z.infer<typeof CarouselSlideSchema>;
 
 // ---------------------------------------------------------------------------
 // Output schema (the full stdout JSON)
+//
+// Discriminated union on `status`:
+//   - 'complete' → full narrative envelope, all structural invariants enforced
+//   - 'failed'   → minimal envelope (status + format + generated_at + error?),
+//                  no slide invariants. Lets the plugin emit a clean parseable
+//                  failure response instead of letting parse() crash on
+//                  `slides.min(5)` when slides are absent.
 // ---------------------------------------------------------------------------
 
+const CompleteEnvelopeSchema = z.object({
+  status: z.literal('complete'),
+  format: z.literal('carousel'),
+  total_slides: z.number().int().min(5).max(15),
+  aspect_ratio: z.enum(['4:5', '1:1', '9:16']).default('4:5'),
+  bilingual: z.boolean().default(false),
+  narrative: z.enum(['5act', 'free']).default('5act'),
+  slides: z.array(CarouselSlideSchema).min(5).max(15),
+  // Reserved for future TikTok/Reels parallel render of the same narrative
+  // at 9:16. Optional — text/image slides reuse the primary `slides[]`.
+  alt_aspect: z
+    .object({
+      aspect_ratio: z.enum(['9:16']),
+      slides: z.array(CarouselSlideSchema),
+    })
+    .optional(),
+  generated_at: z.string().datetime(),
+});
+
+const FailedEnvelopeSchema = z.object({
+  status: z.literal('failed'),
+  format: z.literal('carousel'),
+  error: z.string().optional(),
+  // The LLM MAY emit partial slides before giving up; allow but don't enforce
+  // narrative invariants on the failed path. Adapter (Phase A4) decides
+  // whether to surface the partial slides to the operator or discard them.
+  slides: z.array(CarouselSlideSchema).max(15).optional(),
+  generated_at: z.string().datetime(),
+});
+
 export const CarouselGenOutputSchema = z
-  .object({
-    status: z.enum(['complete', 'failed']),
-    format: z.literal('carousel'),
-    total_slides: z.number().int().min(5).max(15),
-    aspect_ratio: z.enum(['4:5', '1:1', '9:16']).default('4:5'),
-    bilingual: z.boolean().default(false),
-    narrative: z.enum(['5act', 'free']).default('5act'),
-    slides: z.array(CarouselSlideSchema).min(5).max(15),
-    // Reserved for future TikTok/Reels parallel render of the same narrative
-    // at 9:16. Optional — text/image slides reuse the primary `slides[]`.
-    alt_aspect: z
-      .object({
-        aspect_ratio: z.enum(['9:16']),
-        slides: z.array(CarouselSlideSchema),
-      })
-      .optional(),
-    generated_at: z.string().datetime(),
-  })
+  .discriminatedUnion('status', [CompleteEnvelopeSchema, FailedEnvelopeSchema])
   .superRefine((output, ctx) => {
+    // Failed envelope: skip narrative invariants.
+    if (output.status === 'failed') {
+      return;
+    }
+
     // Invariant 1: total_slides claim must match actual slides length.
     if (output.total_slides !== output.slides.length) {
       ctx.addIssue({
@@ -144,3 +199,5 @@ export const CarouselGenOutputSchema = z
   });
 
 export type CarouselGenOutput = z.infer<typeof CarouselGenOutputSchema>;
+export type CompleteCarouselOutput = z.infer<typeof CompleteEnvelopeSchema>;
+export type FailedCarouselOutput = z.infer<typeof FailedEnvelopeSchema>;

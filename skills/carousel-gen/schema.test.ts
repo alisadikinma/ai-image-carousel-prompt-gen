@@ -15,6 +15,7 @@ import { ZodError } from 'zod';
 import {
   CarouselGenOutputSchema,
   type CarouselGenOutput,
+  type CompleteCarouselOutput,
 } from './schema.js';
 
 // ---------------------------------------------------------------------------
@@ -27,7 +28,6 @@ import {
  * test fixtures with cinematic prose.
  */
 function makePrompt(seed: string): string {
-  // 300 chars min — pad seed with deterministic filler so tests stay readable.
   const filler =
     ' Cinematic mid-shot, golden hour rim light, 35mm anamorphic, shallow depth of field, dust particles drifting through the beam, hyperrealistic skin texture, no AI sheen, photographed not rendered.';
   let out = seed;
@@ -38,20 +38,18 @@ function makePrompt(seed: string): string {
 }
 
 function makeValidDirectAnswerBlock(): string {
-  // 150-600 chars. Aim for ~250.
   return (
     'The shortest path to a high-converting carousel is a tight 5-act spine: cover hooks the scroll-stop, three body slides hammer one tension each, the human fingerprint slide grounds it in lived experience, and the CTA closes a single specific loop. Skip any act and dwell time collapses.'
   );
 }
 
 /**
- * Build a 9-slide bilingual carousel with the canonical narrative beats
- * the plan describes:
+ * Build a 9-slide bilingual carousel with the canonical narrative beats:
  *   slide 1 = cover, slide 4 = human_fingerprint, slide 8 = direct_answer,
  *   slide 9 = cta. Slides 2/3/5/6/7 = body.
  */
-function buildValidBilingualOutput(): CarouselGenOutput {
-  const layouts: Array<CarouselGenOutput['slides'][number]['layout_hint']> = [
+function buildValidBilingualOutput(): CompleteCarouselOutput {
+  const layouts: Array<CompleteCarouselOutput['slides'][number]['layout_hint']> = [
     'cover',
     'body',
     'body',
@@ -94,15 +92,65 @@ function buildValidBilingualOutput(): CarouselGenOutput {
   };
 }
 
+/**
+ * Build a 9-slide single-language carousel (English only via `copy` field).
+ * Mirror of buildValidBilingualOutput but with single-language mode toggle.
+ */
+function buildValidSingleLanguageOutput(): CompleteCarouselOutput {
+  const layouts: Array<CompleteCarouselOutput['slides'][number]['layout_hint']> = [
+    'cover',
+    'body',
+    'body',
+    'human_fingerprint',
+    'body',
+    'body',
+    'body',
+    'direct_answer',
+    'cta',
+  ];
+
+  const slides = layouts.map((layout, idx) => {
+    const slideNumber = idx + 1;
+    const isCover = layout === 'cover';
+    const isCta = layout === 'cta';
+    const base = {
+      slide_number: slideNumber,
+      layout_hint: layout,
+      copy: `Slide ${slideNumber} content for layout=${layout}.`,
+      image_prompt: makePrompt(`slide ${slideNumber} ${layout} prompt seed.`),
+      is_cover: isCover,
+      is_cta: isCta,
+    };
+    if (layout === 'direct_answer') {
+      return { ...base, direct_answer_block: makeValidDirectAnswerBlock() };
+    }
+    return base;
+  });
+
+  return {
+    status: 'complete',
+    format: 'carousel',
+    total_slides: 9,
+    aspect_ratio: '4:5',
+    bilingual: false,
+    narrative: '5act',
+    slides,
+    generated_at: '2026-04-28T00:00:00.000Z',
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
 
-describe('CarouselGenOutputSchema', () => {
+describe('CarouselGenOutputSchema — complete envelope', () => {
   it('parses a 9-slide bilingual 5act carousel with all narrative beats', () => {
     const input = buildValidBilingualOutput();
     const parsed = CarouselGenOutputSchema.parse(input);
 
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
     expect(parsed.bilingual).toBe(true);
     expect(parsed.narrative).toBe('5act');
     expect(parsed.total_slides).toBe(9);
@@ -114,7 +162,6 @@ describe('CarouselGenOutputSchema', () => {
     expect(parsed.slides[7].direct_answer_block).toBeDefined();
     expect(parsed.slides[8].layout_hint).toBe('cta');
     expect(parsed.slides[8].is_cta).toBe(true);
-    // Bilingual fields preserved on every slide.
     parsed.slides.forEach((s) => {
       expect(s.copy_id).toBeTruthy();
       expect(s.copy_en).toBeTruthy();
@@ -122,9 +169,24 @@ describe('CarouselGenOutputSchema', () => {
     });
   });
 
+  it('parses a 9-slide single-language carousel (copy without copy_id/copy_en)', () => {
+    const input = buildValidSingleLanguageOutput();
+    const parsed = CarouselGenOutputSchema.parse(input);
+
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.bilingual).toBe(false);
+    expect(parsed.slides).toHaveLength(9);
+    parsed.slides.forEach((s) => {
+      expect(s.copy).toBeTruthy();
+      expect(s.copy_id).toBeUndefined();
+      expect(s.copy_en).toBeUndefined();
+    });
+  });
+
   it('rejects a slide that mixes single + bilingual copy modes', () => {
     const input = buildValidBilingualOutput();
-    // Corrupt slide 2: set both `copy` AND retain `copy_id`/`copy_en`.
     const mutated = {
       ...input,
       slides: input.slides.map((s, i) =>
@@ -142,6 +204,32 @@ describe('CarouselGenOutputSchema', () => {
     }
   });
 
+  it('rejects partial bilingual (copy_id without copy_en)', () => {
+    const input = buildValidBilingualOutput();
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        // Slide 2: drop copy_en, keep copy_id. Realistic LLM truncation pattern.
+        i === 1 ? { ...s, copy_en: undefined } : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(mutated);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const messages = zerr.issues.map((i) => i.message).join(' | ');
+      expect(messages).toMatch(/bilingual mode requires BOTH copy_id and copy_en/);
+      // Path should target the missing side.
+      const partialIssues = zerr.issues.filter((i) =>
+        i.message.includes('bilingual mode requires'),
+      );
+      expect(partialIssues.length).toBeGreaterThan(0);
+      expect(partialIssues[0].path.join('.')).toMatch(/copy_en$/);
+    }
+  });
+
   it('rejects a slide with an invalid layout_hint enum value', () => {
     const input = buildValidBilingualOutput();
     const mutated = {
@@ -156,7 +244,6 @@ describe('CarouselGenOutputSchema', () => {
       CarouselGenOutputSchema.parse(mutated);
     } catch (err) {
       const zerr = err as ZodError;
-      // At least one issue should target the invalid enum on slides[2].layout_hint.
       const layoutIssues = zerr.issues.filter(
         (i) => i.path.join('.') === 'slides.2.layout_hint',
       );
@@ -168,32 +255,50 @@ describe('CarouselGenOutputSchema', () => {
   it('enforces direct_answer_block length bounds (150-600 chars)', () => {
     const input = buildValidBilingualOutput();
 
-    // Below min — 50 chars.
     const tooShort = {
       ...input,
       slides: input.slides.map((s, i) =>
-        i === 7
-          ? { ...s, direct_answer_block: 'a'.repeat(50) }
-          : s,
+        i === 7 ? { ...s, direct_answer_block: 'a'.repeat(50) } : s,
       ),
     };
     expect(() => CarouselGenOutputSchema.parse(tooShort)).toThrow(ZodError);
 
-    // Above max — 700 chars.
     const tooLong = {
       ...input,
       slides: input.slides.map((s, i) =>
-        i === 7
-          ? { ...s, direct_answer_block: 'a'.repeat(700) }
-          : s,
+        i === 7 ? { ...s, direct_answer_block: 'a'.repeat(700) } : s,
       ),
     };
     expect(() => CarouselGenOutputSchema.parse(tooLong)).toThrow(ZodError);
   });
 
+  it('rejects direct_answer_block on a non-direct_answer layout slide', () => {
+    const input = buildValidBilingualOutput();
+    // Slide 5 is layout=body — a direct_answer_block here is invalid.
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        i === 4
+          ? { ...s, direct_answer_block: makeValidDirectAnswerBlock() }
+          : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(mutated);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const layoutIssues = zerr.issues.filter((i) =>
+        i.message.includes('direct_answer_block is only valid'),
+      );
+      expect(layoutIssues.length).toBeGreaterThan(0);
+      expect(layoutIssues[0].path).toContain('direct_answer_block');
+    }
+  });
+
   it('rejects when total_slides does not equal slides.length', () => {
     const input = buildValidBilingualOutput();
-    // Claim 10 slides while delivering 9.
     const mutated = { ...input, total_slides: 10 };
 
     expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
@@ -206,12 +311,13 @@ describe('CarouselGenOutputSchema', () => {
     }
   });
 
-  it('rejects when slide 1 is not cover (wrong is_cover or layout_hint)', () => {
+  it('rejects when slide 1 has is_cover=false even with layout_hint=cover', () => {
     const input = buildValidBilingualOutput();
     const mutated = {
       ...input,
       slides: input.slides.map((s, i) =>
-        i === 0 ? { ...s, is_cover: false, layout_hint: 'body' as const } : s,
+        // Single-field mutation: keep layout_hint=cover but flip is_cover to false.
+        i === 0 ? { ...s, is_cover: false } : s,
       ),
     };
 
@@ -227,12 +333,35 @@ describe('CarouselGenOutputSchema', () => {
     }
   });
 
-  it('rejects when last slide is not cta (is_cta=false)', () => {
+  it('rejects when slide 1 has layout_hint!=cover even with is_cover=true', () => {
+    const input = buildValidBilingualOutput();
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        // Single-field mutation: keep is_cover=true but flip layout_hint to body.
+        i === 0 ? { ...s, layout_hint: 'body' as const } : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(mutated);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const messages = zerr.issues.map((i) => i.message).join(' | ');
+      expect(messages).toMatch(
+        /slide 1 must have is_cover=true and layout_hint=cover/,
+      );
+    }
+  });
+
+  it('rejects when last slide has is_cta=false even with layout_hint=cta', () => {
     const input = buildValidBilingualOutput();
     const lastIdx = input.slides.length - 1;
     const mutated = {
       ...input,
       slides: input.slides.map((s, i) =>
+        // Single-field mutation: keep layout_hint=cta but flip is_cta to false.
         i === lastIdx ? { ...s, is_cta: false } : s,
       ),
     };
@@ -246,6 +375,112 @@ describe('CarouselGenOutputSchema', () => {
       expect(messages).toMatch(
         /last slide must have is_cta=true and layout_hint=cta/,
       );
+    }
+  });
+
+  it('rejects when last slide has layout_hint!=cta even with is_cta=true', () => {
+    const input = buildValidBilingualOutput();
+    const lastIdx = input.slides.length - 1;
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        // Single-field mutation: keep is_cta=true but flip layout_hint to body.
+        i === lastIdx ? { ...s, layout_hint: 'body' as const, is_cta: true } : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(mutated);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const messages = zerr.issues.map((i) => i.message).join(' | ');
+      expect(messages).toMatch(
+        /last slide must have is_cta=true and layout_hint=cta/,
+      );
+    }
+  });
+});
+
+describe('CarouselGenOutputSchema — failed envelope', () => {
+  it('parses a minimal failed envelope without slides', () => {
+    const input = {
+      status: 'failed' as const,
+      format: 'carousel' as const,
+      error: 'LLM quota exhausted mid-generation',
+      generated_at: '2026-04-28T00:00:00.000Z',
+    };
+
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'failed') {
+      throw new Error('expected failed envelope');
+    }
+    expect(parsed.error).toBe('LLM quota exhausted mid-generation');
+    expect(parsed.slides).toBeUndefined();
+  });
+
+  it('parses a failed envelope without an error message', () => {
+    const input = {
+      status: 'failed' as const,
+      format: 'carousel' as const,
+      generated_at: '2026-04-28T00:00:00.000Z',
+    };
+
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'failed') {
+      throw new Error('expected failed envelope');
+    }
+    expect(parsed.error).toBeUndefined();
+    expect(parsed.slides).toBeUndefined();
+  });
+
+  it('parses a failed envelope with partial slides (LLM gave up mid-stream)', () => {
+    const input = {
+      status: 'failed' as const,
+      format: 'carousel' as const,
+      error: 'truncation',
+      generated_at: '2026-04-28T00:00:00.000Z',
+      slides: [
+        {
+          slide_number: 1,
+          layout_hint: 'cover' as const,
+          copy_id: 'partial id',
+          copy_en: 'partial en',
+          image_prompt: makePrompt('partial cover'),
+          is_cover: true,
+          is_cta: false,
+        },
+        {
+          slide_number: 2,
+          layout_hint: 'body' as const,
+          copy_id: 'partial body id',
+          copy_en: 'partial body en',
+          image_prompt: makePrompt('partial body'),
+          is_cover: false,
+          is_cta: false,
+        },
+      ],
+    };
+
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'failed') {
+      throw new Error('expected failed envelope');
+    }
+    expect(parsed.slides).toHaveLength(2);
+  });
+});
+
+describe('CarouselGenOutputSchema — type narrowing', () => {
+  it('narrows to CompleteCarouselOutput when status=complete', () => {
+    const input = buildValidBilingualOutput();
+    const parsed: CarouselGenOutput = CarouselGenOutputSchema.parse(input);
+
+    if (parsed.status === 'complete') {
+      // Type narrowing should expose `slides` array as required (non-optional).
+      const firstSlide = parsed.slides[0];
+      expect(firstSlide.slide_number).toBe(1);
+    } else {
+      throw new Error('expected complete envelope');
     }
   });
 });
