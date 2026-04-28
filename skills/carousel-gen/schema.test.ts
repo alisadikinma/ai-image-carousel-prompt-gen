@@ -470,6 +470,39 @@ describe('CarouselGenOutputSchema — failed envelope', () => {
   });
 });
 
+describe('CarouselGenOutputSchema — notes field for pipeline-mode warnings', () => {
+  it('preserves notes array on complete envelope', () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      notes: [
+        'manifest_brand_needed: brand asset upload required for [topic]',
+        'default_wardrobe_applied: charcoal henley chosen per creator-bible §6',
+      ],
+    };
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.notes).toHaveLength(2);
+    expect(parsed.notes?.[0]).toMatch(/manifest_brand_needed/);
+  });
+
+  it('preserves notes array on failed envelope', () => {
+    const input = {
+      status: 'failed' as const,
+      format: 'carousel' as const,
+      error: 'LLM timeout',
+      notes: ['research_expansion_skipped: angles auto-selected'],
+      generated_at: '2026-04-28T00:00:00.000Z',
+    };
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'failed') {
+      throw new Error('expected failed envelope');
+    }
+    expect(parsed.notes).toHaveLength(1);
+  });
+});
+
 describe('CarouselGenOutputSchema — type narrowing', () => {
   it('narrows to CompleteCarouselOutput when status=complete', () => {
     const input = buildValidBilingualOutput();

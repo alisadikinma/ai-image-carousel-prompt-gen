@@ -72,7 +72,12 @@ describe('/carousel-gen pipeline mode — golden fixture', () => {
     expect(directAnswers.length).toBeGreaterThanOrEqual(1);
     directAnswers.forEach((s) => {
       expect(s.direct_answer_block).toBeDefined();
-      expect((s.direct_answer_block ?? '').length).toBeGreaterThan(0);
+      // Schema enforces 150-600 chars on direct_answer_block — match the lower
+      // bound here so this test fails loudly if a future fixture edit
+      // truncates the block below the schema-enforced floor.
+      const blockLength = (s.direct_answer_block ?? '').length;
+      expect(blockLength).toBeGreaterThanOrEqual(150);
+      expect(blockLength).toBeLessThanOrEqual(600);
     });
   });
 

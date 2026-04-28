@@ -81,7 +81,7 @@ category selection, and visual direction.
 | `--pipeline` | off | Explicit pipeline-mode toggle. Equivalent to `--non-interactive`. |
 | `--non-interactive` | off | Alias for `--pipeline`. |
 | `--bilingual=id,en` | off (single language) | Opt-in bilingual output. When set, every slide carries `copy_id` + `copy_en` and never `copy`. Output envelope flags `bilingual=true`. |
-| `--narrative=5act\|free` | `5act` | Narrative spine. `5act` = HOOK → FORESHADOW → BODY → PEAK → CTA (the 5-act spine documented in `references/carousel-best-practices.md` §10). `free` = unconstrained narrative for experimental layouts. |
+| `--narrative=5act\|free` | `5act` | Narrative spine. `5act` = HOOK → FORESHADOW → BODY → PEAK → CTA (the 5-act spine documented in `references/carousel-best-practices.md` §9). `free` = unconstrained narrative for experimental layouts. |
 | `--target-slides=N` | `9` | Soft hint for total slide count. The skill MAY emit fewer or more slides if the narrative demands it (range: 5-15 per schema), but treats this as the planning target. |
 | `--alt-aspect=9:16` | unset | **Phase B+ — TBD.** Reserved for future TikTok / Reels parallel-render of the same narrative. NOT implemented in this task. The schema reserves the `alt_aspect` envelope slot; producing actual 9:16 slides ships in a later phase. |
 
@@ -95,8 +95,18 @@ In pipeline mode, the skill emits **one JSON document to stdout** matching
   scanner, but the contract is "JSON only."
 - **No sidecar files.** Pipeline mode does not write `carousel-prompt.md` or
   `video-handover.md` — those deliverables are interactive-mode only. The
-  backend captures the JSON, persists `slides[]` and `image_prompts[]` to the
-  database, and renders the human-readable views from there.
+  backend captures the JSON and persists `slides[]` to the
+  `linkedin_posts.carousel_slides` column, then renders human-readable views
+  from there.
+- **Brand chrome via placeholder tokens (NOT literal references).** Every
+  `image_prompt` in pipeline mode MUST use these 6 placeholder tokens, which
+  the backend's `CarouselSlideEnhancer` resolves at dispatch time:
+  `{{CREATOR_FACE}}`, `{{BRAND_LOGO}}`, `{{HANDLE}}`, `{{PORTFOLIO_URL}}`,
+  `{{PAGE_INDICATOR}}`, `{{SWIPE_TEXT}}`. NEVER emit literals like
+  `creator-face.png`, `@alisadikinma`, `1/9`, or `https://alisadikinma.com`
+  in pipeline mode — they will not be replaced and brand chrome will silently
+  break. Interactive mode keeps the existing literal-reference convention
+  documented in the Creator Identity section below.
 - **No question prompts.** Every interactive "ask the user" step in this
   SKILL.md is auto-resolved per `references/non-interactive-defaults.md`. Log
   defaulted choices to the envelope's optional `notes[]` array so the operator
@@ -123,7 +133,14 @@ fires when no pipeline flag is set and a TTY is attached.
 
 ## Creator Identity (USER-PROVIDED)
 
-The user must supply their creator identity for personalized prompts. If not provided, ask for:
+> **Pipeline-mode override:** This entire section is SKIPPED in pipeline mode
+> (`--pipeline` / `--blog-source`). Brand assets are injected by the backend's
+> `CarouselSlideEnhancer` post-generation by resolving the 6 placeholder
+> tokens listed in the Output Contract section above. Do NOT confirm any
+> `ref/` folder or ask the user for files when pipeline mode is detected —
+> the SSH cron has no filesystem access to operator assets.
+
+The user must supply their creator identity for personalized prompts (interactive mode). If not provided, ask for:
 
 1. **Creator face** (`ref/creator-face.png`) — clear face photo used as visual identity in every prompt
 2. **Creator brand** (`ref/creator-brand.png`) — brand icon/logo file

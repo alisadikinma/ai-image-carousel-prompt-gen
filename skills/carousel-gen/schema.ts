@@ -130,6 +130,12 @@ const CompleteEnvelopeSchema = z.object({
       slides: z.array(CarouselSlideSchema),
     })
     .optional(),
+  // Operator-facing warnings the LLM logs in pipeline mode when an interactive
+  // step had to be auto-resolved (e.g., "manifest_brand_needed: brand asset
+  // upload required for [topic]", "default_wardrobe_applied: charcoal henley
+  // chosen per creator-bible §6"). Backend Phase A4 adapter routes
+  // manifest_* warnings to the awaiting_manual_upload FSM path.
+  notes: z.array(z.string()).optional(),
   generated_at: z.string().datetime(),
 });
 
@@ -141,6 +147,9 @@ const FailedEnvelopeSchema = z.object({
   // narrative invariants on the failed path. Adapter (Phase A4) decides
   // whether to surface the partial slides to the operator or discard them.
   slides: z.array(CarouselSlideSchema).max(15).optional(),
+  // Same purpose as on complete envelope — surface auto-resolution decisions
+  // even on failure so operators can debug what the LLM tried before giving up.
+  notes: z.array(z.string()).optional(),
   generated_at: z.string().datetime(),
 });
 
