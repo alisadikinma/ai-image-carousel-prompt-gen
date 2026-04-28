@@ -4,6 +4,11 @@
 > Other reference files, SKILL.md, agent.md, CLAUDE.md, and README.md all point here
 > for configurable values. They contain behavioral RULES and creative GUIDANCE —
 > not hardcoded values.
+>
+> **Pipeline / non-interactive runs:** when `/carousel-gen` is invoked with
+> `--blog-source` / `--pipeline` / `--non-interactive` (or under `claude -p` with
+> no TTY), see `references/non-interactive-defaults.md` for the deterministic
+> resolution rules that replace every interactive prompt.
 
 ---
 

@@ -375,7 +375,111 @@ Caption:  14-16pt, Regular, Mixed case
 
 ---
 
-## 9. Engagement Optimization Checklist
+## 9. 5-Act Narrative Spine (Cross-Platform Best Practice)
+
+The 5-act spine is the default narrative skeleton for high-converting carousels
+across Instagram, TikTok, **and** LinkedIn. It is NOT LinkedIn-only — every
+modern long-form-on-mobile platform rewards the same scroll-stop → tension-build
+→ resolution-with-proof → close arc.
+
+### The Five Acts
+
+```
+Act 1: HOOK              → Slide 1 (cover) — stop the scroll
+Act 2: FORESHADOW        → Slide 2-3 — name the tension, set up the swipe
+Act 3: BODY              → Slides 4-7 — deliver the value, one idea per slide
+Act 4: PEAK              → Slides 7-8 — strongest insight + lived-experience proof
+Act 5: CTA               → Final slide — close one specific loop
+```
+
+### Act → Layout Hint Mapping
+
+This is the canonical mapping the schema uses (`layout_hint` enum in
+`skills/carousel-gen/schema.ts`):
+
+| Act | Recommended `layout_hint` | Purpose |
+|-----|---------------------------|---------|
+| 1. HOOK | `cover` | Curiosity-gap headline + hyperrealistic creator face. Pattern interrupt. |
+| 2. FORESHADOW | `body` | Name the tension explicitly. Set up the swipe ("I was wrong about this"). |
+| 3. BODY | `body` (×3-5) | One concrete idea per slide. Progressive reveal. |
+| 4. PEAK | `human_fingerprint` AND/OR `direct_answer` | Lived-experience anchor + AI-search-optimized direct answer block. The dwell-time peak. |
+| 5. CTA | `cta` | One specific call to action. Identity tag, polarize, question, or reward. |
+
+### When to Use `human_fingerprint`
+
+The `human_fingerprint` slide is the **lived-experience anchor** — proof that
+the creator has actually walked the path the carousel describes. It separates
+authentic creators from AI-slop content farms.
+
+**Fire `human_fingerprint` when the slide carries any of these:**
+
+- A **war story** ("It took me six months to figure this out before I shipped my first paid client")
+- A **proprietary metric** ("My click-through went from 0.3% to 4.2% after I removed body links")
+- A **specific dated event** ("In March 2024, I rewrote my whole pipeline — here's what broke")
+- A **named relationship or mentor** ("My mentor Greg told me this and I ignored it for three years")
+- A **first-person sensory detail** that no LLM could fabricate ("the cold sweat moment I realized the deploy was already live in prod")
+
+The signal: the slide includes something **only this specific creator could
+have said**. Generic advice is not a fingerprint. Stat-with-no-ownership is not
+a fingerprint. The fingerprint is what makes the carousel un-clonable.
+
+**Visual rule:** the `human_fingerprint` slide typically uses a quieter, more
+reflective visual mood — a creator at a cafe table, a journal in foreground, a
+half-smile of recall — not the high-energy hook posture of slide 1. The shift
+in visual register IS the signal that the audience just hit something real.
+
+### When to Use `direct_answer_block`
+
+The `direct_answer_block` is a **150-600 character self-contained answer** to
+the implicit question the carousel asks. It is structurally optimized for AI
+search citation (ChatGPT, Perplexity, Gemini, Claude) and for LinkedIn's "Save
+this" reflex.
+
+**Fire `direct_answer` (with non-empty `direct_answer_block`) when:**
+
+- The carousel poses a question the audience would actually paste into ChatGPT
+  ("How do I become an AI multiplier?", "What's the real difference between Canva and Figma?")
+- The body slides have built up enough context that a tight 150-600-char answer
+  can land WITHOUT the audience needing to swipe back through 6 slides
+- The carousel is dwell-time-optimized for the PEAK slot (slide 7-8 of 9 —
+  where exit rates have stabilized and the surviving viewers are committed)
+
+**Schema rule (enforced):** `direct_answer_block` is ONLY valid on slides where
+`layout_hint = 'direct_answer'`. A `body` or `cta` slide carrying a
+`direct_answer_block` is rejected by `CarouselGenOutputSchema.parse()`. This is
+intentional — it forces the narrative to commit to a specific PEAK slide rather
+than scattering the answer across multiple slides.
+
+**Length rule:** 150 chars minimum (anything shorter is a tagline, not an
+answer), 600 chars maximum (anything longer breaks the AI-search citation
+window and tanks dwell time on the slide itself).
+
+### Cross-Platform Notes
+
+| Platform | 5-Act Fit |
+|---|---|
+| **LinkedIn** | Native fit — Depth Score (2026) explicitly rewards the dwell pattern this spine produces. The PEAK with `human_fingerprint` is the single biggest dwell-time multiplier on LinkedIn carousels (per the 6.60% engagement benchmark in §2.5 of this file). |
+| **Instagram** | Strong fit — the second-chance algorithm (§3) makes the FORESHADOW slot strategically critical; many users see slide 2 first when re-served. Lean into the tension-naming on Act 2. |
+| **TikTok** | Strong fit, with two adjustments: Act 4 PEAK can be condensed to 1 slide (TikTok carousels run 5-8 slides total vs. LinkedIn's 8-12); the `direct_answer_block` is shorter (150-300 chars) since TikTok dwell-per-slide is 3-5 seconds vs. LinkedIn's 8-15. |
+
+### When to Skip the 5-Act Spine
+
+Use `--narrative=free` (or set `narrative='free'` in the schema) for:
+
+- **Listicle carousels** ("7 AI Tools I Actually Use") — these are dopamine-hit
+  carousels, not narrative arcs. Each slide is a self-contained beat.
+- **Photo dumps with narrative captions** — TikTok-native format where the
+  caption carries the story and the slides are aesthetic anchors.
+- **Pure data storytelling** — when every slide is a chart, the 5-act spine
+  flattens to a sequential reveal pattern.
+
+For everything else — explainers, opinion pieces, case studies, frameworks,
+career advice — default to `5act`. It is the cross-platform best practice for
+2026.
+
+---
+
+## 10. Engagement Optimization Checklist
 
 Before publishing any carousel:
 

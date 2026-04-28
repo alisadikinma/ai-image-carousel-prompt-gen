@@ -46,6 +46,78 @@ Claude reads this SKILL.md directly and follows the workflow below.
 | Indonesian content | + `references/localization-id.md` |
 | Carousel best practices | + `references/carousel-best-practices.md` |
 | Caption/copywriting | + `references/caption-copywriting.md` |
+| Pipeline / non-interactive runs | + `references/non-interactive-defaults.md` (when `--blog-source` / `--pipeline` / `--non-interactive` is set, OR no TTY attached) |
+
+---
+
+## Pipeline Mode (Non-Interactive)
+
+The skill auto-detects pipeline mode and switches off every interactive prompt.
+This is the contract used by Portfolio_v2's backend SSH cron (`claude -p "/carousel-gen ..."`)
+and by any third-party automation invoking the skill headless.
+
+### Detection
+
+Pipeline mode is ON when **any** of the following is true:
+
+| Trigger | Source |
+|---------|--------|
+| `--blog-source=<url>` flag present | argv |
+| `--pipeline` flag present | argv |
+| `--non-interactive` flag present | argv |
+| Skill invoked under `claude -p "..."` with no TTY attached | runtime |
+
+When ON, **every "ask the user" step in this SKILL.md is replaced** by the
+deterministic resolution rules in `references/non-interactive-defaults.md`.
+Read that file FIRST whenever pipeline mode is detected — it owns the defaults
+for profession costume, setting ambiguity, brand reference uploads, hook
+category selection, and visual direction.
+
+### Flags
+
+| Flag | Default | Behavior |
+|------|---------|----------|
+| `--blog-source=<url>` | none | URL of the source blog post. Skill fetches OG metadata + caption for context enrichment. Presence of this flag is the primary pipeline-mode signal. |
+| `--pipeline` | off | Explicit pipeline-mode toggle. Equivalent to `--non-interactive`. |
+| `--non-interactive` | off | Alias for `--pipeline`. |
+| `--bilingual=id,en` | off (single language) | Opt-in bilingual output. When set, every slide carries `copy_id` + `copy_en` and never `copy`. Output envelope flags `bilingual=true`. |
+| `--narrative=5act\|free` | `5act` | Narrative spine. `5act` = HOOK → FORESHADOW → BODY → PEAK → CTA (the 5-act spine documented in `references/carousel-best-practices.md` §10). `free` = unconstrained narrative for experimental layouts. |
+| `--target-slides=N` | `9` | Soft hint for total slide count. The skill MAY emit fewer or more slides if the narrative demands it (range: 5-15 per schema), but treats this as the planning target. |
+| `--alt-aspect=9:16` | unset | **Phase B+ — TBD.** Reserved for future TikTok / Reels parallel-render of the same narrative. NOT implemented in this task. The schema reserves the `alt_aspect` envelope slot; producing actual 9:16 slides ships in a later phase. |
+
+### Output Contract
+
+In pipeline mode, the skill emits **one JSON document to stdout** matching
+`CarouselGenOutputSchema` from `./schema.ts`:
+
+- **No Markdown wrapping.** No `# Headline`, no leading prose, no trailing
+  narration. The backend's `CarouselGenOutputAdapter` parses with a balanced-brace
+  scanner, but the contract is "JSON only."
+- **No sidecar files.** Pipeline mode does not write `carousel-prompt.md` or
+  `video-handover.md` — those deliverables are interactive-mode only. The
+  backend captures the JSON, persists `slides[]` and `image_prompts[]` to the
+  database, and renders the human-readable views from there.
+- **No question prompts.** Every interactive "ask the user" step in this
+  SKILL.md is auto-resolved per `references/non-interactive-defaults.md`. Log
+  defaulted choices to the envelope's optional `notes[]` array so the operator
+  can override on regenerate.
+- **Status:** `complete` on success, `failed` on unrecoverable error. Both are
+  valid envelopes. Exit code is always 0 — the runtime distinguishes outcomes
+  via the parsed `status` field, not exit codes.
+
+### Pipeline Mode Routing (Quick Map)
+
+When pipeline mode is detected:
+
+1. **Source URL Collection** (Step 0 of any workflow) → read `--blog-source` flag, fetch OG metadata, skip the question.
+2. **Subject Reference Planning** → render brands by name; emit `manifest_brand_needed` warnings; do NOT block.
+3. **Interactive Slide Design (ambiguity)** → resolve from creator-bible defaults per `references/non-interactive-defaults.md` §2 + §3.
+4. **Hook Clarification (Step 7b)** → auto-select PRIMARY hook category from pillar mapping; log to `notes[]`.
+5. **Visual Hook Idea (Step 7c)** → auto-select first valid visual direction; log to `notes[]`.
+6. **Output (Step 16 of Fresh Carousel)** → stdout JSON only, no folder write.
+
+Interactive mode is unchanged — every existing question-and-confirm step still
+fires when no pipeline flag is set and a TTY is attached.
 
 ---
 
