@@ -192,6 +192,18 @@ See `references/global-config.md` Language section for current defaults. Overrid
 | Accent Color | Per global-config.md `accent_color` |
 | Primary Text | Per global-config.md `headline_color` (rendered in-image) |
 | Prompt Length | Per global-config.md `prompt_length` |
+| Per-slide `image_prompt` HARD CAP | **1800 chars** (~280 words) — see truncation note below |
+
+> **HARD CAP — `image_prompt` ≤ 1800 chars per slide (May 4, 2026).** Earlier
+> output (700+ words per slide × 9 slides) exceeded Sonnet's effective output
+> token cap during pipeline-mode runs, causing per-slide JSON chunking with
+> continuation prose ("Continuing slide 5 image_prompt, then slides 6–9:")
+> that the publisher's orchestrator parser cannot recover. Stay under 1800
+> chars per slide. If a complex scene needs more, drop one of the optional
+> paragraphs (atmosphere or texture-realism) rather than letting the prompt
+> bloat. Compose tightly: every sentence must encode a visual choice. Filler
+> sentences (e.g., "the lighting is dramatic") are zero-signal — replace
+> with concrete metric ("3500K key + 5600K monitor accent at 3:1 ratio").
 
 ---
 

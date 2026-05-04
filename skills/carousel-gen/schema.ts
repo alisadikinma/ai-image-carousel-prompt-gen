@@ -48,9 +48,14 @@ export const CarouselSlideSchema = z
     // Bilingual mode — both must be present together.
     copy_id: z.string().optional(),
     copy_en: z.string().optional(),
-    // Cinematic prompt the image-gen pipeline consumes. 300-2500 chars
-    // matches the WOW 8-element + 5-paragraph structure plugins author.
-    image_prompt: z.string().min(300).max(2500),
+    // Cinematic prompt the image-gen pipeline consumes. Cap reduced
+    // 2500 → 1800 chars on May 4, 2026 — 9 slides × 2500 chars overshot
+    // Sonnet's effective output token cap in pipeline mode and triggered
+    // per-slide JSON chunking with continuation prose that publisher
+    // orchestrator parsers (LinkedInGenerationService, etc.) cannot
+    // recover. 1800 still fits the WOW 8-element + 5-paragraph structure
+    // when authored tightly.
+    image_prompt: z.string().min(300).max(1800),
     is_cover: z.boolean(),
     is_cta: z.boolean(),
     // Only valid on direct_answer slides; constraint enforced in superRefine.

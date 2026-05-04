@@ -162,6 +162,7 @@ Claude Code plugin that generates cinematic AI image prompts for social media ca
 | Accent color | Per global-config.md `accent_color` |
 | Image res | Per global-config.md `image_resolution` |
 | Prompt length | Per global-config.md `prompt_length` |
+| **`image_prompt` HARD CAP** (May 4, 2026) | **1800 chars** per slide — schema-enforced via `skills/carousel-gen/schema.ts`. Earlier 2500-char ceiling exceeded Sonnet's effective output token cap on 9-slide bilingual carousels in pipeline mode, causing per-slide JSON chunking with continuation prose ("Continuing slide 5 image_prompt, then slides 6-9:") that publisher orchestrator parsers (e.g. Portfolio_v2 `LinkedInGenerationService`) cannot recover. 1800 chars still fits the WOW 8-element + 5-paragraph structure when authored tightly. See `skills/carousel-gen/SKILL.md` Step 4 hard-cap note for rationale. |
 | WOW minimum | Per global-config.md `wow_minimum` |
 | Default language | Per global-config.md Language section |
 | Captions | All 4 platforms by default |
@@ -269,5 +270,5 @@ To change any configurable value (language, color, handle, film stock, etc.):
 
 ---
 
-**Version:** 2.18.0
-**Last Updated:** March 2026
+**Version:** 2.19.0
+**Last Updated:** May 4, 2026 — **`image_prompt` cap tightened 2500 → 1800 chars** (`skills/carousel-gen/schema.ts:53`). Production incident: 9-slide bilingual carousels invoked from Portfolio_v2's LinkedIn pipeline (`/linkedin-gen` → `route_to_carousel_gen` → `/carousel-gen`) exceeded Sonnet's effective output token cap, emitting per-slide JSON chunks separated by `````json` fences with continuation prose ("Continuing slide 5 image_prompt, then slides 6-9:") instead of one envelope. Publisher orchestrator parser cannot recover — failure routes straight to FSM Failed with no fallback (per Phase D strict enforcement). Forensic dumps in Portfolio_v2's `storage/app/carousel-gen-debug/` confirmed pattern across drafts 5, 13, 17, 43. Mitigations bundled: (a) `image_prompt` Zod max 2500 → 1800, (b) `skills/carousel-gen/SKILL.md` Step 4 explicit hard-cap with rationale, (c) Portfolio_v2 default `target_slides` 9 → 7 in `LinkedInGenerationService::inferTargetSlides`. **Operator action required**: bump version, commit, `npm run compile-refs`, deploy `refs-carousel-gen-pipeline.md` to VPS at `/home/claudesn/refs-carousel-gen-pipeline.md` for the schema/SKILL changes to take effect on production runs. Portfolio_v2 commit lands separately and DOES take effect at deploy time (Laravel-side default).
