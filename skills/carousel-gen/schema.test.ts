@@ -14,8 +14,10 @@ import { ZodError } from 'zod';
 
 import {
   CarouselGenOutputSchema,
+  CreatorOutfitSchema,
   type CarouselGenOutput,
   type CompleteCarouselOutput,
+  type CreatorOutfit,
 } from './schema.js';
 
 // ---------------------------------------------------------------------------
@@ -500,6 +502,152 @@ describe('CarouselGenOutputSchema — notes field for pipeline-mode warnings', (
       throw new Error('expected failed envelope');
     }
     expect(parsed.notes).toHaveLength(1);
+  });
+});
+
+describe('CarouselGenOutputSchema — creator_outfit field', () => {
+  function makeValidOutfit(): CreatorOutfit {
+    return {
+      category: 'Medical',
+      prompt_phrase:
+        'wearing a clean white surgical scrub top with a stethoscope draped around the neck',
+      source: 'topic_match',
+      reasoning:
+        "Topic mentions 'surgeon' and 'operating room' — matched the medical wardrobe entry in creator-bible §6.2.",
+    };
+  }
+
+  it('accepts valid creator_outfit on complete envelope', () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: makeValidOutfit(),
+    };
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.creator_outfit).toBeDefined();
+    expect(parsed.creator_outfit?.category).toBe('Medical');
+    expect(parsed.creator_outfit?.source).toBe('topic_match');
+    expect(parsed.creator_outfit?.prompt_phrase).toMatch(/surgical scrub/);
+    expect(parsed.creator_outfit?.reasoning).toMatch(/surgeon/);
+  });
+
+  it('accepts complete envelope WITHOUT creator_outfit (backward compat)', () => {
+    const input = buildValidBilingualOutput();
+    // Sanity: ensure fixture builder does not include creator_outfit, so this
+    // test asserts the optional path rather than coincidentally passing.
+    expect((input as Record<string, unknown>).creator_outfit).toBeUndefined();
+
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.creator_outfit).toBeUndefined();
+  });
+
+  it('rejects creator_outfit with invalid source enum', () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: {
+        ...makeValidOutfit(),
+        source: 'random_string',
+      },
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(input)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(input);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const sourceIssues = zerr.issues.filter(
+        (i) => i.path.join('.') === 'creator_outfit.source',
+      );
+      expect(sourceIssues.length).toBeGreaterThan(0);
+      expect(sourceIssues[0].code).toBe('invalid_enum_value');
+    }
+  });
+
+  it('rejects creator_outfit with category too short', () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: {
+        ...makeValidOutfit(),
+        category: 'A',
+      },
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(input)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(input);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const categoryIssues = zerr.issues.filter(
+        (i) => i.path.join('.') === 'creator_outfit.category',
+      );
+      expect(categoryIssues.length).toBeGreaterThan(0);
+      expect(categoryIssues[0].code).toBe('too_small');
+    }
+  });
+
+  it('rejects creator_outfit with reasoning too short', () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: {
+        ...makeValidOutfit(),
+        reasoning: 'short',
+      },
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(input)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(input);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const reasoningIssues = zerr.issues.filter(
+        (i) => i.path.join('.') === 'creator_outfit.reasoning',
+      );
+      expect(reasoningIssues.length).toBeGreaterThan(0);
+      expect(reasoningIssues[0].code).toBe('too_small');
+    }
+  });
+
+  it('rejects creator_outfit with prompt_phrase too short', () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: {
+        ...makeValidOutfit(),
+        prompt_phrase: 'short',
+      },
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(input)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(input);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const promptIssues = zerr.issues.filter(
+        (i) => i.path.join('.') === 'creator_outfit.prompt_phrase',
+      );
+      expect(promptIssues.length).toBeGreaterThan(0);
+      expect(promptIssues[0].code).toBe('too_small');
+    }
+  });
+
+  it('CreatorOutfitSchema standalone — exports correctly + parses minimal valid object', () => {
+    expect(CreatorOutfitSchema).toBeDefined();
+    const minimal: CreatorOutfit = {
+      category: 'IT',
+      prompt_phrase:
+        'wearing a charcoal henley shirt with rolled-up sleeves over dark denim',
+      source: 'fallback',
+      reasoning: 'No topic match found; default wardrobe applied per bible §6.',
+    };
+    const parsed = CreatorOutfitSchema.parse(minimal);
+    expect(parsed.category).toBe('IT');
+    expect(parsed.source).toBe('fallback');
+    expect(parsed.prompt_phrase).toMatch(/charcoal henley/);
+    expect(parsed.reasoning).toMatch(/default wardrobe/);
   });
 });
 

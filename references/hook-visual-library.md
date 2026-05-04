@@ -553,6 +553,36 @@ Costume selection follows a **3-level priority chain**. Scene context from the V
 
 Costume descriptions are prompt-ready — copy the **Prompt Phrase** directly into the `[Wardrobe]` slot.
 
+### Topic Keyword → Category Resolution Table
+
+When the visual hook scene is neutral/studio/generic (no scene-override fires), match the blog topic against this keyword table to pick the costume category. Match is case-insensitive substring on title + meta_keywords + first 1000 chars of body.
+
+| Keyword pattern (case-insensitive substring match) | Category |
+|---|---|
+| `medical, hospital, surgeon, dokter, surgery, patient, healthcare, klinik, doctor, nurse, perawat, diagnosis` | **Medical** |
+| `space, rocket, nasa, spacex, astronaut, astronot, mars, lunar, kepler, satellite, iss, orbit, propulsion` | **Aerospace** |
+| `court, judge, lawsuit, trial, hakim, pengadilan, legal, verdict, jury, advokat, hukum, supreme court, vonis` | **Legal** |
+| `pilot, airline, aviation, cockpit, penerbang, captain, airbus, boeing, garuda, lion air, flight crew` | **Aviation** |
+| `military, army, soldier, tentara, marine, navy, defense, perang, tni, kopassus, war, combat` | **Military** |
+| `chef, restaurant, kitchen, kuliner, masak, hotel, hospitality, service, waitress, butler, concierge` | **Hospitality** |
+| `lab, research, scientist, ilmuwan, peneliti, laboratory, experiment, biotech, pharma, microscope` | **Scientific Research** |
+| `construction, engineer, civil, infrastructure, proyek, konstruksi, building site, contractor, crane` | **Construction** |
+| `wall street, bank, finance, investment, trader, hedge fund, ipo, stocks, saham, bursa, fintech` | Finance / Investment (existing) |
+| `ai, ml, llm, agent, machine learning, kecerdasan buatan, openai, anthropic, gpt, claude, software` | Tech / AI (existing) |
+| `gym, workout, training, fitness, yoga, atlet, fit, exercise, marathon, kebugaran` | Health / Fitness (existing) |
+| `recipe, cooking, restaurant review, food blog, kuliner ringan, cafe, masakan` | Food / Cooking (existing) |
+| `tutorial, course, online class, mengajar, education, beginner guide, how-to` | Education / Tutorial (existing) |
+| `startup, founder, entrepreneur, bootstrap, seed round, vc, scaleup, exit` | Business / Startup (existing) |
+| `travel, perjalanan, tokyo, bali, vlog, lifestyle blog, digital nomad, road trip` | Lifestyle / Travel (existing) |
+| `productivity, gtd, getting things done, time management, deep work, second brain` | Productivity / Tools (existing) |
+| `design, ux, ui, brand identity, illustration, figma, photoshop, art direction, kreatif` | Creative / Design (existing) |
+
+**Resolution rule**:
+1. First-match-wins from top to bottom of table (more dramatic profession categories listed first to bias Sonnet toward visual punch when multiple match).
+2. If 0 keywords match → fallback to LLM inference: pick from the 17 categories the closest profession-immersive match based on dominant blog subject. Log the inferred category to `notes[]` with reasoning.
+3. If 2+ keywords match across categories (e.g., "AI in healthcare" → Medical + Tech / AI), pick the more dramatic / scroll-stop one (Medical wins over Tech / AI).
+4. Scene-override from the table above ALWAYS supersedes this resolution.
+
 ### Finance / Investment
 
 | Element | Spec |
@@ -651,6 +681,94 @@ Costume descriptions are prompt-ready — copy the **Prompt Phrase** directly in
 | Texture | mixed textures — denim over soft cotton, canvas patches, artistic intentional imperfection |
 | Color palette | bold accent color against neutrals, one statement piece stands out |
 | **Prompt phrase** | wearing an oversized graphic tee under an open raw denim workwear jacket, relaxed wide-leg pants, chunky silver rings on fingers, mixed textures of denim and soft cotton, artsy layered creative energy |
+
+### Medical
+
+| Element | Spec |
+|---------|------|
+| Top | white knee-length physician lab coat worn open over a teal or light-blue scrub top, coat sleeves rolled to mid-forearm |
+| Bottom | matching teal or navy scrub trousers, soft-soled white or black clinical shoes |
+| Accessories | chrome stethoscope draped around the neck with the chestpiece resting on the sternum, hospital ID badge clipped to the left lapel, simple analog watch on the wrist |
+| Texture | crisp medical-grade poplin lab coat, soft brushed-cotton scrubs underneath, subtle starch creases at the shoulders and pockets |
+| Color palette | clinical white, calming teal or scrub-blue, polished chrome, hints of warm skin tone under cool fluorescent or daylight |
+| **Prompt phrase** | wearing an open white physician lab coat over a teal scrub top with sleeves casually rolled to the forearm, matching scrub trousers, a chrome stethoscope draped around the neck with the chestpiece resting on the chest, a hospital ID badge clipped to the lapel, crisp medical-grade poplin and brushed-cotton textures catching cool clinical daylight, calm and authoritative healthcare energy |
+
+### Aerospace
+
+| Element | Spec |
+|---------|------|
+| Top | full orange NASA-style pressurised flight suit zipped to the chest with embroidered mission patches on the left chest and right shoulder, OR a white EVA spacewalk suit upper with hard ring collar |
+| Bottom | matching orange flight-suit trousers cinched with a fabric belt and stowed lower-leg pockets, sturdy black tactical boots laced over the cuff |
+| Accessories | white EVA helmet held under one arm with the visor turned outward, communications cap or Snoopy cap optional, mission-patch sleeve insignia, name tape on the chest |
+| Texture | thick fire-retardant Nomex twill on the orange suit, pristine white multi-layer thermal fabric on the EVA suit, reinforced webbing at seams and pockets |
+| Color palette | high-visibility safety orange or pristine NASA white, black boot leather, full-color embroidered patches in red/blue/gold |
+| **Prompt phrase** | wearing a full orange NASA-style pressurised flight suit zipped high with embroidered mission patches on the chest and shoulder, sturdy black tactical boots laced tight, a white EVA helmet held under one arm with the visor turned outward, thick fire-retardant Nomex twill texture with reinforced webbing at the seams, mission-ready astronaut energy under bright hangar light |
+
+### Legal
+
+| Element | Spec |
+|---------|------|
+| Top | full-length flowing black judicial robe with wide bell sleeves worn over a crisp white pointed-collar dress shirt, optional starched white judicial collar bands fastened at the throat |
+| Bottom | dark tailored trousers concealed under the robe, polished black oxford shoes peeking at the hem |
+| Accessories | wooden gavel held in one hand or resting on a leather-bound legal codex, simple silver or gold cufflinks at the wrists, classic dark-rimmed reading glasses optional |
+| Texture | heavy matte wool or gabardine robe with deep vertical pleats falling from the yoke, crisp pressed cotton shirt, polished hardwood gavel grain |
+| Color palette | deep funeral black, pure white shirt and bands, warm walnut wood, hints of antique brass or aged silver |
+| **Prompt phrase** | wearing a full-length flowing black judicial robe with wide bell sleeves over a crisp white pointed-collar dress shirt with starched white judicial collar bands fastened at the throat, a polished walnut gavel resting on a leather-bound legal codex, heavy matte wool fabric with deep vertical pleats catching directional courtroom light, solemn judicial authority radiating from every fold |
+
+### Aviation
+
+| Element | Spec |
+|---------|------|
+| Top | crisp navy or pure-white airline captain shirt with structured shoulder boards bearing four gold stripes, a black tie cinched neatly at the collar, name tag pinned above the right breast pocket |
+| Bottom | matching navy or charcoal pilot trousers with a subtle satin side stripe, black leather oxford shoes with a high polish |
+| Accessories | metal pilot wings pinned over the left chest pocket, a black-banded peaked captain's cap held in one hand or worn on the head, aviator sunglasses tucked into the breast pocket, a leather-strap pilot watch on the wrist |
+| Texture | wrinkle-resistant polyester-cotton uniform fabric with a sharp military press, woven bullion gold on the shoulder boards, brushed-metal wings catching the light |
+| Color palette | aviation navy or pristine white, black tie and cap, gleaming gold stripes and silver-toned wings, polished black leather |
+| **Prompt phrase** | wearing a crisp navy airline captain shirt with structured shoulder boards bearing four gold bullion stripes, a black tie cinched neatly at the collar, a black-banded peaked captain's cap held under one arm, metal pilot wings pinned above the left chest pocket and a leather-strap pilot watch on the wrist, sharp military press across wrinkle-resistant uniform fabric, confident flight-deck authority |
+
+### Military
+
+| Element | Spec |
+|---------|------|
+| Top | full dress service jacket in olive drab or navy with metal rank insignia at the collar, a row of full-color campaign ribbons over the left chest pocket, OR a digital camouflage field combat blouse with subdued name and rank tape sewn flat |
+| Bottom | matching dress trousers with a sharp pressed crease and polished leather dress oxfords, OR camouflage cargo trousers bloused over tan tactical boots |
+| Accessories | beret of unit colour worn tilted to the right with cap-badge centred over the left eye, leather belt with a polished buckle, dog-tag chain just visible at the open collar of the field shirt option |
+| Texture | tightly woven wool serge on the dress uniform with crisp mirror-pressed creases, ripstop cotton-nylon on the field uniform with subtle tonal printing |
+| Color palette | olive drab or navy dress, multicam or woodland digital camouflage on field option, polished brass buckles, full-color ribbon spectrum in red/blue/gold |
+| **Prompt phrase** | wearing a full dress service jacket in olive drab with metal rank insignia at the collar and a row of full-color campaign ribbons over the left chest pocket, matching dress trousers with a sharp pressed crease, a unit beret tilted neatly to the right with the cap-badge centred over the left eye, tightly woven wool serge with mirror-pressed creases, disciplined and decorated military bearing |
+
+### Hospitality / Service
+
+| Element | Spec |
+|---------|------|
+| Top | classic chef whites — a double-breasted long-sleeve chef coat with a knotted row of cloth buttons and a folded white cotton neckerchief at the throat, OR a fitted black hotelier vest over a crisp white wing-collar shirt with a black silk bowtie |
+| Bottom | for the chef: classic black-and-white houndstooth check trousers with a long white side towel tucked into the waist tie; for the hotelier: pressed black tuxedo-style trousers with a satin side stripe |
+| Accessories | white pleated chef's toque or short skullcap optional, brass nametag pinned to the chef coat or vest, white side towel folded over the forearm for the service variant, polished black leather shoes |
+| Texture | heavy twill chef cotton built to resist heat and stains, crisp poplin on the wing-collar shirt, soft wool blend on the hotelier vest, smooth silk on the bowtie |
+| Color palette | pristine chef white over houndstooth black-and-white check, OR formal black vest over white shirt with deep-black silk bowtie and brass-warm nametag |
+| **Prompt phrase** | wearing classic double-breasted chef whites with a knotted row of cloth buttons and a folded white cotton neckerchief at the throat, classic black-and-white houndstooth check trousers, a long white side towel tucked into the waist tie and a brass nametag pinned to the chest, heavy twill chef cotton textures and crisp poplin around the collar, attentive and immaculate hospitality presence |
+
+### Scientific Research
+
+| Element | Spec |
+|---------|------|
+| Top | knee-length white laboratory coat worn open over a soft heather-grey knit sweater or a charcoal button-up shirt, sleeves of the lab coat rolled once at the cuff |
+| Bottom | dark slim chinos or tapered work trousers, comfortable closed-toe leather sneakers or rubber-soled lab shoes |
+| Accessories | clear-lens safety goggles pushed up over the forehead, blue or violet nitrile gloves pulled halfway on or stuffed into a coat pocket, a laminated research-lab badge clipped to the breast pocket, a fine-tip lab pen tucked beside it |
+| Texture | smooth poplin lab coat with reinforced double-stitched seams, soft brushed knit underneath, faint chemical-resistant sheen on the gloves |
+| Color palette | pure laboratory white, heather grey or deep charcoal underneath, vivid nitrile blue or violet on the gloves, neutral coffee-stained khaki accents |
+| **Prompt phrase** | wearing a knee-length white laboratory coat worn open over a soft heather-grey knit sweater with the coat sleeves rolled once at the cuff, dark slim chinos, clear-lens safety goggles pushed up over the forehead and violet nitrile gloves pulled halfway on, a laminated research badge clipped to the breast pocket, smooth poplin and soft knit textures under cool laboratory lighting, focused investigative scientist energy |
+
+### Construction / Engineering
+
+| Element | Spec |
+|---------|------|
+| Top | fluorescent yellow-green ANSI-rated high-visibility vest with reflective silver tape across the chest and back worn over a long-sleeved heavy cotton work shirt or grey thermal henley, sleeves rolled to mid-forearm |
+| Bottom | rugged dark canvas or duck-cloth work trousers with reinforced knees, scuffed brown leather work boots laced over steel toes |
+| Accessories | white or safety-yellow polycarbonate hard hat worn squarely or held under the arm, a leather tool belt slung at the hips with a steel measuring tape, a folded yellow carpenter's pencil and work gloves tucked into the back pocket |
+| Texture | heavy reflective polyester mesh on the vest, sturdy brushed-cotton work shirt, distressed and worn-in leather on the belt and boots, chalk-dust and faint smudges of jobsite grit |
+| Color palette | high-visibility fluorescent yellow-green with bright reflective silver, safety-white or yellow hard-hat plastic, weathered tan and brown leather, charcoal or navy on the trousers |
+| **Prompt phrase** | wearing a fluorescent yellow-green ANSI-rated high-visibility vest with reflective silver tape across the chest over a long-sleeved heavy cotton work shirt rolled to the forearm, rugged dark canvas work trousers, scuffed brown leather work boots, a white safety hard hat held squarely under one arm and a leather tool belt slung at the hips with a steel measuring tape, weathered work-shirt cotton and reflective polyester textures catching directional jobsite sunlight, hands-on engineer-on-site energy |
 
 ### News / Current Events
 

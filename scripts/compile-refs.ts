@@ -53,6 +53,7 @@ const BUNDLES: BundleSpec[] = [
     sources: [
       'global-config.md',
       'creator-bible.md',
+      'hook-visual-library.md',
       'hook-formula-bank.md',
       'cinematography-lut.md',
       'prompt-formulas.md',

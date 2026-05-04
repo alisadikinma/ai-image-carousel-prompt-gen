@@ -42,17 +42,22 @@ uniform, surgical scrubs, chef whites, courtroom robe, military uniform, etc.).
 
 | Interactive behavior | Pipeline behavior |
 |---|---|
-| Ask: "Should you wear [profession outfit] or your default [wardrobe from creator bible]?" | **Always use the creator-bible default wardrobe.** Append a one-line warning to the slide's prompt body explaining why (e.g., "creator wears charcoal henley in lieu of profession-specific costume — pipeline mode default"). |
+| Ask: "Should you wear [profession outfit] or your default [wardrobe from creator bible]?" | **Apply `hook-visual-library.md` Section 10 priority chain non-interactively** (see resolution chain below). Log selection reasoning to envelope `notes[]`. |
 
-**Default wardrobe resolution order (per `creator-bible.md` Section 6):**
+**Pipeline behavior**: Apply `hook-visual-library.md` Section 10 priority chain non-interactively:
 
-1. **Professional / Tech context** (default for `linkedin` blog topics) — *Blazer with open-collar shirt.*
-2. **Casual / Lifestyle context** (default for personal-narrative or `human_fingerprint` slides) — *Henley, hoodie, or denim jacket.*
-3. **Street / Outdoor context** (B-roll on location) — *Denim jacket over a solid tee.*
+1. **Scene-override (always wins)** — if the visual hook scene implies a specific environment (night market, beach, gym, courtroom, hospital, kitchen, etc.), use the scene-appropriate costume from §10 Scene → Costume Override Table.
+2. **Topic-category match** — match blog topic against §10's Topic Keyword → Category Resolution Table at the top of Section 10. Use the matched category's Prompt Phrase verbatim into the slide's `[Wardrobe]` slot.
+3. **LLM inference fallback** — when no keyword matches and no scene override, infer the most appropriate profession-immersive costume from the dominant blog subject. Pick category from §10's existing 17 (9 lifestyle + 8 profession) categories.
+4. **Creator-bible default** — only as last resort when topic is genuinely generic personal-narrative (no profession context). Use creator-bible §6 default (charcoal henley OR blazer per context).
 
-Pipeline mode default unless the blog post explicitly tags the topic otherwise:
-**charcoal henley with natural fabric weave** (matches `creator-bible.md` Section 6
-casual default and the established Portfolio_v2 brand identity from draft #28+).
+**Topic-immersive rule**: thematic costume applies to ALL layout types where creator face appears (cover, body, human_fingerprint, cta) — NOT just hook. Even when a public figure is also present in body slides, creator wears thematic costume; public figure wears their identity outfit.
+
+**Logging**: append selection reasoning to envelope `notes[]` in this exact format: `costume_resolved: <category> via <source> ("<reasoning>")`. Examples:
+
+- `costume_resolved: Medical via topic_match ("matched keyword 'surgeon' in title")`
+- `costume_resolved: Aerospace via scene_override ("hook scene = inside ISS module")`
+- `costume_resolved: Tech / AI via fallback ("no keyword match, inferred from AI/ML topic")`
 
 ---
 
@@ -103,7 +108,26 @@ visual directions (Steps 5b/5c in the Fresh Carousel Production workflow).
 
 | Interactive behavior | Pipeline behavior |
 |---|---|
-| Present 3 hook options + ask the operator to pick or override. | **Auto-select the PRIMARY hook category** mapped from the blog post's pillar (per `hook-formula-bank.md` topic→category table). Auto-select the visual direction whose vibe best matches the post's emotional core (read from blog metadata when available; otherwise default to "Visual Curiosity Gap" per `hook-visual-library.md` Section 1). Log both choices to the JSON envelope's `notes[]` so the operator can override on regenerate. |
+| Present 3 hook options + ask the operator to pick or override. | **Auto-select the MOST DRAMATIC absurd visual hook category** from `hook-visual-library.md` Section 1 that creates pattern-interrupt scroll-stop for the topic (see ranking + selection rule below). Log both choices to envelope `notes[]` so the operator can override on regenerate. |
+
+**Pipeline behavior**: Auto-select the MOST DRAMATIC absurd visual hook category from `hook-visual-library.md` Section 1 that creates pattern-interrupt scroll-stop for the topic.
+
+**Default ranking** (most dramatic → least dramatic, prefer top of list):
+
+1. **Status Inversion** — power/role flipped (Wall Street executives bowing to giant Musk statue; politicians dressed as schoolchildren)
+2. **Scale Disruption** — impossible scale (creator standing on stack of cash taller than skyscraper; ant-sized creator next to giant CPU chip)
+3. **Pattern Interrupt** — surreal juxtaposition (creator in business suit holding live octopus in office; rocket launching from coffee mug)
+4. **Object Distortion** — physically impossible objects (laptop bent into Möbius strip; clock with melting hands)
+5. **Time Anomaly** — anachronism (medieval knight using smartphone; 1950s diner with hologram menu)
+6. **Visual Curiosity Gap** — partial reveal / hidden element (creator pointing at blurred shape; door cracked open with glow)
+7. **Speed & Value** — clean professional authority (use only when topic is genuinely about competence demonstration, not virality)
+8. **Curiosity Gap (subtle)** — LAST RESORT, use only when topic genuinely lacks dramatic potential (rare)
+
+**Selection rule**: pick the highest-ranked category compatible with the topic's emotional core. NEVER default to Curiosity Gap or Visual Curiosity Gap if a higher-ranked category fits — those are escape hatches, not defaults.
+
+**Logging**: append to envelope `notes[]` in this format: `visual_hook_resolved: <category> ("<reasoning>")`. Example:
+
+- `visual_hook_resolved: Status Inversion ("Wall Street/Musk topic — power inversion most dramatic")`
 
 ---
 
@@ -153,3 +177,17 @@ When the skill runs interactively (no `--blog-source` / `--pipeline` /
 in `SKILL.md` Sections "Source URL Collection," "Interactive Slide Design,"
 "Hook Clarification," and "Visual Hook Idea" remains the canonical path. This
 file is purely additive — it does not modify or replace interactive defaults.
+
+---
+
+## 10. Cross-Reference: Topic-Aware Resolution Sources
+
+Pipeline mode reads these sections at runtime via the bundled `refs-carousel-gen-pipeline.md`:
+
+| Need | Source | Section |
+|---|---|---|
+| Visual hook absurd-scene formulas (8 categories) | `hook-visual-library.md` | §1 |
+| Costume topic→category resolution table | `hook-visual-library.md` | §10 (top — Topic Keyword → Category Resolution Table) |
+| Costume per-category prompt phrases | `hook-visual-library.md` | §10 (17 categories — 9 lifestyle + 8 profession) |
+| Scene-override costume rules | `hook-visual-library.md` | §10 Scene → Costume Override Table |
+| Creator-bible last-resort wardrobe | `creator-bible.md` | §6 |

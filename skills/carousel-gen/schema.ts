@@ -109,6 +109,26 @@ export const CarouselSlideSchema = z
 export type CarouselSlide = z.infer<typeof CarouselSlideSchema>;
 
 // ---------------------------------------------------------------------------
+// Creator outfit (topic-aware costume resolution)
+//
+// Captures which costume the pipeline picked, where it came from, and why.
+// Read by Portfolio_v2 admin UI for operator audit + future manual override
+// hook. Optional in v2.17 for backward compat with pre-feature drafts;
+// required in a future minor bump after backend adapter has shipped.
+//
+// Source: docs/plans/2026-05-04-topic-aware-costume-and-dramatic-hook.md
+// ---------------------------------------------------------------------------
+
+export const CreatorOutfitSchema = z.object({
+  category: z.string().min(2).max(60),
+  prompt_phrase: z.string().min(20).max(400),
+  source: z.enum(['scene_override', 'topic_match', 'fallback']),
+  reasoning: z.string().min(10).max(200),
+});
+
+export type CreatorOutfit = z.infer<typeof CreatorOutfitSchema>;
+
+// ---------------------------------------------------------------------------
 // Output schema (the full stdout JSON)
 //
 // Discriminated union on `status`:
@@ -135,6 +155,11 @@ const CompleteEnvelopeSchema = z.object({
       slides: z.array(CarouselSlideSchema),
     })
     .optional(),
+  // Topic-aware costume the pipeline picked for this carousel. Captures
+  // category + prompt phrase + resolution source + reasoning so operator
+  // admin UI can audit + (future) manual override. Optional in v2.17 for
+  // backward compat with pre-feature drafts.
+  creator_outfit: CreatorOutfitSchema.optional(),
   // Operator-facing warnings the LLM logs in pipeline mode when an interactive
   // step had to be auto-resolved (e.g., "manifest_brand_needed: brand asset
   // upload required for [topic]", "default_wardrobe_applied: charcoal henley
