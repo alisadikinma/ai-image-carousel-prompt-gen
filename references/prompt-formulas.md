@@ -72,6 +72,32 @@ Missing any of these three = REJECTED. These are the top causes of bad text hier
 
 ---
 
+## Creator Face Token Enforcement (MANDATORY)
+
+Every slide where the creator's face appears (per SKILL.md Hard Rule #3: Hook, CTA, Foreshadow, Loop-end, Thumbnail, B-Roll-with-humans) MUST contain the literal lowercase word `creator` somewhere in the `image_prompt` body.
+
+**Why:** publisher pipelines that render slides through GeminiGen / Nano Banana Pro (e.g. Portfolio_v2 LinkedIn carousel image enhancer) regex-detect the `creator` token to decide whether to attach `face_refs` (the creator's actual face reference image) to the API call. Without `face_refs`, GeminiGen renders a generic stranger's face — even when the prompt clearly describes a person.
+
+**Acceptable patterns** (any of these satisfies the rule):
+- `creator stands beside a server rack, hands raised in defensive gesture`
+- `tight medium shot of the creator reading a phone screen, urgent expression`
+- `creator's hands grip the steering wheel, knuckles white`
+- `creator's silhouette frames the doorway, backlit by amber dawn`
+- `{{CREATOR_FACE}}` placeholder — expands at dispatch to "the provided creator face reference image"
+
+**FORBIDDEN substitutions** (these break face_refs attachment — token not detected):
+- ❌ "the host" / "the speaker" / "the presenter"
+- ❌ "the man" / "the woman" / "the person"
+- ❌ "the protagonist" / "the founder" / "the entrepreneur"
+- ❌ "our hero" / "the operator" / "the user"
+- ❌ Generic role descriptors without `creator` somewhere in the same prompt
+
+**Applies to ALL `layout_hint` values** (cover / body / human_fingerprint / direct_answer / cta) — the layout enum doesn't carry slide-role semantics (no "foreshadow" or "loop-end" enum), so the `creator` token is the only reliable signal the publisher pipeline has.
+
+**Pure B-roll exemption:** slides with NO human figures (server rack close-ups, abstract neural network nodes, code editor screens, product macros) MUST NOT contain the `creator` token — that would force a generic face into a no-humans scene.
+
+---
+
 ## Nano Banana Pro — Structure (8-Element Priority Order)
 ```
 1. Subject (who/what) — always first
