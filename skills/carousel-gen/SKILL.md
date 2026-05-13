@@ -579,3 +579,46 @@ When carousel contains verified factual claims from named sources:
 - Place after body text, before CTA
 - Multiple sources: list all, most authoritative first
 - Example: "Data: Stockholm International Peace Research Institute (SIPRI), 2025"
+
+---
+
+## ⚠️ FINAL OUTPUT CONTRACT (PIPELINE MODE — READ LAST)
+
+**This section overrides any conflicting instruction earlier in this SKILL file. It is intentionally placed at the end of the file so it is the most recently-seen instruction at output time.**
+
+When you are running in pipeline mode (detected via `--blog-source`, `--pipeline`, `--non-interactive`, or no-TTY), your ENTIRE response to stdout MUST be a single valid JSON document matching `CarouselGenOutputSchema` from `./schema.ts`.
+
+### Hard rules (no exceptions, no edge cases)
+
+1. **First character of your response MUST be `{`.** Not a Markdown heading. Not a bullet list. Not "Pipeline run complete.". Not a status line. Not a table. The very first character is `{`.
+
+2. **Last character of your response MUST be `}`.** Nothing after it. No "Sources:" list. No "Verified facts used:" appendix. No "Pipeline resolution log" table. No closing summary.
+
+3. **Your response will be parsed by `JSON.parse()`.** If it cannot be parsed as JSON, the backend's `CarouselGenOutputAdapter` throws `CarouselGenAdapterException` and the operator sees the draft fail. The balanced-brace scanner tolerates a leading `{` and trailing `}` but nothing else.
+
+4. **No reasoning narration.** Do not describe what you decided. Do not list which costume you chose. Do not enumerate hooks considered. Do not cite sources you consulted. All of that belongs INSIDE the JSON's `notes[]` array as short string entries — never as Markdown prose to stdout.
+
+5. **No "Pipeline run complete." preamble.** Sonnet's natural tendency is to summarize the work. In pipeline mode, suppress this entirely. The backend reports success via the parsed `status` field, not via your narration.
+
+6. **No tables.** Markdown tables (`| Decision | Source |`) are interactive-mode artifacts. In pipeline mode they appear inside the JSON envelope as `notes[]` strings or `creator_outfit`-style structured fields — never as raw Markdown.
+
+7. **Verified facts go INSIDE the JSON.** If you fact-checked a benchmark number or a quote, that fact's text + source URL belong in the relevant slide's `image_prompt` or `direct_answer_block` field — not in a "Verified facts used:" appendix at the bottom of stdout.
+
+### Self-check before emitting
+
+Before you press send, mentally verify:
+
+- Does my response start with `{`?
+- Does my response end with `}`?
+- Is everything between those two characters valid JSON (no Markdown, no prose, no tables)?
+- Would `JSON.parse(myResponse)` succeed without throwing?
+
+If any answer is no, **discard the response and restart with only the JSON envelope.**
+
+### Why this matters
+
+Production incident 2026-05-13 (drafts #103, #106, #115): Sonnet completed reasoning correctly but emitted a Markdown "Pipeline resolution log" table + sources list instead of the JSON envelope. The balanced-brace parser found zero `{` characters in stdout, returned null, and the backend marked drafts as `failed` with the unhelpful error "carousel-gen dispatch failed or returned null/empty stdout". Operator lost ~3 hours of generation work + manual recovery time.
+
+The Output Contract section at line ~88 above declared the same rule. Sonnet violated it because that section was 500+ lines back in context by output time. This section exists at the END of the file precisely so it is the most-recently-seen instruction when you compose your response.
+
+**Failure to comply is not a near-miss. It is a complete failure of the carousel-gen contract. Comply.**
