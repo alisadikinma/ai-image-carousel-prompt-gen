@@ -1,5 +1,17 @@
 # AI Image Carousel Prompt Gen — Claude Project Instructions
 
+## 🧠 Vault Context Link
+
+Skill library — universal carousel engine, dipakai cross-platform (LinkedIn, IG, TikTok).
+
+Pre-read kalau perlu konteks:
+- `30-Knowledge/image-gen-shared.md` — NB2 prompt engineering, anti-AI-look
+- `30-Knowledge/content-strategy-shared.md` — carousel hook/narrative pattern
+- `20-Projects/claude-plugin/README.md` — skill ecosystem overview
+- `10-Identity/visual-identity.md` — color, font, image style references
+
+JANGAN hardcode project-specific values (creator name, niche, palette). Pakai `{{placeholder}}` di SKILL.md + references/.
+
 ## Project Overview
 
 Claude Code plugin that generates cinematic AI image prompts for social media carousels. 1 skill + 1 agent + 12 reference documents as RAG knowledge base.
