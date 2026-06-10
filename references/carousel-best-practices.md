@@ -405,6 +405,50 @@ This is the canonical mapping the schema uses (`layout_hint` enum in
 | 4. PEAK | `human_fingerprint` AND/OR `direct_answer` | Lived-experience anchor + AI-search-optimized direct answer block. The dwell-time peak. |
 | 5. CTA | `cta` | One specific call to action. Identity tag, polarize, question, or reward. |
 
+### BODY + PEAK Content Depth — Educational Explainer Cards (MANDATORY)
+
+The BODY and PEAK acts are where the audience must **learn** something. They are
+NOT cinematic hero photos with one giant word/number (a lone "938%" slide
+teaches nothing and AUTO-FAILS). In the default `cinematic` deck, every BODY and
+PEAK slide is an **editorial knowledge card** carrying real teaching density,
+rendered IN-IMAGE:
+
+1. **Teaching headline** — the ONE concrete idea, specific not vague. "RAG
+   grounds the model in your own docs, so it stops inventing facts" — not
+   "Better accuracy".
+2. **2-3 supporting context sub-points** — each a short labeled line with a real
+   mechanism / number / step / example that explains **why** and **how**. This is
+   the *essence + context* the viewer keeps. A number ALWAYS travels with what it
+   means: "938% jump in retrieval recall — because it searches meaning, not
+   keywords" (not a bare "938%").
+3. **Takeaway line** — "so for you: …" / "artinya: …" so the card stands alone as
+   a complete micro-lesson, even when re-served out of order (IG second-chance).
+
+**Visual register:** a cohesive branded infographic / knowledge-card layout —
+clean editorial grid, one simple icon or micro-diagram per sub-point, generous
+whitespace, brand accent color for emphasis, strong hierarchy (headline »
+sub-points » takeaway). Still 4K hyperrealistic-grade composition and lighting
+on the card surface — NOT hand-drawn (doodle is the separate `--style=sketchnote`
+preset). **No creator face** on these cards (content slides without human
+figures) — the face → infographic → face rhythm across the deck (Hook /
+Foreshadow cinematic → Body / Peak explainer cards → CTA cinematic) IS the
+visual signature.
+
+**Worked example — BODY slide on "Why RAG beats fine-tuning for fresh data":**
+
+- **Shallow (AUTO-FAIL):** one giant "938%" with no headline, sub-points, or
+  takeaway. Looks slick, teaches nothing.
+- **Explainer card (PASS):**
+  - Headline — "RAG beats fine-tuning when your data changes weekly"
+  - Sub-point 1 — "Retrieval reads live docs at query time — no retrain"
+  - Sub-point 2 — "Fine-tune bakes knowledge in — stale the moment data shifts"
+  - Sub-point 3 — "Update = drop a new file in the index, not a costly training run"
+  - Takeaway — "So for you: pick RAG for anything that updates faster than you can retrain."
+
+The PEAK slide applies the same depth, plus the lived-experience anchor
+(`human_fingerprint`) and/or the AI-search-optimized `direct_answer_block`
+described below.
+
 ### When to Use `human_fingerprint`
 
 The `human_fingerprint` slide is the **lived-experience anchor** — proof that

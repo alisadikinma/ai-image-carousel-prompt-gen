@@ -131,6 +131,26 @@ visual directions (Steps 5b/5c in the Fresh Carousel Production workflow).
 
 ---
 
+## 5b. BODY + PEAK Content Sourcing (Educational Explainer Cards)
+
+Trigger: authoring the Act 3 (BODY ×3-5) and Act 4 (PEAK) slides. See Hard Rule
+#20 in `SKILL.md` and the "BODY + PEAK Content Depth" subsection in
+`carousel-best-practices.md` §9 — those slides are educational explainer cards
+(teaching headline + 2-3 context sub-points + takeaway), NOT cinematic photos
+with one big number.
+
+| Interactive behavior | Pipeline behavior |
+|---|---|
+| Operator hand-picks which ideas/data go on each body slide. | **Mine the sub-points from real content, never invent them.** Source order: (1) the `--blog-source` body + the inline blog content embedded in the prompt; (2) the verified facts/claims already gathered for this run (Fact Verification section); (3) only if both are thin, the topic's general well-known mechanics — and flag it with a `body_depth_thin: <topic>` line in `notes[]` so the operator knows the cards lean generic. Each body/peak slide MUST carry a teaching headline + 2-3 concrete sub-points (mechanism / number-with-meaning / step / example) + a takeaway line. A slide that resolves to a lone statistic or a vague label is invalid — re-author it with real context before emitting. |
+
+**Number rule**: any figure on a body/peak card travels WITH what it means and
+why it matters ("938% recall jump — because it searches meaning, not keywords"),
+never a bare "938%". **Face rule**: body/peak explainer cards are face-free (no
+`creator` token, no `[Wardrobe]`); the creator face stays on Hook, Foreshadow,
+and CTA (and an optional `human_fingerprint` PEAK proof shot per Rule #3).
+
+---
+
 ## 6. Source URL Collection
 
 Trigger: Step 0 of every workflow asks for an inspiration URL.
