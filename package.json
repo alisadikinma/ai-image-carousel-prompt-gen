@@ -1,6 +1,6 @@
 {
   "name": "ai-image-carousel-prompt-gen",
-  "version": "2.23.0",
+  "version": "2.23.1",
   "description": "Cinematic AI image prompt generator for social media carousel content. Claude Code plugin emitting structured carousel JSON consumed by Portfolio_v2 backend's CarouselGenOutputAdapter.",
   "type": "module",
   "private": true,

@@ -145,9 +145,30 @@ with one big number.
 
 **Number rule**: any figure on a body/peak card travels WITH what it means and
 why it matters ("938% recall jump — because it searches meaning, not keywords"),
-never a bare "938%". **Face rule**: body/peak explainer cards are face-free (no
-`creator` token, no `[Wardrobe]`); the creator face stays on Hook, Foreshadow,
-and CTA (and an optional `human_fingerprint` PEAK proof shot per Rule #3).
+never a bare "938%".
+
+> **🚫 FACE RULE — BODY + PEAK ARE STRICTLY FACE-FREE (HARD STOP).**
+> The creator face appears on **EXACTLY THREE acts: HOOK, FORESHADOW, CTA.**
+> Every BODY (Act 3) and PEAK (Act 4) slide is a face-free **infographic
+> knowledge card** — NO `creator` token, NO `[Wardrobe]`, NO human figure of any
+> kind (not the creator, not a generic person, not a public figure as the card
+> subject). This is non-negotiable even when the topic is about a person: render
+> their logo / product / data, never a portrait, on a body/peak card.
+> **NO `human_fingerprint` face exception on PEAK** — in the default `cinematic`
+> deck PEAK is an explainer card like BODY. The face → infographic → infographic
+> → face rhythm (Hook + Foreshadow cinematic → Body + Peak cards → CTA cinematic)
+> IS the deck's signature. A body/peak slide that emits a `creator` token AUTO-FAILS;
+> re-author it as a face-free card. Log `face_free_card: body|peak` in `notes[]`.
+
+> **🔵 ICON DENSITY — MAXIMIZE ICONS ON BODY + PEAK CARDS.**
+> These cards must be **icon-led so the brain digests them at a glance.** Render:
+> (a) **one distinct icon for EVERY sub-point** (not just some) — a clear flat
+> line/duotone glyph in brand `accent_color`; (b) a **header icon or small
+> micro-diagram** for the teaching headline; (c) where a sub-point is a
+> number/stat, pair it with a **mini visual** (bar, ring, arrow, gauge) not bare
+> text. Favor an icon-grid / icon-row / numbered-icon-list layout over a wall of
+> text. Goal: a viewer understands the card's shape from the icons alone before
+> reading a word. Minimum 3 icons per card; never a text-only card.
 
 ---
 

@@ -425,14 +425,26 @@ rendered IN-IMAGE:
    a complete micro-lesson, even when re-served out of order (IG second-chance).
 
 **Visual register:** a cohesive branded infographic / knowledge-card layout —
-clean editorial grid, one simple icon or micro-diagram per sub-point, generous
-whitespace, brand accent color for emphasis, strong hierarchy (headline »
-sub-points » takeaway). Still 4K hyperrealistic-grade composition and lighting
+clean editorial grid, brand accent color for emphasis, strong hierarchy (headline
+» sub-points » takeaway). Still 4K hyperrealistic-grade composition and lighting
 on the card surface — NOT hand-drawn (doodle is the separate `--style=sketchnote`
-preset). **No creator face** on these cards (content slides without human
-figures) — the face → infographic → face rhythm across the deck (Hook /
-Foreshadow cinematic → Body / Peak explainer cards → CTA cinematic) IS the
-visual signature.
+preset).
+
+**Icon-led, maximize icons (so the brain digests at a glance):** these cards are
+**icon-driven, not text walls.** Render (a) **one distinct icon for EVERY
+sub-point** — a clear flat line/duotone glyph in the brand accent color; (b) a
+**header icon or small micro-diagram** beside the teaching headline; (c) for any
+sub-point that is a number/stat, a **mini visual** (bar, ring, arrow, gauge),
+never bare digits. Prefer an icon-grid / icon-row / numbered-icon-list layout. A
+viewer should grasp the card's shape from the icons alone before reading. Minimum
+3 icons per card; a text-only card AUTO-FAILS.
+
+**No creator face — and no human figure at all** on BODY/PEAK cards (content
+slides without people). The face appears on **exactly three acts: Hook,
+Foreshadow, CTA.** PEAK is a face-free explainer card like BODY in the default
+`cinematic` deck — there is no `human_fingerprint` portrait exception. The
+face → infographic → infographic → face rhythm (Hook / Foreshadow cinematic →
+Body / Peak cards → CTA cinematic) IS the visual signature.
 
 **Worked example — BODY slide on "Why RAG beats fine-tuning for fresh data":**
 
