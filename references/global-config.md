@@ -127,6 +127,23 @@ Every prompt MUST include micro-imperfections from these 6 categories to avoid t
 
 ---
 
+## 7. Style Presets
+
+| Setting | Value |
+|---------|-------|
+| `default_style` | `cinematic` |
+| `available_styles` | `cinematic`, `sketchnote` |
+| `style_registry` | `references/style-presets.md` (override tables per preset) |
+
+The values in Sections 3-4 above are the **`cinematic`** preset (hyperrealistic photo).
+When `--style` ≠ `cinematic`, `references/style-presets.md` supersedes the visual-execution
+settings (background, film stock, palette execution, creator face, quality gate). Creator
+identity (§1), language (§2), platform specs (§5), and format conventions (§6) are
+preset-agnostic and always apply. To add a preset, see `references/style-presets.md` →
+"Adding a New Preset".
+
+---
+
 ## CTA Social Media Block (In-Image)
 
 Exact prompt text for CTA slides — replaces social handles placeholder:

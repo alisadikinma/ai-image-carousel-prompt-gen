@@ -36,6 +36,7 @@ Claude reads this SKILL.md directly and follows the workflow below.
 |------|-----------|
 | ANY prompt | `references/global-config.md` (ALWAYS — read FIRST) |
 | ANY prompt | + `references/creator-bible.md` (ALWAYS) |
+| Non-`cinematic` style (`--style=sketchnote`, doodle, flat illustration) | + `references/style-presets.md` (read FIRST when `--style` ≠ `cinematic` — its override tables SUPERSEDE the photo Hard Rules + WOW gate; replaces creator-bible photo defaults) |
 | Hook slide / Slide 1 | + `references/hook-science.md` (hook psychology, clickbait formulas, power words) |
 | Hook headline formulas | + `references/hook-formula-bank.md` (52 hook formula templates, 8 psychology categories — all content types) |
 | Hook visual specs | + `references/hook-visual-library.md` (expression libraries, lighting presets, camera angle banks, environment palettes, synergy matrix, anti-repetition) |
@@ -82,6 +83,7 @@ category selection, and visual direction.
 | `--non-interactive` | off | Alias for `--pipeline`. |
 | `--bilingual=id,en` | off (single language) | Opt-in bilingual output. When set, every slide carries `copy_id` + `copy_en` and never `copy`. Output envelope flags `bilingual=true`. |
 | `--narrative=5act\|free` | `5act` | Narrative spine. `5act` = HOOK → FORESHADOW → BODY → PEAK → CTA (the 5-act spine documented in `references/carousel-best-practices.md` §9). `free` = unconstrained narrative for experimental layouts. |
+| `--style=<preset>` | `cinematic` | Visual execution preset. `cinematic` = default hyperrealistic photo carousel (all Hard Rules below as written). `sketchnote` = hand-drawn doodle infographic on cream paper (flat illustration, no creator photo, no film stock — the Granola + Claude educational look). When ≠ `cinematic`, read `references/style-presets.md` FIRST — its override tables SUPERSEDE the photo-centric Hard Rules + WOW gate. Works in BOTH interactive and pipeline mode. |
 | `--target-slides=N` | `9` | Soft hint for total slide count. The skill MAY emit fewer or more slides if the narrative demands it (range: 5-15 per schema), but treats this as the planning target. |
 | `--alt-aspect=9:16` | unset | **Phase B+ — TBD.** Reserved for future TikTok / Reels parallel-render of the same narrative. NOT implemented in this task. The schema reserves the `alt_aspect` envelope slot; producing actual 9:16 slides ships in a later phase. |
 
@@ -154,6 +156,12 @@ Use `ref/creator-face.png` in every creator-facing prompt: `[CHARACTER from refe
 ---
 
 ## Hard Rules (NON-NEGOTIABLE)
+
+> **Style-preset note.** These Hard Rules + the WOW Quality Gate below are the
+> **`cinematic`** preset (the default). When `--style` ≠ `cinematic` (e.g.
+> `--style=sketchnote`), the override tables in `references/style-presets.md`
+> SUPERSEDE every rule they mark as overridden — read that file first and apply its
+> DOODLE gate in place of the photo WOW gate. Rules not overridden there still hold.
 
 1. NEVER competitor branding (no other creator badges, watermarks, or handles). **Subject brand** (Google, WhatsApp, etc.) that IS the topic MUST remain visible for context
 2. ALWAYS include user's brand icon (center of image, above watermark, thirty percent opacity) + @handle watermark (center of image, below brand icon, thirty percent opacity) rendered IN-IMAGE on every slide. For split-panel comparison (A vs B): both on the vertical divider line. In prompt body: ALWAYS spell "thirty percent opacity" — NEVER "30%"
