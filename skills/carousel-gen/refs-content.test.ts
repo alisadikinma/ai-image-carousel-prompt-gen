@@ -50,7 +50,43 @@ describe('non-interactive-defaults.md — scene-first cover + max-chaos (v2.25)'
   });
 });
 
-// --- Phase B assertions (hook-visual-library.md §10) added in Phase B ---
+describe('hook-visual-library.md §10 — conceptual costume archetypes (v2.25)', () => {
+  const text = read(REF('hook-visual-library.md'));
+
+  const ARCHETYPES = [
+    'Memory Architect',
+    'Data Guardian',
+    'AI Whisperer',
+    'Systems Engineer',
+    'Mind Hacker',
+    'Signal Cutter',
+    'Builder/Maker',
+    'Concept Avatar',
+  ];
+
+  it.each(ARCHETYPES)('defines the "%s" conceptual archetype card', (name) => {
+    expect(text).toContain(`### ${name}`);
+  });
+
+  it('Memory Architect card carries a prompt-ready phrase', () => {
+    const start = text.indexOf('### Memory Architect');
+    expect(start).toBeGreaterThan(-1);
+    const card = text.slice(start, start + 1200);
+    expect(card).toContain('**Prompt phrase**');
+    expect(card).toMatch(/Default absurd scene/i);
+  });
+
+  it('Topic Keyword Resolution Table routes conceptual keywords to archetypes', () => {
+    expect(text).toMatch(/second brain[^|]*\|\s*\*\*Memory Architect\*\*/i);
+    expect(text).toMatch(/data sovereignty[^|]*\|\s*\*\*Data Guardian\*\*/i);
+  });
+
+  it('abstract topics never fall through to a blazer (Concept Avatar fallback rule)', () => {
+    expect(text).toMatch(/Concept Avatar/);
+    expect(text).toMatch(/never[^.]*blazer/i);
+  });
+});
+
 // --- Phase C assertions (SKILL.md) added in Phase C ---
 
 describe('compiled pipeline bundle — propagation guard (v2.25)', () => {
