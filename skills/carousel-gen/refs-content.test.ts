@@ -87,7 +87,23 @@ describe('hook-visual-library.md §10 — conceptual costume archetypes (v2.25)'
   });
 });
 
-// --- Phase C assertions (SKILL.md) added in Phase C ---
+describe('SKILL.md — strengthened cover/costume rules + self-check gate (v2.25)', () => {
+  const text = read(resolve(REPO_ROOT, 'skills', 'carousel-gen', 'SKILL.md'));
+
+  it('Rule #17 AUTO-FAILs generic-studio covers (scene-first)', () => {
+    expect(text).toMatch(/generic-studio/i);
+    expect(text).toContain('AUTO-FAIL');
+  });
+
+  it('Cover Self-Check Gate is defined (pre-JSON-emit)', () => {
+    expect(text).toContain('Cover Self-Check Gate');
+    expect(text).toContain('cover_gate');
+  });
+
+  it('Rule #18 routes abstract topics to Concept Avatar (never blazer)', () => {
+    expect(text).toContain('Concept Avatar');
+  });
+});
 
 describe('compiled pipeline bundle — propagation guard (v2.25)', () => {
   const bundlePath = resolve(
