@@ -567,6 +567,13 @@ When the visual hook scene is neutral/studio/generic (no scene-override fires), 
 | `chef, restaurant, kitchen, kuliner, masak, hotel, hospitality, service, waitress, butler, concierge` | **Hospitality** |
 | `lab, research, scientist, ilmuwan, peneliti, laboratory, experiment, biotech, pharma, microscope` | **Scientific Research** |
 | `construction, engineer, civil, infrastructure, proyek, konstruksi, building site, contractor, crane` | **Construction** |
+| `second brain, pkm, personal knowledge, zettelkasten, note-taking, catatan, knowledge management, obsidian, notion vault` | **Memory Architect** (conceptual) |
+| `privacy, self-host, self-hosted, data sovereignty, kedaulatan data, encryption, enkripsi, own your data, security, keamanan data` | **Data Guardian** (conceptual) |
+| `ai agent, llm, automation, otomasi, prompt, prompting, rag, machine learning, ai workflow` | **AI Whisperer** (conceptual) |
+| `workflow, pipeline, devops, system design, sistem, infra automation, orchestration` | **Systems Engineer** (conceptual) |
+| `mindset, pola pikir, psychology, psikologi, habit, kebiasaan, learning, belajar, cognition` | **Mind Hacker** (conceptual) |
+| `deep work, fokus, focus, distraction, distraksi, attention, notification overload` | **Signal Cutter** (conceptual) |
+| `indie hacker, build in public, bikin publik, saas, side project, proyek sampingan, founder log, bootstrap product` | **Builder/Maker** (conceptual) |
 | `wall street, bank, finance, investment, trader, hedge fund, ipo, stocks, saham, bursa, fintech` | Finance / Investment (existing) |
 | `ai, ml, llm, agent, machine learning, kecerdasan buatan, openai, anthropic, gpt, claude, software` | Tech / AI (existing) |
 | `gym, workout, training, fitness, yoga, atlet, fit, exercise, marathon, kebugaran` | Health / Fitness (existing) |
@@ -574,7 +581,7 @@ When the visual hook scene is neutral/studio/generic (no scene-override fires), 
 | `tutorial, course, online class, mengajar, education, beginner guide, how-to` | Education / Tutorial (existing) |
 | `startup, founder, entrepreneur, bootstrap, seed round, vc, scaleup, exit` | Business / Startup (existing) |
 | `travel, perjalanan, tokyo, bali, vlog, lifestyle blog, digital nomad, road trip` | Lifestyle / Travel (existing) |
-| `productivity, gtd, getting things done, time management, deep work, second brain` | Productivity / Tools (existing) |
+| `productivity, gtd, getting things done, time management, tools, app stack` | Productivity / Tools (existing) |
 | `design, ux, ui, brand identity, illustration, figma, photoshop, art direction, kreatif` | Creative / Design (existing) |
 
 **Resolution rule**:
@@ -793,6 +800,130 @@ Use when topic doesn't clearly match any category above.
 | Texture | clean cotton or linen, natural fabric grain |
 | Color palette | white, gray, navy, warm neutrals |
 | **Prompt phrase** | wearing a clean fitted white button-up with sleeves rolled to forearms, dark clean jeans, simple watch on wrist, natural cotton fabric catching warm ambient light |
+
+---
+
+## Conceptual / Metaphor Archetypes (abstract topics — theatrical, scene-immersive)
+
+For **abstract/conceptual** topics (knowledge systems, privacy, AI, workflow,
+mindset, focus, building-in-public) that match no profession category above. These
+are **theatrical character costumes** — the creator becomes the embodiment of the
+topic's core metaphor — paired with a max-chaos absurd scene. Used when the visual
+hook is topic-anchored chaos (see `non-interactive-defaults.md` §5c). Costume
+`source = scene_override`. **An abstract topic NEVER falls through to a blazer —
+if no archetype matches, use Concept Avatar.**
+
+### Memory Architect
+
+Topics: second brain, PKM, notes, zettelkasten, knowledge management.
+
+| Element | Spec |
+|---------|------|
+| Top | asymmetric structured techwear vest with glowing circuit-seams over a dark fitted base layer |
+| Bottom | tapered technical trousers with subtle reflective panel |
+| Accessories | holographic visor pushed up on forehead, gloves with glowing data-node fingertips |
+| Texture | matte technical fabric with embedded light-conductive thread, soft inner glow |
+| Color palette | deep charcoal, ink black, brand accent glow on seams |
+| **Prompt phrase** | wearing an asymmetric structured techwear vest with glowing circuit-seams over a dark fitted base layer, holographic visor pushed up on forehead, gloves with faintly glowing data-node fingertips, matte light-conductive fabric texture |
+| Default absurd scene | standing inside a cathedral-scale vault of floating glowing memory-orbs, a giant brain-shaped vault door behind |
+
+### Data Guardian
+
+Topics: privacy, self-hosting, data sovereignty, encryption, security, own-your-data.
+
+| Element | Spec |
+|---------|------|
+| Top | matte-black tactical longcoat with a subtle padlock-motif chestplate |
+| Bottom | armored technical trousers, reinforced knee panels |
+| Accessories | encrypted-key pendant glowing faintly, fingerless gauntlets |
+| Texture | matte ballistic fabric, brushed-metal accents, no shine |
+| Color palette | black, gunmetal, single brand accent on the key pendant |
+| **Prompt phrase** | wearing a matte-black tactical longcoat with a subtle padlock-motif chestplate, fingerless gauntlets, a faintly glowing encrypted-key pendant at the chest, brushed ballistic fabric texture |
+| Default absurd scene | guarding a glowing personal-server fortress while corporate cloud-servers crumble to dust outside the walls |
+
+### AI Whisperer
+
+Topics: AI agents, LLM, automation, prompt engineering, RAG, machine learning.
+
+| Element | Spec |
+|---------|------|
+| Top | iridescent hooded technical coat with flowing data-stream patterns |
+| Bottom | sleek dark joggers with a luminous seam |
+| Accessories | one robotic forearm sleeve, slim conductor's earpiece |
+| Texture | iridescent ripstop that shifts color, faint flowing light |
+| Color palette | oil-slick iridescent over black, brand accent in the data-streams |
+| **Prompt phrase** | wearing an iridescent hooded technical coat with flowing data-stream light patterns, one sculpted robotic forearm sleeve, a slim earpiece, oil-slick color-shifting fabric texture |
+| Default absurd scene | conducting a mid-air swarm of glowing AI-agent orbs like an orchestra |
+
+### Systems Engineer
+
+Topics: workflow, pipelines, infrastructure, devops, system design.
+
+| Element | Spec |
+|---------|------|
+| Top | exo-frame harness over a technical jumpsuit |
+| Bottom | jumpsuit lower with modular tool-loops |
+| Accessories | tool-belt of glowing modular nodes, welding goggles on forehead |
+| Texture | heavy technical canvas, exposed harness webbing, matte metal buckles |
+| Color palette | industrial graphite, safety-accent in brand color on the nodes |
+| **Prompt phrase** | wearing an exo-frame harness over a graphite technical jumpsuit, a tool-belt of glowing modular nodes, welding goggles pushed up on forehead, heavy canvas and webbing texture |
+| Default absurd scene | assembling a giant floating machine of interlocking code-gears |
+
+### Mind Hacker
+
+Topics: psychology, mindset, habits, learning, cognition.
+
+| Element | Spec |
+|---------|------|
+| Top | half lab-coat half meditation-robe hybrid garment |
+| Bottom | loose technical trousers |
+| Accessories | EEG-halo headpiece with glowing sensor nodes |
+| Texture | crisp coat panel meets soft draped robe panel, matte with a faint node glow |
+| Color palette | clinical white meeting deep indigo, brand accent on the halo nodes |
+| **Prompt phrase** | wearing a hybrid garment that is half crisp lab-coat and half draped meditation-robe, an EEG-halo headpiece with faintly glowing sensor nodes, crisp-meets-soft fabric texture |
+| Default absurd scene | floating cross-legged inside a giant glowing cross-section of a human brain |
+
+### Signal Cutter
+
+Topics: deep work, focus, attention, distraction, notification overload.
+
+| Element | Spec |
+|---------|------|
+| Top | matte charcoal wrap-robe with a clean diagonal closure |
+| Bottom | tapered dark trousers |
+| Accessories | sleek noise-cancel halo around the neck, single glowing focus-blade in hand |
+| Texture | matte heavyweight wrap fabric, clean lines, zero ornament |
+| Color palette | charcoal and black, one brand-accent edge on the blade |
+| **Prompt phrase** | wearing a matte charcoal wrap-robe with a clean diagonal closure, a sleek noise-cancel halo at the neck, holding a single glowing focus-blade, matte heavyweight fabric texture |
+| Default absurd scene | slicing cleanly through a swirling storm of notification icons |
+
+### Builder/Maker
+
+Topics: indie hacking, build-in-public, SaaS, side projects, founder log.
+
+| Element | Spec |
+|---------|------|
+| Top | utility apron with glowing tool-pockets over a fitted techwear tee |
+| Bottom | rolled technical work-pants |
+| Accessories | AR-monocle over one eye, light-sculpting gloves |
+| Texture | worn canvas apron with visible weave over matte tee, light glints on the monocle |
+| Color palette | warm tan apron over charcoal, brand accent in the tool-pocket glow |
+| **Prompt phrase** | wearing a utility apron with faintly glowing tool-pockets over a fitted charcoal techwear tee, an AR-monocle over one eye, light-sculpting gloves, worn canvas weave texture |
+| Default absurd scene | forging a glowing app out of raw light-clay at a futuristic anvil |
+
+### Concept Avatar
+
+**Fallback** — use for ANY abstract topic with no archetype match above.
+
+| Element | Spec |
+|---------|------|
+| Top | theatrical techwear costume themed to the topic's inferred core metaphor (NEVER a blazer/henley/suit) |
+| Bottom | matching technical lower in the metaphor's palette |
+| Accessories | one signature prop that literally embodies the topic metaphor |
+| Texture | technical fabrics with a faint thematic glow appropriate to the metaphor |
+| Color palette | dark base + brand accent glow, metaphor-appropriate hue |
+| **Prompt phrase** | dress the creator as a theatrical embodiment of the topic's core metaphor in themed techwear with a signature metaphor prop and faint thematic glow — never a blazer, henley, or business suit |
+| Default absurd scene | an absurd, topic-anchored scene that literally stages the topic's core metaphor |
 
 ---
 

@@ -74,7 +74,7 @@ indoor vs. outdoor, day vs. night).
 
 | Slide mood / layout_hint | Default setting |
 |---|---|
-| `cover` (hook, scroll-stop) | **Warm-lit modern studio** with Edison-bulb bokeh and exposed brick wall (per Section 10 "Approachable teaching" + Section 4 "Warm lifestyle environments"). |
+| `cover` (hook, scroll-stop) | **= the resolved absurd §5 hook scene** — the cover has NO generic-studio default; its setting IS the dramatic pattern-interrupt scene chosen in §5 (topic-anchored, must contain ≥1 recognizable topic element). A conservative warm-studio cover AUTO-FAILS (see §5 + SKILL.md Rule #17). |
 | `body` (content delivery) | **Warm-lit home studio at a wooden desk** with monitors and warm tungsten key lighting. |
 | `human_fingerprint` (lived-experience anchor) | **Warm-lit cafe corner table during late afternoon golden hour** with window key light and a journal in foreground. |
 | `direct_answer` (PEAK / AI-search) | **Warm-lit modern studio** with a clean dark wall behind the subject, soft volumetric haze. |
@@ -125,9 +125,40 @@ visual directions (Steps 5b/5c in the Fresh Carousel Production workflow).
 
 **Selection rule**: pick the highest-ranked category compatible with the topic's emotional core. NEVER default to Curiosity Gap or Visual Curiosity Gap if a higher-ranked category fits — those are escape hatches, not defaults.
 
+**Intensity directive (MAX absurdist chaos, topic-anchored)**: author the cover scene at MAXIMUM pattern-interrupt intensity — impossible scale, physics-breaking action, role inversion, anachronism, or object distortion — NOT a tame literal scene. The chaos MUST stay **topic-anchored**: keep ≥1 recognizable topic element in frame (the discussed brand/object/concept) so the absurdity reads as intentional genius, never as random "Visual Shock." The hook headline stays serious/professional (Headline Independence Rule) while the visual goes full chaos — that dissonance is the scroll-stop. The cover **setting derives from this scene** (§3 cover row), and the **creator costume derives from the scene** (`hook-visual-library.md` §10 — `creator_outfit.source = scene_override`), not from a fixed default. For abstract/conceptual topics with no profession-keyword match, dress the creator in a §10 Conceptual Archetype (see §5c), never a blazer.
+
 **Logging**: append to envelope `notes[]` in this format: `visual_hook_resolved: <category> ("<reasoning>")`. Example:
 
 - `visual_hook_resolved: Status Inversion ("Wall Street/Musk topic — power inversion most dramatic")`
+
+---
+
+## 5c. Conceptual-Topic → Metaphor-Scene Mapping (abstract topics)
+
+Trigger: the blog topic is **abstract/conceptual** (knowledge systems, privacy,
+AI, workflow, mindset, focus, building-in-public) and matches **no** profession
+keyword in `hook-visual-library.md` §10. Without this map such topics fall through
+to a tame business-casual default (the v2.24 "navy blazer + warm studio" bug).
+
+For these topics, resolve the cover to an absurd **Metaphor-Scene** + the matching
+§10 **Conceptual Archetype** costume. The creator becomes the embodiment of the
+topic's core metaphor (`creator_outfit.source = scene_override`).
+
+| Topic cluster (keywords) | Metaphor-Scene (max-chaos, topic-anchored) | §10 Archetype costume |
+|---|---|---|
+| second brain, PKM, notes, zettelkasten, knowledge mgmt, obsidian | creator in a cathedral-scale vault of floating glowing memory-orbs, a giant brain-shaped vault door behind | **Memory Architect** |
+| privacy, self-host, data sovereignty, encryption, security, own-your-data | creator guarding a glowing personal-server fortress, corporate cloud-servers crumbling to dust outside the walls | **Data Guardian** |
+| AI agent, LLM, automation, prompt, RAG, ML | creator conducting a swarm of glowing AI-agent orbs mid-air like an orchestra | **AI Whisperer** |
+| workflow, pipeline, infra, devops, system design | creator assembling a giant floating machine of interlocking code-gears | **Systems Engineer** |
+| mindset, psychology, habit, learning, focus (cognition) | creator floating inside a giant cross-section of a glowing brain | **Mind Hacker** |
+| deep work, distraction, attention, notification overload | creator slicing through a storm of notification icons with a single glowing focus-blade | **Signal Cutter** |
+| indie hacker, build in public, SaaS, side project, founder log | creator forging a glowing app out of raw light-clay at a futuristic anvil | **Builder/Maker** |
+| ANY other abstract topic (no match above) | absurd scene that literally embodies the topic's core metaphor (engine infers it) | **Concept Avatar** (fallback) |
+
+**Rule**: an abstract topic NEVER falls through to a blazer/henley/Finance/Business
+costume — if no row matches, use **Concept Avatar** and dress the creator as a
+theatrical embodiment of the inferred metaphor. Log `costume_resolved: <archetype>
+via scene_override` and `visual_hook_resolved: <category>` to `notes[]`.
 
 ---
 
