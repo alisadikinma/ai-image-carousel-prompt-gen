@@ -53,4 +53,26 @@ describe('compile-refs — pipeline-mode bundle', () => {
       await rm(outputDir, { recursive: true, force: true });
     }
   });
+
+  it('bundles the sketchnote style preset so --style=sketchnote works headless', async () => {
+    const outputDir = await mkdtemp(join(tmpdir(), 'carousel-gen-refs-'));
+
+    try {
+      await compileRefs({ inputDir: REFERENCES_DIR, outputDir });
+      const content = await readFile(
+        join(outputDir, 'refs-carousel-gen-pipeline.md'),
+        'utf8',
+      );
+
+      // Without the style-presets reference bundled, the VPS model has no
+      // filesystem access in pipeline mode, so --style=sketchnote renders a
+      // weak/cinematic-drift doodle. The full preset spec + DOODLE gate must
+      // be present in the compiled bundle.
+      expect(content).toContain('## Reference: style-presets');
+      expect(content).toContain('Preset: `sketchnote`');
+      expect(content).toContain('DOODLE');
+    } finally {
+      await rm(outputDir, { recursive: true, force: true });
+    }
+  });
 });

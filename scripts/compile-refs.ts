@@ -21,6 +21,8 @@
  *   - cinematography-lut.md     — lighting + camera + lens lookup tables
  *   - prompt-formulas.md        — prompt body rendering rules
  *   - carousel-best-practices.md — platform specs, 5-act narrative spine (§9)
+ *   - style-presets.md          — non-cinematic execution presets (sketchnote doodle
+ *                                 infographic + DOODLE gate) so --style=sketchnote works headless
  *   - non-interactive-defaults.md — pipeline-mode resolution rules
  *
  * Usage:
@@ -58,6 +60,7 @@ const BUNDLES: BundleSpec[] = [
       'cinematography-lut.md',
       'prompt-formulas.md',
       'carousel-best-practices.md',
+      'style-presets.md',
       'non-interactive-defaults.md',
     ],
   },
