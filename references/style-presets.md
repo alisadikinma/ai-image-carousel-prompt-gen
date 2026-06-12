@@ -65,7 +65,7 @@ light markers / chalk on a **solid blue notebook surface**. Flat, confident, hig
 | Setting | `cinematic` (default) | `sketchnote` doodle slides |
 |---------|----------------------|------------------------|
 | `image_style` | hyperrealistic | **flat 2D hand-drawn sketchnote illustration** |
-| Background | scene environment | **solid blue `#0F59B6` brand base, subtle paper-fiber/grain texture, optional faint grid** |
+| Background | scene environment | **blue brand gradient base (navy `#0A3D82` edges → brighter `#1E6FD0` center, NOT flat solid), subtle paper-fiber/grain texture, optional faint grid** |
 | `film_stock` | Kodak Portra 400 | **none** — it is not a photograph |
 | `color_temp` / `color_grade` | 3200-3500K warm amber | **none** — flat illustration has no film grade |
 | Lighting | Rembrandt 4:1, Kelvin ratios | **flat even "page" light** — no photographic lighting |
@@ -118,6 +118,9 @@ the blue base is the priority.
 - Brand handle `@alisadikinma` + logo STILL appear, but **hand-drawn / hand-lettered**
   on doodle slides (a small bottom-corner hand-lettered handle reads better on a
   sketchnote). The photographic cover/CTA use the standard Spotlight Portrait chrome.
+- **Brand icon = a bald head with rectangular glasses and NO hair.** Even hand-drawn,
+  the doodle brand mark must stay bald + glasses to match the real brand icon — never
+  doodle a generic face with hair.
 - Page number `[N]/[TOTAL]` top-left — KEPT.
 - `SWIPE (GESER) →` — KEPT (bottom-right). Omit on CTA slide.
 
@@ -142,7 +145,7 @@ All 8 mandatory, 1 point each, **minimum 6/8** — same gating logic, sketchnote
 
 | # | Factor | Must include in prompt |
 |---|--------|------------------------|
-| 1 | BLUE-BASE AUTHENTICITY | solid blue `#0F59B6` background + visible paper/grid grain |
+| 1 | BLUE-BASE AUTHENTICITY | blue brand gradient background (navy `#0A3D82` edges → brighter `#1E6FD0` center, not flat solid) + visible paper/grid grain |
 | 2 | HAND-DRAWN WOBBLE | organic line imperfection — explicitly NOT clean vector |
 | 3 | LETTERING HIERARCHY | bold hand-lettered headline + smaller body, clear size contrast |
 | 4 | EMPHASIS MARKS | underline / circle / highlight / arrow on the key words |
@@ -172,55 +175,70 @@ A carousel must look like one set. Two mechanisms, use both:
 ### 9. Canonical STYLE BLOCK (paste at the top of every DOODLE slide prompt)
 
 ```
-A one-page hand-drawn educational infographic in sketchnote style on a solid blue
-#0F59B6 brand background with subtle paper-fiber/grid grain. Everything looks drawn by
-hand with light markers — every line has a slight organic wobble, flat 2D illustration,
-no photography, no realism, no gradients, no cinematic lighting. Palette strictly limited
-to the blue base, warm off-white ink (#F8F6F0), golden accent (#F5A623), and light-mint
-support (#6FE0B0). Bold hand-lettered off-white headlines, key words underlined or
-circled in golden accent. Clean composition, generous whitespace. Crisp legible lettering.
+A one-page hand-drawn educational infographic in sketchnote style on a blue brand gradient
+background — deep navy #0A3D82 in the corners radiating to a brighter #1E6FD0 toward the
+center (a soft directional gradient for artistry, NOT a flat solid fill) — with subtle
+paper-fiber/grid grain. Everything looks drawn by hand with light markers — every line has a
+slight organic wobble, flat 2D illustration, the drawings and icons stay flat (no gradient
+fills on the doodles themselves), no photography, no realism, no cinematic lighting. Palette
+strictly limited to the blue gradient base, warm off-white ink (#F8F6F0), golden accent
+(#F5A623), and light-mint support (#6FE0B0). Bold hand-lettered off-white headlines, key
+words underlined or circled in golden accent. Clean composition, generous whitespace. Crisp
+legible lettering.
 ```
 
 ### 10. Prompt Templates
 
 **COVER (slide 1) — PHOTOGRAPHIC Spotlight Portrait (NOT doodle):**
 ```
-Follow the Spotlight Portrait Template from hook-visual-library.md on a solid blue #0F59B6
-base. A real photographic creator from the provided face reference — calm, credible,
-head-and-shoulders-plus-upper-body, signature outfit — anchored center/right. Around the
-upper body, ≥3 glassy floating topic UI elements (real tool cards / logos / screenshots of
-the topic) with soft glow and depth blur — this is the scroll-stop. Bottom gradient zone:
-big bold bilingual headline "{ID_HEADLINE}" with 2–4 key words in golden accent (#F5A623),
-smaller English subtitle "{EN_SUBTITLE}" beneath. Top-bar with the creator avatar +
-"@alisadikinma" and a "SWIPE (GESER) →" pill. Page mark "1/{N}" top-left. 4:5 aspect ratio.
+Follow the Spotlight Portrait Template from hook-visual-library.md on a blue brand gradient
+base — deep navy #0A3D82 in the corners radiating to a brighter #1E6FD0 glow behind the
+creator (NOT a flat solid fill), subtle vignette darkening at the edges for depth. A real
+photographic creator from the provided face reference — calm and credible, bald head with
+rectangular glasses, signature outfit — anchored center/right, caught mid-action (NOT a
+stiff frontal stand): sipping a coffee mug, holding a game controller, mid-gesture, or
+another relaxed slightly-quirky topic-relevant beat. Around the upper body, ≥3 glassy
+floating topic UI elements (real tool cards / logos / screenshots of the topic) with soft
+glow and depth blur — this is the scroll-stop. Bottom gradient zone: big bold bilingual
+headline "{ID_HEADLINE}" with 2–4 key words in golden accent (#F5A623), smaller English
+subtitle "{EN_SUBTITLE}" beneath. Top-bar pill: a bald-with-glasses brand avatar + the
+clearly visible handle "@alisadikinma" + a small verified check on the left, and a
+"GESER 👆 / swipe" pill on the right — do NOT print the word "Bilingual". Page mark "1/{N}"
+top-left. 4:5 aspect ratio.
 ```
 
 **BODY / PEAK (steps / comparison / list) — DOODLE on blue:**
 ```
 [STYLE BLOCK]
-Hand-lettered section title top-left in off-white: "{STEP_TITLE}". Below, {BODY_LAYOUT:
-e.g. three numbered hand-drawn rows, each with a doodle icon + a short label + a one-line
-explanation; OR a two-column "WHAT HAPPENED vs WHAT TO DO" split with a hand-drawn arrow
-between them}. Circle or highlight the single most important phrase in golden accent. Page
-mark "{n}/{N}" top-left, "SWIPE (GESER) →" bottom-right, "@alisadikinma" footer. 4:5 aspect.
+On a blue brand gradient base (deep navy #0A3D82 edges → brighter #1E6FD0 toward center, NOT
+a flat solid fill). Hand-lettered section title top-left in off-white: "{STEP_TITLE}". Below,
+{BODY_LAYOUT: e.g. three numbered hand-drawn rows, each with a doodle icon + a short label +
+a one-line explanation; OR a two-column "WHAT HAPPENED vs WHAT TO DO" split with a hand-drawn
+arrow between them}. Circle or highlight the single most important phrase in golden accent.
+Page mark "{n}/{N}" top-left, "SWIPE (GESER) →" bottom-right, "@alisadikinma" footer with a
+small bald-with-glasses brand icon (no hair). 4:5 aspect.
 ```
 
 **CTA (last slide) — PHOTOGRAPHIC Spotlight Portrait (NOT doodle):**
 ```
-Follow the Spotlight Portrait Template from hook-visual-library.md on a solid blue #0F59B6
-base. The real photographic creator from the face reference, calm and confident, with a
-small action gesture (e.g. pointing at the CTA pill). 2–3 floating mini value-recap cards.
-Bold bilingual CTA headline "{CTA_HEADLINE}" with key words in golden accent. A rounded
-dark action pill bottom-center: "SIMPAN & BAGIKAN / save & share". Three social icons
-(Instagram, TikTok, LinkedIn) with "@alisadikinma" and "https://alisadikinma.com" beneath.
-No SWIPE arrow. Page mark "{N}/{N}" top-left. 4:5 aspect ratio.
+Follow the Spotlight Portrait Template from hook-visual-library.md on a blue brand gradient
+base — deep navy #0A3D82 corners radiating to a brighter #1E6FD0 glow behind the creator
+(NOT a flat solid fill) + gold glow accent. The real photographic creator from the face
+reference, calm and confident, bald head with rectangular glasses, caught in a relaxed
+quirky action beat (e.g. raising a coffee mug toward the viewer, pointing at the CTA pill).
+2–3 floating mini value-recap cards. Bold bilingual CTA headline "{CTA_HEADLINE}" with key
+words in golden accent. A rounded dark action pill bottom-center: "SIMPAN & BAGIKAN / save &
+share". Three social icons (Instagram, TikTok, LinkedIn) with "@alisadikinma" and
+"https://alisadikinma.com" beneath. No SWIPE arrow. Page mark "{N}/{N}" top-left. 4:5 aspect
+ratio.
 ```
 
 ### 11. Worked Example (a body/peak doodle slide on blue)
 
 ```
-A one-page hand-drawn educational infographic in sketchnote style on a solid blue #0F59B6
-brand background with subtle paper-fiber/grid grain. Everything looks drawn by hand with
+A one-page hand-drawn educational infographic in sketchnote style on a blue brand gradient
+background — deep navy #0A3D82 in the corners radiating to a brighter #1E6FD0 toward the
+center (NOT a flat solid fill) — with subtle paper-fiber/grid grain. Everything looks drawn by hand with
 light markers — slight organic wobble in every line, flat 2D illustration, no photography,
 no realism, no gradients, no cinematic lighting. Palette strictly the blue base, warm
 off-white ink (#F8F6F0), golden accent (#F5A623), light-mint support (#6FE0B0). Hand-lettered

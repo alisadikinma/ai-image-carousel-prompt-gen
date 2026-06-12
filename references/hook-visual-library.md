@@ -21,13 +21,13 @@ never by an absurd scene or a swapped costume.
 
 | # | Element | Spec |
 |---|---------|------|
-| 1 | **Background** | Solid blue `#0F59B6` (`background_base`) + radial glow brighter behind the creator → darker at the edges. Bottom-half darkens for headline legibility (gradient zone retained). |
-| 2 | **Top-bar pill** | Rounded translucent pill near the top. Left: round avatar (creator-face crop) + `@alisadikinma` + check icon. Right: bilingual swipe pill **"GESER 👆 / swipe"**. |
-| 3 | **Creator** | Upper-body portrait, one simple topic-relevant action, calm credible expression. Face from `creator-face.png`. **Signature smart-casual outfit, consistent on every slide and every topic** (see Signature Outfit card in §10). |
+| 1 | **Background** | **Blue brand gradient** (NOT a flat solid fill): deep navy `#0A3D82` in the corners radiating to a brighter `#1E6FD0` / `#0F59B6` glow behind the creator, subtle vignette at the edges for depth + artistry. Bottom-half darkens for headline legibility (gradient zone retained). |
+| 2 | **Top-bar pill** | Rounded translucent pill near the top. Left: a round avatar showing the **bald-with-glasses brand mark** (no hair) + the **visible handle text `@alisadikinma`** rendered clearly + a small blue verified check. Right: a swipe pill reading **"GESER 👆 / swipe"** only — **do NOT print the word "Bilingual"** anywhere in the pill. |
+| 3 | **Creator** | Upper-body portrait caught **mid-action — NOT a stiff frontal stand**. Pick ONE relaxed, slightly quirky topic-relevant beat: sipping from a coffee mug, leaning back with a game controller, mid-gesture mid-explanation, holding/tossing a topic prop, etc. Calm credible expression with natural candid energy. Face from `creator-face.png` (**bald head, rectangular glasses — no hair**). **Signature smart-casual outfit, consistent on every slide and every topic** (see Signature Outfit card in §10). |
 | 4 | **Floating topic elements ⭐** | **≥3 (3–6) glassy UI cards / screenshots / logos** of the real tools/topic, floating around the upper body with soft glow + depth blur. **This is the scroll-stop mechanic** (replaces the absurd scene). See "Floating Topic Elements" spec below. |
 | 5 | **Headline** | Bottom gradient zone, billboard-scale extra-bold condensed. White + **2–4 gold accent keywords** `#F5A623`. Bilingual: ID main + EN subtitle in gold. |
 | 6 | **CTA pill** | Rounded dark pill, bottom-center, bilingual (e.g. "SIMPAN / save it"). On the CTA slide: action pill "SIMPAN & BAGIKAN / save & share". |
-| 7 | **Brand chrome** | Page number top-left; brand icon + watermark center at thirty percent opacity. |
+| 7 | **Brand chrome** | Page number top-left; brand icon + watermark center at thirty percent opacity. The brand icon is **a bald head with rectangular glasses and no hair** — render it to match the brand mark exactly, never add hair. |
 | 8 | **Hyperrealism** | Micro-imperfection 6 categories still mandatory. Lighting = cool-neutral key (~5000–5600K) + warm gold rim. |
 
 **Body / Peak explainer cards** keep the same blue base + top-bar + CTA-pill chrome
