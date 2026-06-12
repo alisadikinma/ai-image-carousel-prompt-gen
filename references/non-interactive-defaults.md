@@ -42,22 +42,19 @@ uniform, surgical scrubs, chef whites, courtroom robe, military uniform, etc.).
 
 | Interactive behavior | Pipeline behavior |
 |---|---|
-| Ask: "Should you wear [profession outfit] or your default [wardrobe from creator bible]?" | **Apply `hook-visual-library.md` Section 10 priority chain non-interactively** (see resolution chain below). Log selection reasoning to envelope `notes[]`. |
+| Ask: "Should you wear [profession outfit] or your signature outfit?" | **Apply the v3 signature-outfit chain non-interactively** (see below). Log selection reasoning to envelope `notes[]`. |
 
-**Pipeline behavior**: Apply `hook-visual-library.md` Section 10 priority chain non-interactively:
+**Pipeline behavior (v3 Spotlight Portrait — topic-costume switching RETIRED):** the creator no longer changes outfit per topic. Topic is conveyed by the **floating topic elements** (§5), never by the costume. Resolve in two steps only:
 
-1. **Scene-override (always wins)** — if the visual hook scene implies a specific environment (night market, beach, gym, courtroom, hospital, kitchen, etc.), use the scene-appropriate costume from §10 Scene → Costume Override Table.
-2. **Topic-category match** — match blog topic against §10's Topic Keyword → Category Resolution Table at the top of Section 10. Use the matched category's Prompt Phrase verbatim into the slide's `[Wardrobe]` slot.
-3. **LLM inference fallback** — when no keyword matches and no scene override, infer the most appropriate profession-immersive costume from the dominant blog subject. Pick category from §10's existing 17 (9 lifestyle + 8 profession) categories.
-4. **Creator-bible default** — only as last resort when topic is genuinely generic personal-narrative (no profession context). Use creator-bible §6 default (charcoal henley OR blazer per context).
+1. **Scene-override (rare, still wins)** — if a deck's narrative genuinely demands a setting outfit (the scene is literally inside a specific environment, e.g. on-stage, courtroom B-roll), use the scene-appropriate costume from `hook-visual-library.md` §10 Scene → Costume Override Table. `creator_outfit.source = scene_override`.
+2. **Signature outfit (default — almost always)** — otherwise dress the creator in the one **signature smart-casual outfit**: dark tee/henley + unstructured blazer, neutral tone (from `creator-bible.md`). Used on EVERY creator-face slide (cover, body w/ face is N/A — see §5b face rule, human_fingerprint, cta), every topic. `creator_outfit.source = signature`.
 
-**Topic-immersive rule**: thematic costume applies to ALL layout types where creator face appears (cover, body, human_fingerprint, cta) — NOT just hook. Even when a public figure is also present in body slides, creator wears thematic costume; public figure wears their identity outfit.
+There is **no topic-keyword matching, no LLM costume inference, no per-profession archetype switching** in v3 — those steps are removed. The signature outfit maximizes AI-likeness consistency and brand recognition.
 
 **Logging**: append selection reasoning to envelope `notes[]` in this exact format: `costume_resolved: <category> via <source> ("<reasoning>")`. Examples:
 
-- `costume_resolved: Medical via topic_match ("matched keyword 'surgeon' in title")`
-- `costume_resolved: Aerospace via scene_override ("hook scene = inside ISS module")`
-- `costume_resolved: Tech / AI via fallback ("no keyword match, inferred from AI/ML topic")`
+- `costume_resolved: Signature smart-casual via signature ("v3 default — topic conveyed by floating elements")`
+- `costume_resolved: On-stage via scene_override ("deck narrative is a literal keynote-stage scene")`
 
 ---
 
@@ -68,20 +65,21 @@ indoor vs. outdoor, day vs. night).
 
 | Interactive behavior | Pipeline behavior |
 |---|---|
-| Ask: "Which do you prefer: (A) [option] (B) [option]?" | **Always use the creator-bible mood-matched default** from Section 10 (Background by Mood). Add the chosen mood to the slide's image prompt without asking. |
+| Ask: "Which do you prefer: (A) [option] (B) [option]?" | **Always use the v3 Spotlight Portrait base** (solid blue `#0F59B6`). Add the layout-specific mood to the slide's image prompt without asking. |
 
-**Mood-to-setting mapping (per `creator-bible.md` Section 10):**
+**Mood-to-setting mapping (v3 Spotlight Portrait — solid blue `#0F59B6` base on ALL slides):**
 
 | Slide mood / layout_hint | Default setting |
 |---|---|
-| `cover` (hook, scroll-stop) | **= the resolved absurd §5 hook scene** — the cover has NO generic-studio default; its setting IS the dramatic pattern-interrupt scene chosen in §5 (topic-anchored, must contain ≥1 recognizable topic element). A conservative warm-studio cover AUTO-FAILS (see §5 + SKILL.md Rule #17). |
-| `body` (content delivery) | **Warm-lit home studio at a wooden desk** with monitors and warm tungsten key lighting. |
-| `human_fingerprint` (lived-experience anchor) | **Warm-lit cafe corner table during late afternoon golden hour** with window key light and a journal in foreground. |
-| `direct_answer` (PEAK / AI-search) | **Warm-lit modern studio** with a clean dark wall behind the subject, soft volumetric haze. |
-| `cta` (last slide) | **Warm-lit modern studio** with butterfly key + amber bounce, presenting gesture. |
+| `cover` (hook, scroll-stop) | **= Spotlight Portrait template** — solid blue `#0F59B6` base with a radial glow behind the creator, creator upper-body portrait in the signature outfit, **≥3 floating topic UI elements** (real tool cards/logos/screenshots) around the upper body, top-bar swipe pill, bottom CTA pill, bottom-gradient headline with 2-4 gold accent words. NO absurdist scene, NO generic warm-studio. The floating elements (not an absurd scene) do the scroll-stop work. |
+| `body` (content delivery) | **Blue `#0F59B6` base, icon-led knowledge card** — card surfaces darker than the base so accent-gold icons read (face-free per §5b). |
+| `human_fingerprint` (lived-experience anchor) | **Blue `#0F59B6` base Spotlight Portrait** — creator upper-body, signature outfit, reflective expression, ≥3 floating topic elements, cool-neutral key + gold rim. |
+| `direct_answer` (PEAK / AI-search) | **Blue `#0F59B6` base, icon-led answer card** with a clean darker-blue card surface (face-free per §5b). |
+| `cta` (last slide) | **Deepened navy variant of `#0F59B6` + extra gold glow** (`cta_background`) — creator half-body, signature outfit, warm "join me" gesture, floating = mini value-recap. Signature blue stays intact (NOT dark-inverted). |
 
 If the blog topic explicitly names a location (e.g., "during my Tokyo trip"),
-override the default with the topic's location and proceed without asking.
+the floating elements and props may reflect it, but the solid blue base and
+signature outfit stay constant (scene-override costume only for a literal-setting deck).
 
 ---
 
@@ -108,57 +106,48 @@ visual directions (Steps 5b/5c in the Fresh Carousel Production workflow).
 
 | Interactive behavior | Pipeline behavior |
 |---|---|
-| Present 3 hook options + ask the operator to pick or override. | **Auto-select the MOST DRAMATIC absurd visual hook category** from `hook-visual-library.md` Section 1 that creates pattern-interrupt scroll-stop for the topic (see ranking + selection rule below). Log both choices to envelope `notes[]` so the operator can override on regenerate. |
+| Present 3 hook options + ask the operator to pick or override. | **Resolve the cover to the Spotlight Portrait template** (`hook-visual-library.md` "Spotlight Portrait Template" section): a calm credible creator portrait + **≥3 floating topic UI elements** on the solid blue base. Log the resolution to envelope `notes[]` so the operator can override on regenerate. |
 
-**Pipeline behavior**: Auto-select the MOST DRAMATIC absurd visual hook category from `hook-visual-library.md` Section 1 that creates pattern-interrupt scroll-stop for the topic.
+**Pipeline behavior (v3 Spotlight Portrait — absurdist ranking RETIRED):** the scroll-stop mechanic is no longer an absurd scene. It is the **floating topic elements** — glassy UI cards, screenshots, and logos of the *real* tools/topic floating around a composed creator portrait on the blue base. Resolve as follows:
 
-**Default ranking** (most dramatic → least dramatic, prefer top of list):
+1. **Identify 3–6 real topic artifacts** — the actual tools, apps, products, logos, screenshots, or objects the blog discusses (e.g. a Canva UI card, a ChatGPT logo, a dashboard screenshot, a product shot).
+2. **Render them as glassy floating UI elements** around the creator's upper body — translucent, soft glow, depth blur, arranged at varied depths. Optional small AI-robot mascot for AI topics.
+3. **Hard rule: ≥3 floating topic elements** on every creator-face slide (cover, human_fingerprint, cta). Fewer than 3 AUTO-FAILS the template gate (SKILL.md Rule #17).
 
-1. **Status Inversion** — power/role flipped (Wall Street executives bowing to giant Musk statue; politicians dressed as schoolchildren)
-2. **Scale Disruption** — impossible scale (creator standing on stack of cash taller than skyscraper; ant-sized creator next to giant CPU chip)
-3. **Pattern Interrupt** — surreal juxtaposition (creator in business suit holding live octopus in office; rocket launching from coffee mug)
-4. **Object Distortion** — physically impossible objects (laptop bent into Möbius strip; clock with melting hands)
-5. **Time Anomaly** — anachronism (medieval knight using smartphone; 1950s diner with hologram menu)
-6. **Visual Curiosity Gap** — partial reveal / hidden element (creator pointing at blurred shape; door cracked open with glow)
-7. **Speed & Value** — clean professional authority (use only when topic is genuinely about competence demonstration, not virality)
-8. **Curiosity Gap (subtle)** — LAST RESORT, use only when topic genuinely lacks dramatic potential (rare)
+The creator stays in the **signature outfit** (§2) and the headline stays serious/professional (**Headline Independence Rule retained** — the headline delivers the topic; the floating elements grab the eye). The cover setting derives from this template (§3 cover row), not from a scene. `creator_outfit.source = signature`.
 
-**Selection rule**: pick the highest-ranked category compatible with the topic's emotional core. NEVER default to Curiosity Gap or Visual Curiosity Gap if a higher-ranked category fits — those are escape hatches, not defaults.
+**Logging**: append to envelope `notes[]` in this format: `visual_hook_resolved: Spotlight Portrait ("<floating elements chosen>")`. Example:
 
-**Intensity directive (MAX absurdist chaos, topic-anchored)**: author the cover scene at MAXIMUM pattern-interrupt intensity — impossible scale, physics-breaking action, role inversion, anachronism, or object distortion — NOT a tame literal scene. The chaos MUST stay **topic-anchored**: keep ≥1 recognizable topic element in frame (the discussed brand/object/concept) so the absurdity reads as intentional genius, never as random "Visual Shock." The hook headline stays serious/professional (Headline Independence Rule) while the visual goes full chaos — that dissonance is the scroll-stop. The cover **setting derives from this scene** (§3 cover row), and the **creator costume derives from the scene** (`hook-visual-library.md` §10 — `creator_outfit.source = scene_override`), not from a fixed default. For abstract/conceptual topics with no profession-keyword match, dress the creator in a §10 Conceptual Archetype (see §5c), never a blazer.
-
-**Logging**: append to envelope `notes[]` in this format: `visual_hook_resolved: <category> ("<reasoning>")`. Example:
-
-- `visual_hook_resolved: Status Inversion ("Wall Street/Musk topic — power inversion most dramatic")`
+- `visual_hook_resolved: Spotlight Portrait ("3 floating cards: Canva UI, ChatGPT logo, exported-design thumbnail")`
 
 ---
 
-## 5c. Conceptual-Topic → Metaphor-Scene Mapping (abstract topics)
+## 5c. Topic → Floating Elements Hint Table
 
-Trigger: the blog topic is **abstract/conceptual** (knowledge systems, privacy,
-AI, workflow, mindset, focus, building-in-public) and matches **no** profession
-keyword in `hook-visual-library.md` §10. Without this map such topics fall through
-to a tame business-casual default (the v2.24 "navy blazer + warm studio" bug).
+Trigger: choosing the **≥3 floating topic elements** for a creator-face slide (§5).
+The floating elements — not a costume or an absurd scene — carry the topic. The
+creator stays in the **signature outfit** regardless of topic.
 
-For these topics, resolve the cover to an absurd **Metaphor-Scene** + the matching
-§10 **Conceptual Archetype** costume. The creator becomes the embodiment of the
-topic's core metaphor (`creator_outfit.source = scene_override`).
+Pick the real artifacts the blog actually discusses. This table is a starting
+hint per topic cluster — always prefer the *specific* tools named in the source
+content over the generic examples.
 
-| Topic cluster (keywords) | Metaphor-Scene (max-chaos, topic-anchored) | §10 Archetype costume |
-|---|---|---|
-| second brain, PKM, notes, zettelkasten, knowledge mgmt, obsidian | creator in a cathedral-scale vault of floating glowing memory-orbs, a giant brain-shaped vault door behind | **Memory Architect** |
-| privacy, self-host, data sovereignty, encryption, security, own-your-data | creator guarding a glowing personal-server fortress, corporate cloud-servers crumbling to dust outside the walls | **Data Guardian** |
-| AI agent, LLM, automation, prompt, RAG, ML | creator conducting a swarm of glowing AI-agent orbs mid-air like an orchestra | **AI Whisperer** |
-| workflow, pipeline, infra, devops, system design | creator assembling a giant floating machine of interlocking code-gears | **Systems Engineer** |
-| mindset, psychology, habit, learning, focus (cognition) | creator floating inside a giant cross-section of a glowing brain | **Mind Hacker** |
-| deep work, distraction, attention, notification overload | creator slicing through a storm of notification icons with a single glowing focus-blade | **Signal Cutter** |
-| indie hacker, build in public, SaaS, side project, founder log | creator forging a glowing app out of raw light-clay at a futuristic anvil | **Builder/Maker** |
-| ANY other abstract topic (no match above) | absurd scene that literally embodies the topic's core metaphor (engine infers it) | **Concept Avatar** (fallback) |
+| Topic cluster (keywords) | Example floating elements (glassy UI cards / logos / screenshots) |
+|---|---|
+| second brain, PKM, notes, zettelkasten, knowledge mgmt, obsidian | Obsidian graph-view card, a note-card, a linked-tags panel, a search bar |
+| privacy, self-host, data sovereignty, encryption, security | a self-hosted-server dashboard card, a lock/shield glyph, an encrypted-vault UI |
+| AI agent, LLM, automation, prompt, RAG, ML | ChatGPT/Claude logo, a prompt-window card, an agent-flow diagram, small AI-robot mascot |
+| workflow, pipeline, infra, devops, system design | a pipeline/flow diagram card, a terminal window, a CI/CD status panel |
+| mindset, psychology, habit, learning, focus | a habit-tracker card, a streak-calendar UI, a focus-timer widget |
+| deep work, distraction, attention, notification overload | a muted-notifications panel, a focus-mode toggle, a calendar time-block card |
+| indie hacker, build in public, SaaS, side project | a revenue/MRR chart card, a landing-page mockup, a GitHub commit graph |
+| design tools, content, no-code | the actual tool UIs (Canva, Figma, Notion) as cards + their logos |
+| ANY other topic | the 3–6 most recognizable real tools/objects/logos the blog names |
 
-**Rule**: an abstract topic NEVER falls through to a blazer/henley/Finance/Business
-costume — if no row matches, use **Concept Avatar** and dress the creator as a
-theatrical embodiment of the inferred metaphor. Log `costume_resolved: <archetype>
-via scene_override` and `visual_hook_resolved: <category>` to `notes[]`.
+**Rule**: every creator-face slide carries **≥3** of these floating elements. They
+are translucent glassy UI with soft glow + depth blur, arranged around the creator's
+upper body on the blue base. Log `visual_hook_resolved: Spotlight Portrait ("<elements>")`
+to `notes[]`. The creator costume is always `signature` (§2) — never topic-switched.
 
 ---
 
@@ -258,8 +247,8 @@ Pipeline mode reads these sections at runtime via the bundled `refs-carousel-gen
 
 | Need | Source | Section |
 |---|---|---|
-| Visual hook absurd-scene formulas (8 categories) | `hook-visual-library.md` | §1 |
-| Costume topic→category resolution table | `hook-visual-library.md` | §10 (top — Topic Keyword → Category Resolution Table) |
-| Costume per-category prompt phrases | `hook-visual-library.md` | §10 (17 categories — 9 lifestyle + 8 profession) |
-| Scene-override costume rules | `hook-visual-library.md` | §10 Scene → Costume Override Table |
-| Creator-bible last-resort wardrobe | `creator-bible.md` | §6 |
+| Spotlight Portrait template anatomy | `hook-visual-library.md` | "Spotlight Portrait Template" |
+| Floating topic elements spec (≥3) | `hook-visual-library.md` | "Floating Topic Elements" |
+| Signature smart-casual outfit definition | `creator-bible.md` + `hook-visual-library.md` §10 | Signature Outfit card |
+| Scene-override costume rules (rare) | `hook-visual-library.md` | §10 Scene → Costume Override Table |
+| Blue base + grade + chrome values | `global-config.md` | §2/§3/§4 |

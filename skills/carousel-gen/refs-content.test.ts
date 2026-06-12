@@ -4,11 +4,16 @@
  * These reference markdown files ARE the pipeline-mode contract: they get
  * concatenated into `references/compiled/refs-carousel-gen-pipeline.md` via
  * `npm run compile-refs` and injected into Sonnet's system prompt. Drift or
- * regressions in the key rules (scene-first cover, max-chaos intensity,
- * conceptual costume archetypes, cover self-check gate) silently degrade
- * generation quality with no schema-level signal. This test asserts the
- * load-bearing anchors exist so the v2.25 "scene-first / topic-immersive
- * costume" rules cannot be accidentally reverted.
+ * regressions in the load-bearing rules silently degrade generation quality
+ * with no schema-level signal.
+ *
+ * v3.0.0 (Spotlight Portrait blue rebrand): the v2.20→v2.25 MAX-chaos absurdist
+ * hook machinery + topic-costume switching is RETIRED. The new default is the
+ * "Spotlight Portrait" template — a calm credible creator portrait + ≥3 floating
+ * topic UI elements on a solid blue `#0F59B6` base, with a single signature
+ * smart-casual outfit. This test pins the new anchors so the rebrand cannot be
+ * accidentally reverted, and asserts the absurdist anchors are gone from the
+ * active rules.
  *
  * Test framework: Vitest. No LLM inference — pure string assertions, runs in ms.
  */
@@ -24,88 +29,167 @@ const REF = (name: string) => resolve(REPO_ROOT, 'references', name);
 
 const read = (path: string) => readFileSync(path, 'utf8');
 
-describe('non-interactive-defaults.md — scene-first cover + max-chaos (v2.25)', () => {
+// ---------------------------------------------------------------------------
+// global-config.md — blue base + cool-neutral grade + bilingual chrome + CTA
+// ---------------------------------------------------------------------------
+
+describe('global-config.md — blue base + cool-neutral grade + chrome (v3.0)', () => {
+  const text = read(REF('global-config.md'));
+
+  it('defines the solid blue base token #0F59B6', () => {
+    expect(text).toMatch(/#0F59B6/i);
+    expect(text).toMatch(/background_base/);
+  });
+
+  it('color_grade is cool-neutral + gold rim, not warm golden amber', () => {
+    expect(text).toMatch(/cool-neutral/i);
+    expect(text).toMatch(/gold rim/i);
+    // The old warm-amber grade must no longer be the active value.
+    expect(text).not.toContain('Warm golden amber');
+  });
+
+  it('carries bilingual chrome (top-bar swipe pill + CTA pill text)', () => {
+    expect(text).toMatch(/GESER/);
+    expect(text).toMatch(/cta_pill_text/);
+  });
+
+  it('defines the CTA deepened-navy background + engagement actions', () => {
+    expect(text).toMatch(/cta_background/);
+    expect(text).toMatch(/navy/i);
+    expect(text).toMatch(/cta_engagement_actions/);
+    expect(text).toMatch(/save/i);
+    expect(text).toMatch(/comment/i);
+    expect(text).toMatch(/share/i);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// non-interactive-defaults.md — Spotlight Portrait resolution (v3.0)
+// ---------------------------------------------------------------------------
+
+describe('non-interactive-defaults.md — spotlight portrait resolution (v3.0)', () => {
   const text = read(REF('non-interactive-defaults.md'));
 
-  it('cover mood-row defers to the resolved absurd scene (no warm-studio default)', () => {
-    // The `cover` row in the §3 mood→setting table must point at the resolved
-    // §5 absurd scene, not a fixed warm studio.
+  it('cover mood-row resolves to the Spotlight Portrait template (no absurd scene)', () => {
     const coverRow = text
       .split('\n')
       .find((l) => l.includes('`cover`') && l.includes('|'));
     expect(coverRow, 'cover mood-row not found in §3 table').toBeTruthy();
-    expect(coverRow!).toContain('resolved absurd');
-    // The old hard-coded Edison-bulb studio must no longer be the cover default.
-    expect(coverRow!).not.toContain('Edison-bulb');
+    expect(coverRow!).toContain('Spotlight Portrait');
+    expect(coverRow!).not.toContain('resolved absurd');
   });
 
-  it('§5 carries the MAX absurdist-chaos, topic-anchored intensity directive', () => {
-    expect(text).toContain('topic-anchored');
-    expect(text).toMatch(/MAX absurdist chaos/i);
+  it('the absurdist anchors are gone from the whole file', () => {
+    expect(text).not.toContain('resolved absurd');
+    expect(text).not.toMatch(/MAX absurdist chaos/i);
+    expect(text).not.toContain('Memory Architect');
   });
 
-  it('§5c conceptual-topic → metaphor-scene mapping section exists', () => {
-    expect(text).toMatch(/##\s*5c\./);
-    expect(text).toContain('Metaphor-Scene');
+  it('§5 carries the floating-element hard rule (≥3 floating topic elements)', () => {
+    expect(text).toMatch(
+      /(?:≥|>=|at least|minimum|min\.?)\s*3\s*floating|floating[^.\n]*(?:≥|>=|at least|minimum)\s*3/i,
+    );
+  });
+
+  it('§2 costume chain resolves to the signature outfit (no topic-keyword table)', () => {
+    expect(text).toMatch(/signature (outfit|smart-casual)/i);
+    expect(text).not.toContain('Topic Keyword → Category Resolution Table');
   });
 });
 
-describe('hook-visual-library.md §10 — conceptual costume archetypes (v2.25)', () => {
+// ---------------------------------------------------------------------------
+// hook-visual-library.md — Spotlight Portrait template + floating spec (v3.0)
+// ---------------------------------------------------------------------------
+
+describe('hook-visual-library.md — spotlight portrait template (v3.0)', () => {
   const text = read(REF('hook-visual-library.md'));
 
-  const ARCHETYPES = [
-    'Memory Architect',
-    'Data Guardian',
-    'AI Whisperer',
-    'Systems Engineer',
-    'Mind Hacker',
-    'Signal Cutter',
-    'Builder/Maker',
-    'Concept Avatar',
-  ];
-
-  it.each(ARCHETYPES)('defines the "%s" conceptual archetype card', (name) => {
-    expect(text).toContain(`### ${name}`);
+  it('defines the Spotlight Portrait template + floating topic elements spec', () => {
+    expect(text).toContain('Spotlight Portrait');
+    expect(text).toMatch(/floating (topic )?elements?/i);
   });
 
-  it('Memory Architect card carries a prompt-ready phrase', () => {
-    const start = text.indexOf('### Memory Architect');
-    expect(start).toBeGreaterThan(-1);
-    const card = text.slice(start, start + 1200);
-    expect(card).toContain('**Prompt phrase**');
-    expect(card).toMatch(/Default absurd scene/i);
+  it('defines the signature smart-casual outfit as the default wardrobe', () => {
+    expect(text).toMatch(/signature (outfit|smart-casual)/i);
   });
 
-  it('Topic Keyword Resolution Table routes conceptual keywords to archetypes', () => {
-    expect(text).toMatch(/second brain[^|]*\|\s*\*\*Memory Architect\*\*/i);
-    expect(text).toMatch(/data sovereignty[^|]*\|\s*\*\*Data Guardian\*\*/i);
-  });
-
-  it('abstract topics never fall through to a blazer (Concept Avatar fallback rule)', () => {
-    expect(text).toMatch(/Concept Avatar/);
-    expect(text).toMatch(/never[^.]*blazer/i);
+  it('retires topic-costume switching (no Topic Keyword Resolution Table, no archetypes)', () => {
+    expect(text).not.toContain('Topic Keyword → Category Resolution Table');
+    expect(text).not.toContain('Memory Architect');
+    expect(text).not.toContain('Concept Avatar');
   });
 });
 
-describe('SKILL.md — strengthened cover/costume rules + self-check gate (v2.25)', () => {
+// ---------------------------------------------------------------------------
+// SKILL.md — Rule #17/#18 template gate + signature outfit + CTA action variant
+// ---------------------------------------------------------------------------
+
+describe('SKILL.md — spotlight template gate + signature outfit (v3.0)', () => {
   const text = read(resolve(REPO_ROOT, 'skills', 'carousel-gen', 'SKILL.md'));
 
-  it('Rule #17 AUTO-FAILs generic-studio covers (scene-first)', () => {
-    expect(text).toMatch(/generic-studio/i);
-    expect(text).toContain('AUTO-FAIL');
+  it('Rule #17 is the Spotlight Portrait template gate (floating ≥3)', () => {
+    expect(text).toMatch(/Spotlight Portrait template gate/i);
+    expect(text).toMatch(/floating/i);
   });
 
-  it('Cover Self-Check Gate is defined (pre-JSON-emit)', () => {
+  it('the absurdist mandate is gone (no generic-studio AUTO-FAIL, no Concept Avatar)', () => {
+    expect(text).not.toMatch(/generic-studio/i);
+    expect(text).not.toContain('Concept Avatar');
+  });
+
+  it('Cover Self-Check Gate still logs cover_gate and checks floating elements', () => {
     expect(text).toContain('Cover Self-Check Gate');
     expect(text).toContain('cover_gate');
+    expect(text).toMatch(/floating/i);
   });
 
-  it('Rule #18 routes abstract topics to Concept Avatar (never blazer)', () => {
-    expect(text).toContain('Concept Avatar');
+  it('Rule #18 routes the creator to the signature outfit (topic via floating)', () => {
+    expect(text).toMatch(/signature (outfit|smart-casual)/i);
+  });
+
+  it('CTA rule prioritizes Save + Comment + Share and defers comment-to-DM', () => {
+    expect(text).toMatch(/save\s*\+\s*comment\s*\+\s*share|save,?\s*comment,?\s*(?:and\s*|\+\s*|& )?share/i);
+    expect(text).toMatch(/comment-to-DM[^.]*defer|defer[^.]*comment-to-DM/i);
   });
 });
 
-describe('compiled pipeline bundle — propagation guard (v2.25)', () => {
+// ---------------------------------------------------------------------------
+// prompt-formulas.md + creator-bible.md — layout rules + wardrobe (v3.0)
+// ---------------------------------------------------------------------------
+
+describe('prompt-formulas.md — spotlight layout rules (v3.0)', () => {
+  const text = read(REF('prompt-formulas.md'));
+
+  it('documents the top-bar pill + floating elements + CTA pill + blue base layout', () => {
+    expect(text).toMatch(/top-bar pill|top bar pill/i);
+    expect(text).toMatch(/floating (topic )?elements?/i);
+    expect(text).toMatch(/CTA pill/i);
+    expect(text).toMatch(/#0F59B6/i);
+  });
+
+  it('documents the CTA creator gesture + mini value-recap floating', () => {
+    expect(text).toMatch(/mini value-recap/i);
+    expect(text).toMatch(/open-palm|pointing|join me/i);
+  });
+});
+
+describe('creator-bible.md — signature outfit default (v3.0)', () => {
+  const text = read(REF('creator-bible.md'));
+
+  it('defines the signature smart-casual outfit as the single wardrobe default', () => {
+    expect(text).toMatch(/signature (outfit|smart-casual)/i);
+  });
+
+  it('drops topic-keyword costume switching as the active rule', () => {
+    expect(text).not.toContain('Topic Keyword → Category Resolution Table');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// compiled pipeline bundle — propagation guard (v3.0)
+// ---------------------------------------------------------------------------
+
+describe('compiled pipeline bundle — propagation guard (v3.0)', () => {
   const bundlePath = resolve(
     REPO_ROOT,
     'references',
@@ -113,14 +197,32 @@ describe('compiled pipeline bundle — propagation guard (v2.25)', () => {
     'refs-carousel-gen-pipeline.md',
   );
 
-  it('IF the bundle exists, it contains the scene-first cover rule + conceptual archetypes', () => {
+  it('IF the bundle exists, it carries the Spotlight Portrait rules, not the absurdist ones', () => {
     if (!existsSync(bundlePath)) {
       // Bundle is gitignored/regenerated; skip when absent (CI without build step).
       return;
     }
     const bundle = read(bundlePath);
-    expect(bundle).toContain('resolved absurd');
-    expect(bundle).toContain('Memory Architect');
-    expect(bundle).toContain('Concept Avatar');
+    expect(bundle).toContain('Spotlight Portrait');
+    expect(bundle).toMatch(/floating/i);
+    expect(bundle).not.toContain('Memory Architect');
+    expect(bundle).not.toContain('resolved absurd');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// version-sync guard — package.json === plugin.json === 3.0.0
+// ---------------------------------------------------------------------------
+
+describe('version sync — package.json === plugin.json === 3.0.0', () => {
+  it('all version sources are pinned at 3.0.0', () => {
+    const pkg = JSON.parse(read(resolve(REPO_ROOT, 'package.json'))) as {
+      version: string;
+    };
+    const plugin = JSON.parse(
+      read(resolve(REPO_ROOT, '.claude-plugin', 'plugin.json')),
+    ) as { version: string };
+    expect(pkg.version).toBe('3.0.0');
+    expect(plugin.version).toBe('3.0.0');
   });
 });
