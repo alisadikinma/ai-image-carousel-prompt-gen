@@ -2,6 +2,14 @@
 
 > Cinematic AI image prompt generator for social media carousels — every frame must trigger visceral "WOW".
 
+> **v3.0.0 — Spotlight Portrait rebrand.** The default cover/hook is now a calm,
+> credible **creator portrait + ≥3 floating topic UI elements** (real tool
+> cards/logos/screenshots) on a **solid signature blue `#0F59B6`** base, with one
+> **signature smart-casual outfit** on every slide. The earlier absurdist MAX-chaos
+> scene + per-topic costume switching is retired (archived, non-default). Some
+> sections below still describe the legacy absurdist hook library — that content
+> remains available for reference but is no longer the default mechanic.
+
 A Claude Code plugin that generates production-ready AI image prompts for carousel content across Instagram, TikTok, LinkedIn, and Threads. Built around a cinematography-first philosophy with psychology-based hook science: if Deakins wouldn't light it and Fincher wouldn't approve the frame, it doesn't ship.
 
 ## The Problem

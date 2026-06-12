@@ -634,6 +634,37 @@ describe('CarouselGenOutputSchema — creator_outfit field', () => {
     }
   });
 
+  it("accepts source='signature' (v3 Spotlight Portrait default)", () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: {
+        category: 'Signature smart-casual',
+        prompt_phrase:
+          'wearing the signature smart-casual outfit — a dark neutral tee under an unstructured slate-toned blazer, clean dark trousers',
+        source: 'signature' as const,
+        reasoning:
+          'v3 default — topic conveyed by the floating topic elements, costume stays signature.',
+      },
+    };
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.creator_outfit?.source).toBe('signature');
+  });
+
+  it('still accepts legacy source=topic_match (backward compat with pre-v3 drafts)', () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: makeValidOutfit(),
+    };
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.creator_outfit?.source).toBe('topic_match');
+  });
+
   it('CreatorOutfitSchema standalone — exports correctly + parses minimal valid object', () => {
     expect(CreatorOutfitSchema).toBeDefined();
     const minimal: CreatorOutfit = {

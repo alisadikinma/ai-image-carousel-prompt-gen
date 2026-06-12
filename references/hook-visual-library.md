@@ -2,6 +2,60 @@
 
 Single source of truth for HOW hook slides LOOK. Provides prompt-ready visual specs per hook category.
 
+> **⭐ v3.0 DEFAULT = Spotlight Portrait Template (see next section).** The absurdist
+> "MAX-chaos scene + topic-costume switching" machinery (Visual-Shock-led scene
+> selection, the §10 Topic-Keyword costume resolution, the Conceptual Archetypes)
+> is **RETIRED**. The expression / lighting / camera / environment libraries
+> (Sections 1–8) survive as building blocks for the calm portrait, but the cover
+> is no longer an absurd scene — it is a credible creator portrait with **≥3
+> floating topic UI elements** on a solid blue base. Sections 1's hook-category
+> *selection* is **ARCHIVED / non-default** (reusable only behind a future
+> optional `--style`); read it for expression cues, not for picking an absurd scene.
+
+## Spotlight Portrait Template (v3.0 — DEFAULT)
+
+The default look for every **creator-face slide** (cover, human_fingerprint, cta).
+A calm, credible creator portrait does the trust work; **floating topic UI
+elements** do the scroll-stop work. Topic is conveyed by those floating elements,
+never by an absurd scene or a swapped costume.
+
+| # | Element | Spec |
+|---|---------|------|
+| 1 | **Background** | Solid blue `#0F59B6` (`background_base`) + radial glow brighter behind the creator → darker at the edges. Bottom-half darkens for headline legibility (gradient zone retained). |
+| 2 | **Top-bar pill** | Rounded translucent pill near the top. Left: round avatar (creator-face crop) + `@alisadikinma` + check icon. Right: bilingual swipe pill **"GESER 👆 / swipe"**. |
+| 3 | **Creator** | Upper-body portrait, one simple topic-relevant action, calm credible expression. Face from `creator-face.png`. **Signature smart-casual outfit, consistent on every slide and every topic** (see Signature Outfit card in §10). |
+| 4 | **Floating topic elements ⭐** | **≥3 (3–6) glassy UI cards / screenshots / logos** of the real tools/topic, floating around the upper body with soft glow + depth blur. **This is the scroll-stop mechanic** (replaces the absurd scene). See "Floating Topic Elements" spec below. |
+| 5 | **Headline** | Bottom gradient zone, billboard-scale extra-bold condensed. White + **2–4 gold accent keywords** `#F5A623`. Bilingual: ID main + EN subtitle in gold. |
+| 6 | **CTA pill** | Rounded dark pill, bottom-center, bilingual (e.g. "SIMPAN / save it"). On the CTA slide: action pill "SIMPAN & BAGIKAN / save & share". |
+| 7 | **Brand chrome** | Page number top-left; brand icon + watermark center at thirty percent opacity. |
+| 8 | **Hyperrealism** | Micro-imperfection 6 categories still mandatory. Lighting = cool-neutral key (~5000–5600K) + warm gold rim. |
+
+**Body / Peak explainer cards** keep the same blue base + top-bar + CTA-pill chrome
+for cohesion, but the interior stays the **icon-led knowledge-card layout** (no
+creator face, per the BODY+PEAK face rule). Card surfaces render **darker than the
+blue base** so accent-gold icons stay legible.
+
+### Floating Topic Elements (the v3 scroll-stop mechanic)
+
+The floating elements replace the absurd scene. How to author them:
+
+1. **Choose 3–6 real topic artifacts** — the actual tools, apps, products, logos,
+   screenshots, dashboards, or objects the content discusses (e.g. a Canva UI card,
+   a ChatGPT logo, an Obsidian graph-view card, a revenue chart, a product shot).
+   Prefer the *specific* tools named in the source over generic stand-ins.
+2. **Render as glassy floating UI** — translucent panels with soft outer glow,
+   subtle depth blur, slight drop shadow, arranged at varied depths around the
+   creator's upper body (some in front, some behind for parallax).
+3. **Hard rule: ≥3 floating topic elements** on every creator-face slide. Fewer
+   than 3 AUTO-FAILS the Spotlight Portrait template gate (SKILL.md Rule #17).
+4. **Optional small AI-robot mascot** for AI topics — a friendly glossy mini-robot
+   floating beside the cards.
+5. The creator stays calm and credible; the floating elements (not a wild scene)
+   carry the energy. Headline stays professional (Headline Independence retained).
+
+See `references/non-interactive-defaults.md` §5c for a Topic → Floating Elements
+hint table.
+
 ## How This File Works
 
 **Three-file hook workflow:**
@@ -13,7 +67,7 @@ Single source of truth for HOW hook slides LOOK. Provides prompt-ready visual sp
 1. Select hook category from Topic → Hook Category Mapping (hook-science.md) — **MANDATORY, never default to Visual Shock**
 2. Select headline from hook bank (hook-science.md) or formula (hook-formula-bank.md)
 3. Read visual profile for the selected category from THIS FILE (expression, lighting, camera, environment)
-4. Select costume from **Section 10** based on topic category
+4. Use the **Signature Outfit** (Section 10) — same wardrobe every topic (scene-override only for literal-setting decks)
 5. Select Visual Action from hook-science.md (Topic → Visual Action mapping)
 6. Select prop from **Section 11** — check hook category → prop type rule (11c), pick from topic bank (11a), apply interaction style (11b)
 7. Check synergy matrix (Section 7) for expression modification when combining category + visual action
@@ -523,16 +577,38 @@ Category-level engagement data mapped from research sources already cited in hoo
 
 ## Section 10: Costume/Wardrobe Library
 
-Topic-based costume profiles with prompt-ready descriptions. Agent reads topic → picks matching costume → inserts at `[Wardrobe]` slot in hook template.
+> **v3.0 — TOPIC-COSTUME SWITCHING RETIRED.** The creator no longer changes outfit
+> per topic. The default is the **single signature smart-casual outfit** below, used
+> on every creator-face slide and every topic. Topic is conveyed by the **floating
+> topic elements** (see Spotlight Portrait Template at the top of this file), never
+> by costume. The only exception is a literal **scene-override** deck.
 
-### Selection Rule (Scene-Override Priority)
+### Signature Outfit (v3 DEFAULT wardrobe)
 
-Costume selection follows a **3-level priority chain**. Scene context from the Visual Hook Idea overrides topic category.
+The one wardrobe used on every creator-face slide, every topic. Bridges the Gen-Z +
+enterprise audience and maximizes AI-likeness consistency + brand recognition.
 
-**Priority Chain:**
-1. **User override** (always wins) — if user explicitly specifies wardrobe → use that, skip everything below
-2. **Visual Hook Idea scene context** — if the hook scene implies a specific environment, costume MUST match the scene (see Scene → Costume Override Table below)
-3. **Topic category** (fallback) — ONLY used when scene is neutral/studio/generic. Match topic to closest category below
+| Element | Spec |
+|---------|------|
+| Top | dark tee or henley (charcoal/black, neutral) layered under an **unstructured blazer** in a neutral tone (slate / charcoal / muted navy) |
+| Bottom | clean dark trousers or dark slim denim |
+| Accessories | minimal — slim watch optional, no loud logos |
+| Texture | soft matte knit tee, unstructured blazer with natural shoulder drape and subtle creases, hyperrealistic fabric weave |
+| Color palette | neutral charcoal / slate / muted navy — reads credible on the blue base without clashing |
+| **Prompt phrase** | wearing the signature smart-casual outfit — a dark neutral tee or henley under an unstructured slate-toned blazer, clean dark trousers, soft matte knit and natural blazer drape with subtle creases, credible and approachable, consistent across every slide |
+
+`creator_outfit.source = signature` for this default. `creator_outfit.source = scene_override`
+only when a deck demands a literal setting outfit.
+
+### Selection Rule (Signature-first, Scene-Override exception)
+
+1. **User override** (always wins) — if the user explicitly specifies wardrobe → use that.
+2. **Scene-override (rare)** — if the deck's narrative is a literal specific environment (on-stage keynote, courtroom B-roll, etc.), use the scene-appropriate costume from the Scene → Costume Override Table below. `source = scene_override`.
+3. **Signature outfit (default — almost always)** — otherwise the Signature Outfit above. `source = signature`.
+
+There is no topic-keyword matching and no per-profession costume switching in v3.
+The profession/lifestyle costume cards further below are a **non-default
+scene-override reference library** only.
 
 **Scene → Costume Override Table:**
 
@@ -547,48 +623,22 @@ Costume selection follows a **3-level priority chain**. Scene context from the V
 | Formal event / stage / podium | full suit or blazer + dress shirt | formal setting matches formal wear |
 | Classroom / lecture hall | smart casual — button-up or polo, no blazer | approachable academic |
 | Home / living room | relaxed hoodie or casual tee, comfortable pants | domestic context |
-| Neutral studio / plain background | **Use topic category below** (fallback) | no scene context to override |
+| Neutral studio / plain background | **Use the Signature Outfit (default)** | no scene context to override; signature outfit is the v3 floor |
 
 **Rule:** If the hook visual places the creator in a night market holding giant cockroach skewers, the costume is **casual streetwear** — NOT a finance blazer, even if the topic is investment-related. The scene always wins over the topic.
 
 Costume descriptions are prompt-ready — copy the **Prompt Phrase** directly into the `[Wardrobe]` slot.
 
-### Topic Keyword → Category Resolution Table
+---
 
-When the visual hook scene is neutral/studio/generic (no scene-override fires), match the blog topic against this keyword table to pick the costume category. Match is case-insensitive substring on title + meta_keywords + first 1000 chars of body.
+### Scene-Override Costume Reference Library (NON-DEFAULT — v3)
 
-| Keyword pattern (case-insensitive substring match) | Category |
-|---|---|
-| `medical, hospital, surgeon, dokter, surgery, patient, healthcare, klinik, doctor, nurse, perawat, diagnosis` | **Medical** |
-| `space, rocket, nasa, spacex, astronaut, astronot, mars, lunar, kepler, satellite, iss, orbit, propulsion` | **Aerospace** |
-| `court, judge, lawsuit, trial, hakim, pengadilan, legal, verdict, jury, advokat, hukum, supreme court, vonis` | **Legal** |
-| `pilot, airline, aviation, cockpit, penerbang, captain, airbus, boeing, garuda, lion air, flight crew` | **Aviation** |
-| `military, army, soldier, tentara, marine, navy, defense, perang, tni, kopassus, war, combat` | **Military** |
-| `chef, restaurant, kitchen, kuliner, masak, hotel, hospitality, service, waitress, butler, concierge` | **Hospitality** |
-| `lab, research, scientist, ilmuwan, peneliti, laboratory, experiment, biotech, pharma, microscope` | **Scientific Research** |
-| `construction, engineer, civil, infrastructure, proyek, konstruksi, building site, contractor, crane` | **Construction** |
-| `second brain, pkm, personal knowledge, zettelkasten, note-taking, catatan, knowledge management, obsidian, notion vault` | **Memory Architect** (conceptual) |
-| `privacy, self-host, self-hosted, data sovereignty, kedaulatan data, encryption, enkripsi, own your data, security, keamanan data` | **Data Guardian** (conceptual) |
-| `ai agent, llm, automation, otomasi, prompt, prompting, rag, machine learning, ai workflow` | **AI Whisperer** (conceptual) |
-| `workflow, pipeline, devops, system design, sistem, infra automation, orchestration` | **Systems Engineer** (conceptual) |
-| `mindset, pola pikir, psychology, psikologi, habit, kebiasaan, learning, belajar, cognition` | **Mind Hacker** (conceptual) |
-| `deep work, fokus, focus, distraction, distraksi, attention, notification overload` | **Signal Cutter** (conceptual) |
-| `indie hacker, build in public, bikin publik, saas, side project, proyek sampingan, founder log, bootstrap product` | **Builder/Maker** (conceptual) |
-| `wall street, bank, finance, investment, trader, hedge fund, ipo, stocks, saham, bursa, fintech` | Finance / Investment (existing) |
-| `ai, ml, llm, agent, machine learning, kecerdasan buatan, openai, anthropic, gpt, claude, software` | Tech / AI (existing) |
-| `gym, workout, training, fitness, yoga, atlet, fit, exercise, marathon, kebugaran` | Health / Fitness (existing) |
-| `recipe, cooking, restaurant review, food blog, kuliner ringan, cafe, masakan` | Food / Cooking (existing) |
-| `tutorial, course, online class, mengajar, education, beginner guide, how-to` | Education / Tutorial (existing) |
-| `startup, founder, entrepreneur, bootstrap, seed round, vc, scaleup, exit` | Business / Startup (existing) |
-| `travel, perjalanan, tokyo, bali, vlog, lifestyle blog, digital nomad, road trip` | Lifestyle / Travel (existing) |
-| `productivity, gtd, getting things done, time management, tools, app stack` | Productivity / Tools (existing) |
-| `design, ux, ui, brand identity, illustration, figma, photoshop, art direction, kreatif` | Creative / Design (existing) |
-
-**Resolution rule**:
-1. First-match-wins from top to bottom of table (more dramatic profession categories listed first to bias Sonnet toward visual punch when multiple match).
-2. If 0 keywords match → fallback to LLM inference: pick from the 17 categories the closest profession-immersive match based on dominant blog subject. Log the inferred category to `notes[]` with reasoning.
-3. If 2+ keywords match across categories (e.g., "AI in healthcare" → Medical + Tech / AI), pick the more dramatic / scroll-stop one (Medical wins over Tech / AI).
-4. Scene-override from the table above ALWAYS supersedes this resolution.
+> **These cards are NOT auto-selected by topic.** In v3 the default is always the
+> Signature Outfit above. The cards below exist only as a **reference for the rare
+> scene-override deck** (a deck whose narrative is literally set inside a specific
+> environment). There is no topic-keyword resolution and no per-profession switching.
+> If your deck is a normal topic deck, ignore these and use the Signature Outfit —
+> the topic shows up in the floating elements, not the costume.
 
 ### Finance / Investment
 
@@ -801,131 +851,6 @@ Use when topic doesn't clearly match any category above.
 | Color palette | white, gray, navy, warm neutrals |
 | **Prompt phrase** | wearing a clean fitted white button-up with sleeves rolled to forearms, dark clean jeans, simple watch on wrist, natural cotton fabric catching warm ambient light |
 
----
-
-## Conceptual / Metaphor Archetypes (abstract topics — theatrical, scene-immersive)
-
-For **abstract/conceptual** topics (knowledge systems, privacy, AI, workflow,
-mindset, focus, building-in-public) that match no profession category above. These
-are **theatrical character costumes** — the creator becomes the embodiment of the
-topic's core metaphor — paired with a max-chaos absurd scene. Used when the visual
-hook is topic-anchored chaos (see `non-interactive-defaults.md` §5c). Costume
-`source = scene_override`. **An abstract topic NEVER falls through to a blazer —
-if no archetype matches, use Concept Avatar.**
-
-### Memory Architect
-
-Topics: second brain, PKM, notes, zettelkasten, knowledge management.
-
-| Element | Spec |
-|---------|------|
-| Top | asymmetric structured techwear vest with glowing circuit-seams over a dark fitted base layer |
-| Bottom | tapered technical trousers with subtle reflective panel |
-| Accessories | holographic visor pushed up on forehead, gloves with glowing data-node fingertips |
-| Texture | matte technical fabric with embedded light-conductive thread, soft inner glow |
-| Color palette | deep charcoal, ink black, brand accent glow on seams |
-| **Prompt phrase** | wearing an asymmetric structured techwear vest with glowing circuit-seams over a dark fitted base layer, holographic visor pushed up on forehead, gloves with faintly glowing data-node fingertips, matte light-conductive fabric texture |
-| Default absurd scene | standing inside a cathedral-scale vault of floating glowing memory-orbs, a giant brain-shaped vault door behind |
-
-### Data Guardian
-
-Topics: privacy, self-hosting, data sovereignty, encryption, security, own-your-data.
-
-| Element | Spec |
-|---------|------|
-| Top | matte-black tactical longcoat with a subtle padlock-motif chestplate |
-| Bottom | armored technical trousers, reinforced knee panels |
-| Accessories | encrypted-key pendant glowing faintly, fingerless gauntlets |
-| Texture | matte ballistic fabric, brushed-metal accents, no shine |
-| Color palette | black, gunmetal, single brand accent on the key pendant |
-| **Prompt phrase** | wearing a matte-black tactical longcoat with a subtle padlock-motif chestplate, fingerless gauntlets, a faintly glowing encrypted-key pendant at the chest, brushed ballistic fabric texture |
-| Default absurd scene | guarding a glowing personal-server fortress while corporate cloud-servers crumble to dust outside the walls |
-
-### AI Whisperer
-
-Topics: AI agents, LLM, automation, prompt engineering, RAG, machine learning.
-
-| Element | Spec |
-|---------|------|
-| Top | iridescent hooded technical coat with flowing data-stream patterns |
-| Bottom | sleek dark joggers with a luminous seam |
-| Accessories | one robotic forearm sleeve, slim conductor's earpiece |
-| Texture | iridescent ripstop that shifts color, faint flowing light |
-| Color palette | oil-slick iridescent over black, brand accent in the data-streams |
-| **Prompt phrase** | wearing an iridescent hooded technical coat with flowing data-stream light patterns, one sculpted robotic forearm sleeve, a slim earpiece, oil-slick color-shifting fabric texture |
-| Default absurd scene | conducting a mid-air swarm of glowing AI-agent orbs like an orchestra |
-
-### Systems Engineer
-
-Topics: workflow, pipelines, infrastructure, devops, system design.
-
-| Element | Spec |
-|---------|------|
-| Top | exo-frame harness over a technical jumpsuit |
-| Bottom | jumpsuit lower with modular tool-loops |
-| Accessories | tool-belt of glowing modular nodes, welding goggles on forehead |
-| Texture | heavy technical canvas, exposed harness webbing, matte metal buckles |
-| Color palette | industrial graphite, safety-accent in brand color on the nodes |
-| **Prompt phrase** | wearing an exo-frame harness over a graphite technical jumpsuit, a tool-belt of glowing modular nodes, welding goggles pushed up on forehead, heavy canvas and webbing texture |
-| Default absurd scene | assembling a giant floating machine of interlocking code-gears |
-
-### Mind Hacker
-
-Topics: psychology, mindset, habits, learning, cognition.
-
-| Element | Spec |
-|---------|------|
-| Top | half lab-coat half meditation-robe hybrid garment |
-| Bottom | loose technical trousers |
-| Accessories | EEG-halo headpiece with glowing sensor nodes |
-| Texture | crisp coat panel meets soft draped robe panel, matte with a faint node glow |
-| Color palette | clinical white meeting deep indigo, brand accent on the halo nodes |
-| **Prompt phrase** | wearing a hybrid garment that is half crisp lab-coat and half draped meditation-robe, an EEG-halo headpiece with faintly glowing sensor nodes, crisp-meets-soft fabric texture |
-| Default absurd scene | floating cross-legged inside a giant glowing cross-section of a human brain |
-
-### Signal Cutter
-
-Topics: deep work, focus, attention, distraction, notification overload.
-
-| Element | Spec |
-|---------|------|
-| Top | matte charcoal wrap-robe with a clean diagonal closure |
-| Bottom | tapered dark trousers |
-| Accessories | sleek noise-cancel halo around the neck, single glowing focus-blade in hand |
-| Texture | matte heavyweight wrap fabric, clean lines, zero ornament |
-| Color palette | charcoal and black, one brand-accent edge on the blade |
-| **Prompt phrase** | wearing a matte charcoal wrap-robe with a clean diagonal closure, a sleek noise-cancel halo at the neck, holding a single glowing focus-blade, matte heavyweight fabric texture |
-| Default absurd scene | slicing cleanly through a swirling storm of notification icons |
-
-### Builder/Maker
-
-Topics: indie hacking, build-in-public, SaaS, side projects, founder log.
-
-| Element | Spec |
-|---------|------|
-| Top | utility apron with glowing tool-pockets over a fitted techwear tee |
-| Bottom | rolled technical work-pants |
-| Accessories | AR-monocle over one eye, light-sculpting gloves |
-| Texture | worn canvas apron with visible weave over matte tee, light glints on the monocle |
-| Color palette | warm tan apron over charcoal, brand accent in the tool-pocket glow |
-| **Prompt phrase** | wearing a utility apron with faintly glowing tool-pockets over a fitted charcoal techwear tee, an AR-monocle over one eye, light-sculpting gloves, worn canvas weave texture |
-| Default absurd scene | forging a glowing app out of raw light-clay at a futuristic anvil |
-
-### Concept Avatar
-
-**Fallback** — use for ANY abstract topic with no archetype match above.
-
-| Element | Spec |
-|---------|------|
-| Top | theatrical techwear costume themed to the topic's inferred core metaphor (NEVER a blazer/henley/suit) |
-| Bottom | matching technical lower in the metaphor's palette |
-| Accessories | one signature prop that literally embodies the topic metaphor |
-| Texture | technical fabrics with a faint thematic glow appropriate to the metaphor |
-| Color palette | dark base + brand accent glow, metaphor-appropriate hue |
-| **Prompt phrase** | dress the creator as a theatrical embodiment of the topic's core metaphor in themed techwear with a signature metaphor prop and faint thematic glow — never a blazer, henley, or business suit |
-| Default absurd scene | an absurd, topic-anchored scene that literally stages the topic's core metaphor |
-
----
 
 ## Section 11: Prop/Tool Interaction System
 

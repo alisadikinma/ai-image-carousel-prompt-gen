@@ -41,9 +41,15 @@ No need to edit 10+ files. The skill, agent, and reference docs all read this fi
 | `main_headline_language` | Bahasa Indonesia |
 | `subtitle_language` | English |
 | `caption_language` | English |
-| `swipe_cta_text` | `SWIPE (GESER) >` |
+| `swipe_cta_text` | `GESER 👆 / swipe` (bilingual top-bar pill — ID main + small EN) |
+| `cta_pill_text` | `SIMPAN & BAGIKAN / save & share` (bilingual bottom CTA pill — ID main + small EN) |
 | `bilingual_default` | Yes — Bahasa Indonesia headline (main) + English subtitle |
 | `override_rule` | User requests single language → use that language, no subtitle |
+
+> **Bilingual chrome (v3 Spotlight Portrait):** both the top-bar swipe pill and the
+> bottom CTA pill render bilingually — Bahasa Indonesia as the primary line with a
+> smaller English line. This applies even when `override_rule` collapses the headline
+> to a single language (the chrome stays recognizable across audiences).
 
 ---
 
@@ -51,9 +57,21 @@ No need to edit 10+ files. The skill, agent, and reference docs all read this fi
 
 | Setting | Value |
 |---------|-------|
-| `accent_color` | `#F5A623` (Golden Yellow) |
+| `background_base` | `#0F59B6` (solid signature blue — ALL slides, whole deck) |
+| `accent_color` | `#F5A623` (Golden Yellow — complementary to blue, constant) |
 | `headline_color` | `#FFFFFF` (White, ALL CAPS) |
 | `subtitle_color` | Accent color (`#F5A623`) — NEVER white like main headline |
+| `cta_background` | Deepened **navy variant of `#0F59B6`** + extra gold glow (CTA "action moment" — signature blue stays intact, NOT dark-inverted) |
+| `cta_engagement_actions` | **Save + Comment + Share** (algorithm weight order; like de-prioritized). Comment-to-DM **deferred** — swappable into the CTA headline when the platform supports DM automation |
+
+**Grid strategy = solid signature.** Every post uses the same `background_base`
+blue (`#0F59B6`) for maximum across-post recognition. Within one carousel the base
+is 100% consistent — **never mix base colors across slides of the same deck**. The
+only base variation allowed is the CTA slide's deepened-navy `cta_background` (still
+a blue, signals "close/action").
+
+> **Card legibility on blue:** body/peak explainer-card surfaces render **darker
+> than the `#0F59B6` base** so accent-gold `#F5A623` icons and text stay legible.
 
 ---
 
@@ -61,9 +79,9 @@ No need to edit 10+ files. The skill, agent, and reference docs all read this fi
 
 | Setting | Value |
 |---------|-------|
-| `film_stock` | Kodak Portra 400 |
-| `color_temp` | 3200-3500K |
-| `color_grade` | Warm golden amber |
+| `film_stock` | Clean digital / neutral (no film-grain emulation; crisp modern look) |
+| `color_temp` | ~5000-5600K neutral key, warm gold rim accent |
+| `color_grade` | Cool-neutral creator key + blue ambient + gold rim accent |
 | `image_resolution` | 4K |
 | `image_style` | hyperrealistic |
 | `prompt_length` | 80-200 words (up to 250 for complex) |

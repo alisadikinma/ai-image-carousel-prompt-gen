@@ -73,7 +73,7 @@ When a slide discusses a SPECIFIC company, product, or service (Google, WhatsApp
 |------|-------|-----|
 | Primary text | White | #FFFFFF |
 | Accent keyword | [User's accent] | Per global-config.md `accent_color` |
-| Background mood | Warm amber/golden | — |
+| Background base | Solid signature blue | Per global-config.md `background_base` (`#0F59B6`) — all slides |
 | Secondary accent | Soft gold | #D4AF37 |
 
 ### Typography (Rendered IN-IMAGE)
@@ -90,18 +90,17 @@ When a slide discusses a SPECIFIC company, product, or service (Google, WhatsApp
 ### Film Stock & Color Temperature
 | Context | Film Stock | Kelvin | Grade |
 |---------|-----------|--------|-------|
-| Default / warm | Per global-config.md `film_stock` | Per global-config.md `color_temp` | Per global-config.md `color_grade` |
-| Dramatic | Kodak Vision3 500T | 3200K | Rich warm shadows |
-| Vivid/saturated | Kodak Ektar 100 | 5600K | Punchy warm colors |
-| Night/moody | CineStill 800T | 3200K | Warm halation |
+| Default (v3 Spotlight Portrait) | Per global-config.md `film_stock` (clean digital / neutral) | Per global-config.md `color_temp` (~5000-5600K neutral key, warm gold rim) | Per global-config.md `color_grade` (cool-neutral key + blue ambient + gold rim) |
+| Higher contrast | Clean digital | ~5200K | Deeper blue ambient, brighter gold rim |
 
-**Default to warm palettes unless the creator's brand explicitly uses cool tones.**
+**Default to the cool-neutral creator key + blue ambient + gold rim (v3).** The
+warm-amber / Kodak Portra look is retired.
 
 ### Background & Setting Preferences
-- Customize to creator's locale and brand identity
-- Warm lifestyle environments: brick walls, Edison bulbs, warm bokeh
-- Professional: Modern office with warm lighting
-- Avoid: Generic sterile settings, cold corporate
+- **Base = solid signature blue `#0F59B6` on every slide** (per `global-config.md` `background_base`)
+- Creator portrait sits on a radial-glow blue base; topic conveyed by **floating UI elements**, not the environment
+- Lighting: cool-neutral key (~5000-5600K) + warm gold rim for separation against the blue
+- Avoid: warm-amber lifestyle scenes, Edison-bulb bokeh, mixing base colors within a deck
 
 ## 5. Creator Face Allocation
 
@@ -125,7 +124,7 @@ When a B-Roll/content slide involves visible human figures (silhouettes, crowds,
 2. Use character reference image + face reference image
 3. **Crowd scenes**: Creator must be one of the **most prominent foreground figures** — clearly identifiable, not lost in the crowd. Place creator in center-foreground or left/right-foreground position, slightly larger/closer to camera than surrounding people.
 4. **Single/few person scenes**: Creator IS the primary subject.
-5. If scene implies profession-specific clothing (lab coat, suit, hard hat) → ask: "Should you wear [profession outfit] or your default wardrobe?"
+5. Default to the **signature smart-casual outfit** (§6) — v3 has no topic-costume switching. Only if the scene is a literal specific environment → ask: "signature outfit or a scene-override costume?"
 6. The ONLY B-Roll slides without creator face = slides with NO human figures at all (pure object/landscape/abstract visuals)
 
 ### Public Figure Face Priority (OVERRIDES B-Roll Rule Above)
@@ -151,15 +150,25 @@ When the carousel topic centers on a **public figure** — criminal, head of sta
 
 **Summary: Hook + CTA + Foreshadow + Thumbnail = creator face mandatory. Body slides about public figure = public figure's face primary, creator as optional companion.**
 
-## 6. Wardrobe Defaults
+## 6. Wardrobe Default — Signature Outfit (v3 Spotlight Portrait)
 
-| Context | Wardrobe |
-|---------|----------|
-| Professional/Tech | Blazer, open-collar shirt |
-| Casual/Lifestyle | Henley, hoodie, or denim jacket |
-| Street/Outdoor | Denim jacket over solid tee |
+> **One signature outfit, every slide, every topic.** v3 retires topic-costume
+> switching: the creator no longer dresses as the topic. Topic is conveyed by the
+> **floating topic elements** (see `hook-visual-library.md` Spotlight Portrait
+> Template), never by costume. This maximizes AI-likeness consistency + brand
+> recognition.
 
-*Customize to creator's actual wardrobe preferences.*
+| Element | Spec |
+|---------|------|
+| Top | dark tee or henley (charcoal/black, neutral) under an **unstructured blazer** in a neutral tone (slate / charcoal / muted navy) |
+| Bottom | clean dark trousers or dark slim denim |
+| Accessories | minimal — slim watch optional, no loud logos |
+| **Prompt phrase** | wearing the **signature smart-casual** outfit — a dark neutral tee or henley under an unstructured slate-toned blazer, clean dark trousers, soft matte knit and natural blazer drape with subtle creases, credible and approachable, consistent across every slide |
+
+**Signature smart-casual** is the single default (`creator_outfit.source = signature`).
+The only exception is a rare **scene-override** deck whose narrative is literally set
+in a specific environment (`source = scene_override`) — see
+`hook-visual-library.md` §10 Scene → Costume Override Table.
 
 ## 7. Text Gradient Zone Allocation (Single Source of Truth)
 

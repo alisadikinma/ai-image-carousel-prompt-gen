@@ -109,20 +109,28 @@ export const CarouselSlideSchema = z
 export type CarouselSlide = z.infer<typeof CarouselSlideSchema>;
 
 // ---------------------------------------------------------------------------
-// Creator outfit (topic-aware costume resolution)
+// Creator outfit (v3 Spotlight Portrait — signature outfit)
 //
 // Captures which costume the pipeline picked, where it came from, and why.
-// Read by Portfolio_v2 admin UI for operator audit + future manual override
-// hook. Optional in v2.17 for backward compat with pre-feature drafts;
-// required in a future minor bump after backend adapter has shipped.
+// Read by Portfolio_v2 admin UI for operator audit + future manual override hook.
+// Optional for backward compat with pre-feature drafts.
 //
-// Source: docs/plans/2026-05-04-topic-aware-costume-and-dramatic-hook.md
+// v3.0.0 (Spotlight Portrait): topic-costume switching is RETIRED. The default is
+// the single **signature** smart-casual outfit — `source = 'signature'`. The only
+// runtime exception is a literal **scene_override** deck. `topic_match` and
+// `fallback` are DEPRECATED and retained only so pre-v3 drafts still parse
+// (backward compat) — new runs should emit 'signature' or 'scene_override'.
+//
+// Source: docs/plans/2026-06-12-spotlight-portrait-blue-rebrand.md
+//         (supersedes docs/plans/2026-05-04-topic-aware-costume-and-dramatic-hook.md)
 // ---------------------------------------------------------------------------
 
 export const CreatorOutfitSchema = z.object({
   category: z.string().min(2).max(60),
   prompt_phrase: z.string().min(20).max(400),
-  source: z.enum(['scene_override', 'topic_match', 'fallback']),
+  // 'signature' (v3 default) | 'scene_override' (rare literal-setting deck).
+  // 'topic_match' | 'fallback' DEPRECATED — kept for pre-v3 backward compat.
+  source: z.enum(['signature', 'scene_override', 'topic_match', 'fallback']),
   reasoning: z.string().min(10).max(200),
 });
 
@@ -155,10 +163,11 @@ const CompleteEnvelopeSchema = z.object({
       slides: z.array(CarouselSlideSchema),
     })
     .optional(),
-  // Topic-aware costume the pipeline picked for this carousel. Captures
-  // category + prompt phrase + resolution source + reasoning so operator
-  // admin UI can audit + (future) manual override. Optional in v2.17 for
-  // backward compat with pre-feature drafts.
+  // Signature outfit the pipeline picked for this carousel (v3: source =
+  // 'signature' by default; 'scene_override' for rare literal-setting decks).
+  // Captures category + prompt phrase + resolution source + reasoning so the
+  // operator admin UI can audit + (future) manual override. Optional for
+  // backward compat with pre-v3 drafts.
   creator_outfit: CreatorOutfitSchema.optional(),
   // Operator-facing warnings the LLM logs in pipeline mode when an interactive
   // step had to be auto-resolved (e.g., "manifest_brand_needed: brand asset

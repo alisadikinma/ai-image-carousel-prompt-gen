@@ -114,6 +114,49 @@ All 8 elements are MANDATORY in every prompt. No exceptions.
 
 ---
 
+## Spotlight Portrait Layout (v3.0 — DEFAULT for creator-face slides)
+
+Every creator-face slide (cover, human_fingerprint, cta) is authored as the
+**Spotlight Portrait template** (see `hook-visual-library.md` "Spotlight Portrait
+Template"). Render these layout elements in the prompt body (lowercase, no raw `%`,
+`lens:` prefix per the rules above):
+
+1. **Blue base** — solid signature blue `#0F59B6` background with a soft radial glow
+   brighter behind the creator and darker toward the edges; bottom half darkens into
+   the gradient zone for headline legibility. Same base on every slide of the deck.
+2. **Top-bar pill** — a rounded translucent pill near the top: on the left a small
+   round creator-face avatar + the handle + a check icon; on the right the bilingual
+   swipe pill text "GESER 👆 / swipe".
+3. **Creator** — upper-body portrait in the **signature smart-casual outfit**, one
+   simple topic-relevant action, calm credible expression; cool-neutral key
+   (~5000-5600K) + warm gold rim for separation against the blue.
+4. **Floating topic elements (≥3)** — three to six glassy translucent UI cards /
+   screenshots / logos of the real tools/topic, soft outer glow + depth blur,
+   arranged at varied depths around the upper body; optional small AI-robot mascot
+   for AI topics. This is the scroll-stop; never fewer than 3.
+5. **Headline** — billboard-scale extra-bold condensed in the bottom gradient zone,
+   white with 2-4 gold `#F5A623` accent keywords, bilingual ID main + EN gold subtitle.
+6. **CTA pill** — a rounded dark pill, bottom-center, bilingual.
+7. **Brand chrome** — page number top-left; brand icon + watermark center at thirty
+   percent opacity.
+
+### CTA slide layout (Action variant)
+
+The CTA slide keeps the template with these overrides: background = the deepened
+**navy variant of `#0F59B6`** + extra gold glow (`cta_background` — signature blue
+stays intact, NOT dark-inverted); creator half-body in the signature outfit with a
+warm confident **"join me"** expression and an **open-palm / pointing** gesture
+toward the engagement actions; the floating elements become a **mini value-recap**
+of the carousel (the tools/points covered) as glassy cards so there is a reason to
+Save; optional hand-drawn dashed arrow pointing at the action. Engagement actions
+prioritize Save + Comment + Share. Include the `global-config.md` CTA Social Media Block.
+
+**Body / Peak explainer cards** keep the blue base + top-bar + CTA-pill chrome but
+the interior is the icon-led knowledge-card layout (face-free) — card surfaces
+darker than the blue base so accent-gold icons read.
+
+---
+
 ## Text Rendering — In-Image (NOT Post-Production)
 
 All user-facing text is rendered directly in the AI-generated image. The prompt MUST describe:
