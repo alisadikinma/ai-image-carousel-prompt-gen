@@ -56,6 +56,38 @@ The floating elements replace the absurd scene. How to author them:
 See `references/non-interactive-defaults.md` §5c for a Topic → Floating Elements
 hint table.
 
+### Entity-Driven / Acronym Cover (Hybrid layout) ⭐
+
+**When to use:** the hook IS named entities — a roster of real companies, products,
+or models, OR an **acronym that stands for member companies** (FAANG, MANGOS, FANG,
+"the Magnificent 7", "top 5 AI models", a logo line-up). For these stories the
+**recognizable logos ARE the scroll-stop** — readers grok "Apple + Netflix + Google…"
+instantly, but a floating bare word "FAANG" reads as a confusing abstract label and
+gets skipped. So flip the hierarchy:
+
+| Element | Normal Spotlight Portrait | **Entity-Driven Hybrid** |
+|---|---|---|
+| Creator | center/right, dominant | **smaller, off to one side** (still calm, signature outfit, mid-action) — present for trust, not the focus |
+| Floating elements | the scroll-stop | **the decoded company/product LOGOS, rendered DOMINANT** — a clean line-up / grid of 4–8 recognizable brand logos (wordmarks + glyphs) as the visual centerpiece, glassy-card or flat depending on slide type |
+| Acronym | — | if the hook is an acronym, **render the decoded line-up, never the bare letters alone.** Optional: a small "F·A·A·N·G" key strip where each letter sits under/over its company logo so the decode is explicit |
+
+**Acronym-decode rule (universal, every act):** an acronym hook MUST be visualized as
+its member entities. `FAANG → Facebook/Meta · Apple · Amazon · Netflix · Google`.
+`MANGOS → Microsoft · Apple · Nvidia · Google · OpenAI · ...` (decode from the source
+content — use the exact members the article names). **Never** float or letter the bare
+acronym word as the only visual; always show the logos it stands for, optionally with
+the letter-to-logo key. This applies to body/peak doodle cards too — draw each member
+as a simple hand-drawn logo/wordmark with its label.
+
+**Safety (HARD):** render **company LOGOS / wordmarks / product glyphs**, never a
+photoreal portrait of a named CEO or public figure (GeminiGen refuses real-person
+faces — `PUBLIC_ERROR_PROMINENT_PEOPLE_UPLOAD`). "Apple logo + Tim-Cook-style
+silhouette" is fine; a recognizable photoreal Tim Cook face is not. The only real
+face on the slide is the creator (from `creator-face.png`).
+
+Log `visual_hook_resolved: Entity-Driven Hybrid ("<decoded logos>")` to `notes[]`
+and `acronym_decoded: <ACRONYM> → <members>` when an acronym was expanded.
+
 ## How This File Works
 
 **Three-file hook workflow:**

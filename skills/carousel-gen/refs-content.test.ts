@@ -211,18 +211,18 @@ describe('compiled pipeline bundle — propagation guard (v3.0)', () => {
 });
 
 // ---------------------------------------------------------------------------
-// version-sync guard — package.json === plugin.json === 3.0.0
+// version-sync guard — package.json === plugin.json === 3.0.3
 // ---------------------------------------------------------------------------
 
-describe('version sync — package.json === plugin.json === 3.0.0', () => {
-  it('all version sources are pinned at 3.0.0', () => {
+describe('version sync — package.json === plugin.json === 3.0.3', () => {
+  it('all version sources are pinned at 3.0.3', () => {
     const pkg = JSON.parse(read(resolve(REPO_ROOT, 'package.json'))) as {
       version: string;
     };
     const plugin = JSON.parse(
       read(resolve(REPO_ROOT, '.claude-plugin', 'plugin.json')),
     ) as { version: string };
-    expect(pkg.version).toBe('3.0.0');
-    expect(plugin.version).toBe('3.0.0');
+    expect(pkg.version).toBe('3.0.3');
+    expect(plugin.version).toBe('3.0.3');
   });
 });

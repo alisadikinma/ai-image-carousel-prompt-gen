@@ -1,7 +1,7 @@
 {
   "name": "ai-image-carousel-prompt-gen",
   "description": "Cinematic AI image prompt generator for social media carousel content. Generates carousel image prompts, thumbnail prompts, carousel rebranding, multi-platform export, and caption copywriting with WOW quality gate scoring.",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "author": {
     "name": "Ali Sadikin",
     "url": "https://github.com/alisadikinma"

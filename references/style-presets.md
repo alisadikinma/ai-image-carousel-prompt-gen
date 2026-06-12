@@ -207,6 +207,27 @@ clearly visible handle "@alisadikinma" + a small verified check on the left, and
 top-left. 4:5 aspect ratio.
 ```
 
+**COVER VARIANT — ENTITY-DRIVEN / ACRONYM Spotlight Portrait (Hybrid):**
+```
+Use when the hook IS named entities or an acronym standing for companies (FAANG,
+MANGOS, "top AI models", a big-tech logo line-up). Follow the Spotlight Portrait
+Template but FLIP the hierarchy per hook-visual-library.md "Entity-Driven / Acronym
+Cover": on the blue brand gradient base (deep navy #0A3D82 corners → brighter #1E6FD0
+glow, NOT a flat fill), make a clean DOMINANT line-up/grid of 4–8 recognizable real
+company LOGOS (brand wordmarks + glyphs — e.g. Meta, Apple, Amazon, Netflix, Google)
+the visual centerpiece, glassy floating cards with soft glow + depth blur. If the hook
+is an acronym, render a small letter-to-logo key strip so "F·A·A·N·G" decodes
+explicitly under/over each logo — never float the bare acronym word alone. The real
+photographic creator from the face reference (bald head, rectangular glasses, signature
+outfit, calm mid-gesture) is rendered SMALLER and off to one side — present for trust,
+not the focus. IMPORTANT: company LOGOS/wordmarks only — do NOT render a photoreal CEO
+or public-figure face (only the creator is a real face). Bottom gradient zone: big bold
+bilingual headline "{ID_HEADLINE}" with 2–4 gold accent words (#F5A623), smaller English
+subtitle "{EN_SUBTITLE}". Top-bar pill: bald-with-glasses brand avatar + visible handle
+"@alisadikinma" + verified check on the left, "GESER 👆 / swipe" pill on the right — do
+NOT print "Bilingual". Page mark "1/{N}" top-left. 4:5 aspect ratio.
+```
+
 **BODY / PEAK (steps / comparison / list) — DOODLE on blue:**
 ```
 [STYLE BLOCK]

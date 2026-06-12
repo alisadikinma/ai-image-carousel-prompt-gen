@@ -142,12 +142,23 @@ content over the generic examples.
 | deep work, distraction, attention, notification overload | a muted-notifications panel, a focus-mode toggle, a calendar time-block card |
 | indie hacker, build in public, SaaS, side project | a revenue/MRR chart card, a landing-page mockup, a GitHub commit graph |
 | design tools, content, no-code | the actual tool UIs (Canva, Figma, Notion) as cards + their logos |
+| **company roster / acronym / "top N" list** (FAANG, MANGOS, Magnificent 7, top AI models, big-tech line-up, stock tickers) | **the decoded member LOGOS as a dominant line-up/grid** (4–8 brand wordmarks + glyphs) — switch to the **Entity-Driven Hybrid** cover (creator smaller/side, logos dominant). See hook-visual-library.md → "Entity-Driven / Acronym Cover". |
 | ANY other topic | the 3–6 most recognizable real tools/objects/logos the blog names |
 
 **Rule**: every creator-face slide carries **≥3** of these floating elements. They
 are translucent glassy UI with soft glow + depth blur, arranged around the creator's
 upper body on the blue base. Log `visual_hook_resolved: Spotlight Portrait ("<elements>")`
 to `notes[]`. The creator costume is always `signature` (§2) — never topic-switched.
+
+**Acronym-decode (HARD, all acts):** if the hook is an acronym standing for companies
+(FAANG, MANGOS, FANG, Magnificent 7), **never render the bare acronym letters as the
+only visual** — decode it into its member-company logos (e.g. `FAANG → Meta · Apple ·
+Amazon · Netflix · Google`), drawn from the members the source content actually names.
+Use the **Entity-Driven Hybrid** cover (logos dominant, creator smaller/side) and show
+the same decoded logos on the body/peak doodle cards (simple hand-drawn wordmarks +
+labels). Render **logos/wordmarks only — never a photoreal CEO/public-figure face**
+(GeminiGen refuses real-person faces). Log `acronym_decoded: <ACRONYM> → <members>` in
+`notes[]`.
 
 ---
 
