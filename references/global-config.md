@@ -42,7 +42,7 @@ No need to edit 10+ files. The skill, agent, and reference docs all read this fi
 | `subtitle_language` | English |
 | `caption_language` | English |
 | `swipe_cta_text` | `GESER 👆 / swipe` (bilingual top-bar pill — ID main + small EN) |
-| `cta_pill_text` | `SIMPAN & BAGIKAN / save & share` (bilingual bottom CTA pill — ID main + small EN) |
+| `cta_pill_text` | `SIMPAN / save` (bilingual bottom CTA pill — ID main + small EN) — **exactly ONE command**, never stack two (NOT "SIMPAN & BAGIKAN") |
 | `bilingual_default` | Yes — Bahasa Indonesia headline (main) + English subtitle |
 | `override_rule` | User requests single language → use that language, no subtitle |
 
@@ -62,7 +62,7 @@ No need to edit 10+ files. The skill, agent, and reference docs all read this fi
 | `headline_color` | `#FFFFFF` (White, ALL CAPS) |
 | `subtitle_color` | Accent color (`#F5A623`) — NEVER white like main headline |
 | `cta_background` | Deepened **navy variant of `#0F59B6`** + extra gold glow (CTA "action moment" — signature blue stays intact, NOT dark-inverted) |
-| `cta_engagement_actions` | **Save + Comment + Share** (algorithm weight order; like de-prioritized). Comment-to-DM **deferred** — swappable into the CTA headline when the platform supports DM automation |
+| `cta_engagement_actions` | **Exactly ONE command per CTA slide** — pick the single highest-value action (default **SIMPAN / Save**; alternatives: BAGIKAN/Share, SUKA/Like, KOMENTAR/Comment) and render it as the **largest, boldest, most mencolok** element on the slide. ONE slide = ONE ask. NEVER stack two commands (no "Save + Share", no "SIMPAN & BAGIKAN"). Comment-to-DM **deferred** — swap it in as the single ask later when the platform supports DM automation |
 
 **Grid strategy = solid signature.** Every post uses the same `background_base`
 blue (`#0F59B6`) for maximum across-post recognition. Within one carousel the base
@@ -72,6 +72,22 @@ a blue, signals "close/action").
 
 > **Card legibility on blue:** body/peak explainer-card surfaces render **darker
 > than the `#0F59B6` base** so accent-gold `#F5A623` icons and text stay legible.
+
+> **⛔ TEXT-OVERLAY PURITY (HARD RULE — governs every rendered character).** Each
+> text zone renders **only its final literal copy string**, nothing else. NEVER paint
+> these into the image as visible text:
+> - **Field / slot labels** — "CTA Headline", "Headline", "Subtitle", "Hook", "Caption".
+> - **Font names** — "Inter", "Inter Condensed", "condensed".
+> - **Style / grade / typography adjectives** — "soft artistry and depth", "soft, artistry, depth", "health" (mis-render of "Inter"), "bold weight", "extra bold".
+> - **Opacity / size / aspect values** — any "%", "30%", "thirty percent", "opacity", "70%".
+> - Any other prompt scaffolding or rendering directive.
+>
+> The **subtitle** text = the **actual English translation of the headline**
+> (e.g. headline "DARI FAANG KE MANGOS" → subtitle "From FAANG to MANGOS"), NEVER a
+> description of how the subtitle should look. If a word is an *instruction about* the
+> text (font, weight, color, size, opacity, grade, language name), it is a rendering
+> directive — it must NOT appear as characters in the rendered image. When writing a
+> prompt, always quote the exact copy: `render exactly: "<final text>"`.
 
 ---
 
@@ -101,9 +117,9 @@ Every prompt MUST include micro-imperfections from these 6 categories to avoid t
 | Surfaces | scuff marks, fingerprints on metal, dust on shelves |
 | Composition | slight asymmetry preferred, avoid perfect centering |
 | Light | natural falloff, slight color fringing at edges, realistic shadow gradients, subtle lens vignetting |
-| `brand_icon_position` | Center of image, above watermark |
-| `watermark_position` | Center of image, below brand icon |
-| `opacity` | Thirty percent opacity (spell out in prompt — NEVER "30%") |
+| `brand_icon_position` | **Top bar only** (single brand mark in the top chrome bar) — do NOT render a centered brand-icon watermark in the middle of the slide |
+| `watermark_position` | **Bottom corner only** — one `@alisadikinma` handle, faint and barely-visible. No centered watermark, no duplicate face/logo |
+| `opacity` | Render the mark **faint / semi-transparent / barely-visible** — this is a rendering instruction ONLY. NEVER draw any percentage ("30%", "thirty percent"), the word "opacity", or a "Brand logo"/"Brand lox" label as visible text in the image |
 
 ---
 

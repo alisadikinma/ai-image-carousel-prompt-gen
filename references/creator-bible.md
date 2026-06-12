@@ -32,17 +32,17 @@ Maintain exact appearance from reference image: creator-face.png.
 | Asset | File | Usage |
 |-------|------|-------|
 | Creator face | `ref/creator-face.png` | Character reference + facial identity lock for all creator-facing prompts |
-| Creator brand | `ref/creator-brand.png` | Rendered in center of image (above watermark), thirty percent opacity, on EVERY slide |
+| Creator brand | `ref/creator-brand.png` | Rendered in center of image (above watermark), faint and barely-visible, on EVERY slide |
 
 ## 3. Branding Rules (HARD — NON-NEGOTIABLE)
 
 ### ALWAYS include (rendered IN-IMAGE):
-- Brand icon rendered in **CENTER of image, directly ABOVE the @handle watermark**, **thirty percent opacity**, on EVERY slide (part of AI prompt)
-- @handle watermark rendered in **CENTER of image, directly BELOW the brand icon**, white text, **thirty percent opacity** on ALL slides:
-  - Brand icon + watermark stack as a centered branding block, both at thirty percent opacity
+- Brand icon rendered in **CENTER of image, directly ABOVE the @handle watermark**, **faint and barely-visible**, on EVERY slide (part of AI prompt)
+- @handle watermark rendered in **CENTER of image, directly BELOW the brand icon**, white text, **faint and barely-visible** on ALL slides:
+  - Brand icon + watermark stack as a centered branding block, both at faint and barely-visible
   - Ensures visibility without distracting from content
   - This applies to ALL slide types (Hook, Content, CTA, Thumbnail)
-  - In prompt body: ALWAYS spell out "thirty percent opacity" — NEVER write "30%"
+  - In prompt body: ALWAYS spell out "faint and barely-visible" — NEVER write "30%"
 - "SWIPE (GESER) >" rendered on all slides except CTA (20-30% engagement boost)
 - Corner labels where applicable: series name, episode number
 
@@ -292,8 +292,8 @@ All brand elements are rendered directly in the AI-generated image via the promp
 
 | Element | Position | Style | Slide Types |
 |---------|----------|-------|-------------|
-| Brand icon | **Center of image, above watermark** | As-is from file, thirty percent opacity | ALL slides |
-| @handle watermark | **Center of image** | White text, thirty percent opacity | ALL slides |
+| Brand icon | **Center of image, above watermark** | As-is from file, faint and barely-visible | ALL slides |
+| @handle watermark | **Center of image** | White text, faint and barely-visible | ALL slides |
 | Headline | Bottom gradient zone | White **EXTRA BOLD** condensed ALL CAPS, **large font** | ALL slides |
 | Subtitle | Below main headline | [config: subtitle_language] translation. [config: subtitle_color], slightly smaller — NEVER white | ALL slides |
 | Accent keywords (2-4) | Within headline | 2-4 keywords in [config: accent_color], **EXTRA BOLD** | ALL slides |
@@ -311,7 +311,7 @@ All brand elements are rendered directly in the AI-generated image via the promp
 | CTA | Center of image, above watermark | Center of image, below brand icon | Thirty percent |
 | Thumbnail | Center of image, above watermark | Center of image, below brand icon | Thirty percent |
 
-**In prompt body:** ALWAYS write "thirty percent opacity" — NEVER write "30%". Raw percentages render as visible text in Nano Banana Pro.
+**In prompt body:** ALWAYS write "faint and barely-visible" — NEVER write "30%". Raw percentages render as visible text in Nano Banana Pro.
 
 **Split-Panel Rule:** For **comparison** split-panel slides (A vs B topics), the brand icon + @handle watermark is placed ON the vertical center divider that separates the two panels. For **non-comparison** split-panel slides (same topic, different angles), use the standard center-of-image placement (brand icon above watermark). This ensures comparison dividers are visually anchored while standard layouts remain consistent.
 

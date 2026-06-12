@@ -19,7 +19,7 @@ Nano Banana Pro renders ALL text in the prompt as visible image content. To prev
 | Only in-image text in ALL CAPS | `Text must be ULTRA MASSIVE` | `the text uses the largest possible font size` |
 | No instruction caps | `MANDATORY: render the icon` | `render the icon` |
 | No `//` separators | `120 TB/DETIK // KECEPATAN: CAHAYA` | `120 TB/DETIK` (core data only) |
-| No raw percentages | `30% opacity` | `thirty percent opacity, subtle background mark only` |
+| No raw percentages | `30% opacity` | `faint and barely-visible, subtle background mark only` |
 | No raw filenames in body | `creator-brand.png rendered in corner` | `render the creator's brand icon from reference image creator-brand.png as a small circular badge` |
 | No "Shot on" prefix | `Shot on 85mm f/1.8` | `Lens: 85mm f/1.8` |
 | No category tags | `"TEKNOLOGI" badge above headline` | (remove entirely) |
@@ -148,8 +148,10 @@ stays intact, NOT dark-inverted); creator half-body in the signature outfit with
 warm confident **"join me"** expression and an **open-palm / pointing** gesture
 toward the engagement actions; the floating elements become a **mini value-recap**
 of the carousel (the tools/points covered) as glassy cards so there is a reason to
-Save; optional hand-drawn dashed arrow pointing at the action. Engagement actions
-prioritize Save + Comment + Share. Include the `global-config.md` CTA Social Media Block.
+Save; optional hand-drawn dashed arrow pointing at the action. **CTA = exactly ONE
+command**, rendered large + bold + mencolok as the slide's most prominent element —
+pick a single action (default SIMPAN/Save; or BAGIKAN/Share, SUKA/Like, KOMENTAR/Comment).
+NEVER stack two (no "Save + Share", no "SIMPAN & BAGIKAN"). Include the `global-config.md` CTA Social Media Block.
 
 **Body / Peak explainer cards** keep the blue base + top-bar + CTA-pill chrome but
 the interior is the icon-led knowledge-card layout (face-free) — card surfaces
@@ -165,10 +167,10 @@ All user-facing text is rendered directly in the AI-generated image. The prompt 
 | Element | Where | Rule |
 |---------|-------|------|
 | Main headline | Bottom gradient zone | White bold condensed ALL CAPS (per global-config.md `headline_color`) |
-| Subtitle | Below main headline | Translation in [config: subtitle_language]. [config: subtitle_color] at 70-80% size of main headline. NEVER same white as main headline — must create visual hierarchy |
+| Subtitle | Below main headline | The **literal English translation of the headline** (e.g. "DARI FAANG KE MANGOS" → "From FAANG to MANGOS"). Quote it in the prompt: `render exactly: "<translation>"`. [config: subtitle_color] at 70-80% size of main headline; NEVER same white as main headline. **NEVER render font names ("Inter", "condensed"), the language name ("English"), or grade adjectives ("soft artistry and depth") as the subtitle text** — see TEXT-OVERLAY PURITY in global-config.md |
 | Accent keywords (2-4) | Within headline | 2-4 emotionally impactful keywords in [config: accent_color]. Hook: power word at 120% size + 1-3 more. Never highlight just 1 word |
-| Brand icon | **Center of image, above watermark** | From reference file, thirty percent opacity, every slide. In prompt body: "thirty percent opacity" — NEVER "30%" |
-| @handle watermark | **Center of image, below brand icon** | White, thirty percent opacity on ALL slides. In prompt body: "thirty percent opacity" — NEVER "30%" |
+| Brand icon | **Top bar only** | Single brand mark in the top chrome bar (bald + glasses). Do NOT render a centered brand-icon watermark. NEVER draw "%", "opacity", or a "Brand logo" label as text |
+| @handle watermark | **Bottom corner only** | One `@alisadikinma` handle, white, faint and barely-visible. No centered watermark. NEVER draw "%", "opacity", or any percentage as text |
 | [config: swipe_cta_text] | Bottom center | White small text, all slides EXCEPT CTA |
 | Page number | **Top-left corner** | "N/TOTAL" format (e.g., "1/10"), small white text, ALL slides. Helps viewers track progress and simplifies posting order |
 
@@ -185,9 +187,9 @@ positioned starting from the vertical center of the image extending downward, no
 Below the main headline, a [config: subtitle_language] subtitle line reading "[SUBTITLE TRANSLATION]" in [config: subtitle_color] at slightly smaller size,
 creating clear visual hierarchy — the subtitle must NOT be white like the main headline.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 ["[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap. | omit for CTA slide]
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 ```
@@ -514,9 +516,9 @@ The text uses the largest possible font size that fills the width, extra bold we
 positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 "[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 
@@ -548,9 +550,9 @@ The text uses the largest possible font size that fills the width, extra bold we
 positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 "[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 
@@ -620,9 +622,9 @@ The text uses the largest possible font size that fills the width, extra bold we
 positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 "[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 
@@ -660,9 +662,9 @@ The text uses the largest possible font size that fills the width, extra bold we
 positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 "[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 
@@ -689,9 +691,9 @@ The text uses the largest possible font size that fills the width, extra bold we
 positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 "[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 
@@ -726,9 +728,9 @@ reading "[JUDUL THUMBNAIL DALAM BAHASA]" with the words "[KEYWORD 1]", "[KEYWORD
 The text uses the largest possible font size that fills the width, extra bold weight.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 
 [PLATFORM ASPECT] aspect ratio. No competitor branding.
 Maintain exact appearance from reference image: creator-face.png.
@@ -758,14 +760,14 @@ The text uses the largest possible font size that fills the width, extra bold we
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 [If comparison (A vs B): brand icon + watermark on divider:]
 Render the creator's brand icon from reference image creator-brand.png on the vertical center divider line
-between the two panels as a small circular badge at thirty percent opacity — use the exact icon from the file, do not generate a new one.
+between the two panels as a small circular badge at faint and barely-visible — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white on the vertical center divider line,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 [If non-comparison: brand icon + watermark centered:]
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 "[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 
@@ -794,9 +796,9 @@ in [config: accent_color]. Remaining text in white.
 The text uses the largest possible font size that fills the width, extra bold weight.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 "[config: swipe_cta_text]" in small white text positioned directly beneath the headline text with minimal gap.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
 
@@ -853,9 +855,9 @@ reading "MENURUT LO [A] ATAU [B]?" with "[A]" and "[B]" in [config: accent_color
 The text uses the largest possible font size that fills the width, extra bold weight.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 Three small social media icons (Instagram logo, TikTok logo, LinkedIn logo) arranged in a single horizontal row with "[config: handle]" in white text beside the icons row.
 Below the icons row, "[config: portfolio_url]" in white text at slightly smaller size.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
@@ -891,9 +893,9 @@ reading "[SIMPLE CHOICE QUESTION IN BAHASA]?" with the words "[KEYWORD 1]" and "
 The text uses the largest possible font size that fills the width, extra bold weight.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 Three small social media icons (Instagram logo, TikTok logo, LinkedIn logo) arranged in a single horizontal row with "[config: handle]" in white text beside the icons row.
 Below the icons row, "[config: portfolio_url]" in white text at slightly smaller size.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
@@ -929,9 +931,9 @@ reading "TAG TEMEN YANG BUTUH INI" with "BUTUH" in [config: accent_color].
 The text uses the largest possible font size that fills the width, extra bold weight.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 Three small social media icons (Instagram logo, TikTok logo, LinkedIn logo) arranged in a single horizontal row with "[config: handle]" in white text beside the icons row.
 Below the icons row, "[config: portfolio_url]" in white text at slightly smaller size.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
@@ -969,9 +971,9 @@ reading "COMMENT '[KEYWORD]' BUAT DAPETIN [REWARD]" with "[KEYWORD]" in [config:
 The text uses the largest possible font size that fills the width, extra bold weight.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
-as a small circular badge at thirty percent opacity, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
+as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
 "[config: handle]" as a watermark in white, centered in the middle of the image directly below the brand icon,
-thirty percent opacity, subtle background mark only.
+faint and barely-visible, subtle background mark only.
 Three small social media icons (Instagram logo, TikTok logo, LinkedIn logo) arranged in a single horizontal row with "[config: handle]" in white text beside the icons row.
 Below the icons row, "[config: portfolio_url]" in white text at slightly smaller size.
 "[N]/[TOTAL]" as a small white page number in the top-left corner of the image.
@@ -1166,7 +1168,7 @@ Auto-generated alongside `carousel-prompt.md` as `video-handover.md` in the same
 Every slide contains these text elements that must remain sharp and readable if animated:
 - Headline (ALL CAPS, bottom gradient zone)
 - Subtitle ([config: subtitle_language], below headline)
-- Brand icon (center, thirty percent opacity)
+- Brand icon (center, faint and barely-visible)
 - @handle watermark (center, below brand icon)
 - Page number (top-left corner)
 - SWIPE (GESER) > (below headline, all slides except CTA)

@@ -147,8 +147,12 @@ describe('SKILL.md — spotlight template gate + signature outfit (v3.0)', () =>
     expect(text).toMatch(/signature (outfit|smart-casual)/i);
   });
 
-  it('CTA rule prioritizes Save + Comment + Share and defers comment-to-DM', () => {
-    expect(text).toMatch(/save\s*\+\s*comment\s*\+\s*share|save,?\s*comment,?\s*(?:and\s*|\+\s*|& )?share/i);
+  it('CTA rule enforces exactly ONE mencolok command and bans stacking two', () => {
+    expect(text).toMatch(/exactly ONE command/i);
+    expect(text).toMatch(/mencolok/i);
+    expect(text).toMatch(/NEVER stack two/i);
+    // The old multi-command ask must be gone from the active rule.
+    expect(text).not.toMatch(/prioritizes \*\*Save \+ Comment \+ Share\*\*/i);
     expect(text).toMatch(/comment-to-DM[^.]*defer|defer[^.]*comment-to-DM/i);
   });
 });
@@ -211,18 +215,53 @@ describe('compiled pipeline bundle — propagation guard (v3.0)', () => {
 });
 
 // ---------------------------------------------------------------------------
-// version-sync guard — package.json === plugin.json === 3.0.3
+// global-config.md — text-overlay purity + opacity-leak removal + single CTA (v3.0.4)
 // ---------------------------------------------------------------------------
 
-describe('version sync — package.json === plugin.json === 3.0.3', () => {
-  it('all version sources are pinned at 3.0.3', () => {
+describe('global-config.md — text-overlay purity + single CTA (v3.0.4)', () => {
+  const text = read(REF('global-config.md'));
+
+  it('carries the TEXT-OVERLAY PURITY hard rule (no labels/font/grade words in renders)', () => {
+    expect(text).toMatch(/TEXT-OVERLAY PURITY/i);
+    expect(text).toMatch(/CTA Headline/); // forbidden-label example
+    expect(text).toMatch(/soft artistry and depth/i); // forbidden grade-adjective example
+  });
+
+  it('subtitle rule names the literal-translation requirement (no style-word leak)', () => {
+    expect(text).toMatch(/actual English translation of the headline/i);
+  });
+
+  it('no "thirty percent opacity" prompt-body phrase remains (it rendered as "30%")', () => {
+    // The phrase may only survive inside an explicit NEVER-draw negative directive.
+    const offending = text
+      .split('\n')
+      .filter((l) => /thirty percent/i.test(l))
+      // Drop negative directives AND lines that merely quote it as a forbidden literal.
+      .filter((l) => !/NEVER|never draw|forbidden|do not draw|not draw/i.test(l))
+      .filter((l) => !/"thirty percent"/i.test(l));
+    expect(offending).toEqual([]);
+  });
+
+  it('cta_engagement_actions is exactly ONE mencolok command, not stacked', () => {
+    expect(text).toMatch(/Exactly ONE command per CTA slide/i);
+    expect(text).toMatch(/mencolok/i);
+    expect(text).not.toMatch(/`cta_engagement_actions`[^|]*\*\*Save \+ Comment \+ Share\*\*/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// version-sync guard — package.json === plugin.json === 3.0.4
+// ---------------------------------------------------------------------------
+
+describe('version sync — package.json === plugin.json === 3.0.4', () => {
+  it('all version sources are pinned at 3.0.4', () => {
     const pkg = JSON.parse(read(resolve(REPO_ROOT, 'package.json'))) as {
       version: string;
     };
     const plugin = JSON.parse(
       read(resolve(REPO_ROOT, '.claude-plugin', 'plugin.json')),
     ) as { version: string };
-    expect(pkg.version).toBe('3.0.3');
-    expect(plugin.version).toBe('3.0.3');
+    expect(pkg.version).toBe('3.0.4');
+    expect(plugin.version).toBe('3.0.4');
   });
 });
