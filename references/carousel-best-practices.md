@@ -535,6 +535,22 @@ career advice — default to `5act`. It is the cross-platform best practice for
 
 ---
 
+## 9.5 Listicle-of-Items Archetype (Skills / Tools / Plugins / Features Introduction)
+
+**When to apply:** the topic introduces/showcases **N discrete named items** — skills, plugins, **tools** (incl. third-party AI/app tool roundups like "5 AI Tools yang…"), apps, features, frameworks, models. The default archetype any time the payload is "here are N things," WHOEVER owns the items (the creator's own skills/plugins OR third-party tools — same rules either way). Pairs with `--narrative=free` (§9 "When to Skip the 5-Act Spine") — each item is a self-contained beat, not a 5-act arc. Four NON-NEGOTIABLE rules; the goal is the longest possible watch time, all the way to the final slide:
+
+1. **One item = one slide — NEVER merge.** Each item gets its own dedicated body slide with full detail ([SPECIFIC name] + what it does + why it matters + one concrete use/stat — see §2.5 "One Idea Per Slide"). N items → N body slides. Collapsing a multi-item roundup into one summary slide that lists several items is a HARD violation: it flattens depth, kills per-item save value, and breaks the numbered progression. A long carousel is fine — the numbering + best-last tease are exactly what sustain the long watch time.
+
+2. **Numbered progress header on EVERY item slide.** A large number badge (the item's index) top-left, PLUS a progress row showing all indices `1 2 3 … N` with the current one highlighted (a stepper). The cover headline states the TOTAL count up front ("10 Skill AI yang…"). A visible "how many left" is a completion pull — the audience sees the finish line and the promised payoff approaching.
+
+3. **Tease the FINALE on the cover hook itself** (not only on the slide-2 foreshadow). The cover headline/subtext must explicitly promise that item **#N (the last)** is the most powerful — "…dan yang ke-N paling gila", "the #N will blow your mind". This is the core curiosity-gap completion lever for this archetype. NEVER reveal what #N actually is on the cover (no spoiler) — only that it's the best. Reinforce on slide 2 with the "Wait Until Slide N" foreshadow.
+
+4. **Best-last ordering is RESEARCH-DRIVEN, not arbitrary.** During research you MUST rank ALL candidate items by genuine quality / popularity / demand / usefulness and record which is the single strongest, then place that item LAST. "Which item is objectively the most popular / highest-demand / most impressive" is a REQUIRED research output for this archetype — capture it before authoring slides. Teasing "#N is best" then delivering a weak finale = a broken promise that trains the audience to distrust every future foreshadow → permanently lower completion. Escalate the middle items (interesting → surprising → stakes raise), reserve the researched #1 for the final slot.
+
+**Default pairings:** Hook = Curiosity Gap + Number/digit headline · Slide 2 = "Steps Tease" foreshadow · CTA = Question Trigger ("which one are you trying first? comment the number"). When the items are the creator's OWN product/skills (self-promotion), the subject of every slide is that product — never substitute generic third-party tools. (Deeper hook/CTA psychology: `hook-science.md` § "Listicle-of-Items Archetype".)
+
+---
+
 ## 10. Engagement Optimization Checklist
 
 Before publishing any carousel:

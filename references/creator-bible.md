@@ -54,6 +54,14 @@ When a slide discusses a SPECIFIC company, product, or service (Google, WhatsApp
 - Example: "40 juta pesan/detik" → MUST show WhatsApp logo/chat UI. Without it, nobody knows what platform
 - Subject brand = the topic. Creator brand = your branding. Both coexist.
 
+### Competitor Product Substitution (Content-Level — replaces the SUBJECT, not just chrome)
+When the source/topic features a product that is a DIRECT FUNCTIONAL EQUIVALENT of one of the CREATOR's OWN products, **substitute the creator's product as the subject** — same role in the slide, same claim/benefit framing. This is content-level (changes what the slide is ABOUT), distinct from removing competitor watermarks/chrome in "NEVER include" below. Featuring a rival's product as the carousel subject promotes the competitor for free; when the creator ships an equivalent, the creator's product is the rightful subject.
+
+Active substitution map (extend as the creator ships products):
+- **"superpowers"** (the Claude Code / AI-agent skills plugin) → REPLACE with the creator's own **gaspol-dev** (https://github.com/alisadikinma/gaspol-dev). Same job (Claude Code skill/agent suite), so feature the equivalent gaspol-dev skill instead — keep the slide's framing/benefit identical, just swap the named subject. NEVER showcase `superpowers` as a subject.
+
+Scope guard: substitute ONLY for direct equivalents. If a source item has NO creator-owned equivalent, keep the real subject (the Subject Brand Context rule above still applies).
+
 ### NEVER include:
 - **Competitor branding** that competes with the CREATOR's brand (other creator handles, rival brand watermarks)
 - **Source category tags** from original carousel (e.g., "TECHNOLOGY", "FINANCE" badges from the source) — these are the original creator's branding elements, NOT your content category
