@@ -132,7 +132,7 @@ When a B-Roll/content slide involves visible human figures (silhouettes, crowds,
 2. Use character reference image + face reference image
 3. **Crowd scenes**: Creator must be one of the **most prominent foreground figures** — clearly identifiable, not lost in the crowd. Place creator in center-foreground or left/right-foreground position, slightly larger/closer to camera than surrounding people.
 4. **Single/few person scenes**: Creator IS the primary subject.
-5. Default to the **signature smart-casual outfit** (§6) — v3 has no topic-costume switching. Only if the scene is a literal specific environment → ask: "signature outfit or a scene-override costume?"
+5. Default to the **signature smart-casual outfit** (§6). v3 has no per-keyword costume switching. Two narrow overrides (§6): a **locale/culture-defining topic** → that culture's modern traditional attire (`locale_override`); a **literal specific environment** → scene-override costume.
 6. The ONLY B-Roll slides without creator face = slides with NO human figures at all (pure object/landscape/abstract visuals)
 
 ### Public Figure Face Priority (OVERRIDES B-Roll Rule Above)
@@ -160,11 +160,16 @@ When the carousel topic centers on a **public figure** — criminal, head of sta
 
 ## 6. Wardrobe Default — Signature Outfit (v3 Spotlight Portrait)
 
-> **One signature outfit, every slide, every topic.** v3 retires topic-costume
-> switching: the creator no longer dresses as the topic. Topic is conveyed by the
-> **floating topic elements** (see `hook-visual-library.md` Spotlight Portrait
-> Template), never by costume. This maximizes AI-likeness consistency + brand
-> recognition.
+> **One signature outfit, every slide, every topic — by default.** v3 retires
+> *per-profession / per-keyword* costume switching: the creator no longer dresses
+> as the topic. Topic is conveyed by the **floating topic elements** (see
+> `hook-visual-library.md` Spotlight Portrait Template), never by costume. This
+> maximizes AI-likeness consistency + brand recognition.
+>
+> **The one topic-driven exception is the `locale_override`** (see the resolution
+> chain below): when the topic is fundamentally about a specific country/culture,
+> the creator wears that locale's modern traditional attire for relatability. This
+> is narrow and place-defined — it is NOT a return to per-keyword costume swapping.
 
 | Element | Spec |
 |---------|------|
@@ -174,9 +179,19 @@ When the carousel topic centers on a **public figure** — criminal, head of sta
 | **Prompt phrase** | wearing the **signature smart-casual** outfit — a dark neutral tee or henley under an unstructured slate-toned blazer, clean dark trousers, soft matte knit and natural blazer drape with subtle creases, credible and approachable, consistent across every slide |
 
 **Signature smart-casual** is the single default (`creator_outfit.source = signature`).
-The only exception is a rare **scene-override** deck whose narrative is literally set
-in a specific environment (`source = scene_override`) — see
-`hook-visual-library.md` §10 Scene → Costume Override Table.
+Two narrow exceptions override it:
+
+- **Locale/culture override** (`source = locale_override`) — when the topic is
+  **fundamentally DEFINED by a specific country/culture** (the place *is* the
+  story, e.g. "AI training jobs in India paying Rs250/hr", "Japan's robot
+  hotels"), dress the creator in that locale's **modern, credible
+  traditional/national attire** (e.g. a tailored kurta for India) — NOT a costume
+  caricature, NO stereotyped props. The signature look returns the moment the
+  topic isn't place-defined. A country merely **mentioned in passing does NOT
+  trigger this** — only when the topic wouldn't exist without that place.
+- **Scene-override** (`source = scene_override`) — a rare deck whose narrative is
+  literally set in a specific environment — see `hook-visual-library.md` §10
+  Scene → Costume Override Table.
 
 ## 7. Text Gradient Zone Allocation (Single Source of Truth)
 

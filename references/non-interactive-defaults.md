@@ -44,16 +44,18 @@ uniform, surgical scrubs, chef whites, courtroom robe, military uniform, etc.).
 |---|---|
 | Ask: "Should you wear [profession outfit] or your signature outfit?" | **Apply the v3 signature-outfit chain non-interactively** (see below). Log selection reasoning to envelope `notes[]`. |
 
-**Pipeline behavior (v3 Spotlight Portrait — topic-costume switching RETIRED):** the creator no longer changes outfit per topic. Topic is conveyed by the **floating topic elements** (§5), never by the costume. Resolve in two steps only:
+**Pipeline behavior (v3 Spotlight Portrait — per-keyword costume switching RETIRED):** the creator no longer changes outfit per profession/keyword. Topic is conveyed by the **floating topic elements** (§5), never by the costume — with ONE narrow topic exception (locale). Resolve in three steps:
 
-1. **Scene-override (rare, still wins)** — if a deck's narrative genuinely demands a setting outfit (the scene is literally inside a specific environment, e.g. on-stage, courtroom B-roll), use the scene-appropriate costume from `hook-visual-library.md` §10 Scene → Costume Override Table. `creator_outfit.source = scene_override`.
-2. **Signature outfit (default — almost always)** — otherwise dress the creator in the one **signature smart-casual outfit**: dark tee/henley + unstructured blazer, neutral tone (from `creator-bible.md`). Used on EVERY creator-face slide (cover, body w/ face is N/A — see §5b face rule, human_fingerprint, cta), every topic. `creator_outfit.source = signature`.
+1. **Locale/culture override** — if the topic is **fundamentally DEFINED by a specific country/culture** (the place *is* the story, e.g. India AI-training jobs paid in rupees, Japan's robot hotels), dress the creator in that locale's **modern, credible traditional/national attire** (e.g. a tailored kurta / Nehru-collar for India; no caricature, no stereotyped props). `creator_outfit.source = locale_override`. Trigger ONLY when the topic wouldn't exist without that place — a country merely mentioned in passing does NOT count.
+2. **Scene-override (rare, still wins over signature)** — if a deck's narrative genuinely demands a setting outfit (the scene is literally inside a specific environment, e.g. on-stage, courtroom B-roll), use the scene-appropriate costume from `hook-visual-library.md` §10 Scene → Costume Override Table. `creator_outfit.source = scene_override`.
+3. **Signature outfit (default — almost always)** — otherwise dress the creator in the one **signature smart-casual outfit**: dark tee/henley + unstructured blazer, neutral tone (from `creator-bible.md`). Used on EVERY creator-face slide (cover, body w/ face is N/A — see §5b face rule, human_fingerprint, cta), every topic. `creator_outfit.source = signature`.
 
-There is **no topic-keyword matching, no LLM costume inference, no per-profession archetype switching** in v3 — those steps are removed. The signature outfit maximizes AI-likeness consistency and brand recognition.
+The `locale_override` is the **sole topic-driven exception**; it keys on the topic's DEFINING place, NOT on profession keywords. There is otherwise **no topic-keyword matching, no per-profession archetype switching** in v3 — those steps are removed. The signature outfit maximizes AI-likeness consistency and brand recognition.
 
 **Logging**: append selection reasoning to envelope `notes[]` in this exact format: `costume_resolved: <category> via <source> ("<reasoning>")`. Examples:
 
 - `costume_resolved: Signature smart-casual via signature ("v3 default — topic conveyed by floating elements")`
+- `costume_resolved: Indian traditional (modern kurta) via locale_override ("topic is fundamentally about India — AI training jobs paid in rupees")`
 - `costume_resolved: On-stage via scene_override ("deck narrative is a literal keynote-stage scene")`
 
 ---
@@ -71,7 +73,7 @@ indoor vs. outdoor, day vs. night).
 
 | Slide mood / layout_hint | Default setting |
 |---|---|
-| `cover` (hook, scroll-stop) | **= Spotlight Portrait template** — solid blue `#0F59B6` base with a radial glow behind the creator, creator upper-body portrait in the signature outfit, **≥3 floating topic UI elements** (real tool cards/logos/screenshots) around the upper body, top-bar swipe pill, bottom CTA pill, bottom-gradient headline with 2-4 gold accent words. NO absurdist scene, NO generic warm-studio. The floating elements (not an absurd scene) do the scroll-stop work. |
+| `cover` (hook, scroll-stop) | **= Spotlight Portrait template** — solid blue `#0F59B6` base with a radial glow behind the creator, creator upper-body portrait in the **costume from §2's resolution chain** (signature by default; that locale's modern attire when the topic is locale-defining), **≥3 floating topic UI elements** (real tool cards/logos/screenshots) around the upper body, top-bar swipe pill, bottom CTA pill, bottom-gradient headline with 2-4 gold accent words. NO absurdist scene, NO generic warm-studio. The floating elements (not an absurd scene) do the scroll-stop work. **Hook-copy specificity:** when the topic is defined by a specific **place / number / who**, the bottom-gradient HEADLINE must surface it (lead with it) — e.g. "DI INDIA, DIBAYAR Rp-rupee/JAM…" not a generic "DIBAYAR…". The defining locale belongs in the words, not only the floating map icon. |
 | `body` (content delivery) | **Blue `#0F59B6` base, icon-led knowledge card** — card surfaces darker than the base so accent-gold icons read (face-free per §5b). |
 | `human_fingerprint` (lived-experience anchor) | **Blue `#0F59B6` base Spotlight Portrait** — creator upper-body, signature outfit, reflective expression, ≥3 floating topic elements, cool-neutral key + gold rim. |
 | `direct_answer` (PEAK / AI-search) | **Blue `#0F59B6` base, icon-led answer card** with a clean darker-blue card surface (face-free per §5b). |

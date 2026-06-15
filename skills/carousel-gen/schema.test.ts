@@ -653,6 +653,25 @@ describe('CarouselGenOutputSchema — creator_outfit field', () => {
     expect(parsed.creator_outfit?.source).toBe('signature');
   });
 
+  it("accepts source='locale_override' (topic defined by a country/culture)", () => {
+    const input = {
+      ...buildValidBilingualOutput(),
+      creator_outfit: {
+        category: 'Indian traditional (modern kurta)',
+        prompt_phrase:
+          'wearing a tailored modern kurta in a neutral tone, credible and approachable, consistent across every slide',
+        source: 'locale_override' as const,
+        reasoning:
+          'topic is fundamentally about India — AI training jobs paid in rupees; locale defines the deck.',
+      },
+    };
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.creator_outfit?.source).toBe('locale_override');
+  });
+
   it('still accepts legacy source=topic_match (backward compat with pre-v3 drafts)', () => {
     const input = {
       ...buildValidBilingualOutput(),

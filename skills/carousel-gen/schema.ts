@@ -115,11 +115,13 @@ export type CarouselSlide = z.infer<typeof CarouselSlideSchema>;
 // Read by Portfolio_v2 admin UI for operator audit + future manual override hook.
 // Optional for backward compat with pre-feature drafts.
 //
-// v3.0.0 (Spotlight Portrait): topic-costume switching is RETIRED. The default is
-// the single **signature** smart-casual outfit — `source = 'signature'`. The only
-// runtime exception is a literal **scene_override** deck. `topic_match` and
-// `fallback` are DEPRECATED and retained only so pre-v3 drafts still parse
-// (backward compat) — new runs should emit 'signature' or 'scene_override'.
+// v3.0.0 (Spotlight Portrait): per-keyword topic-costume switching is RETIRED. The
+// default is the single **signature** smart-casual outfit — `source = 'signature'`.
+// Two runtime exceptions: a **locale_override** (topic fundamentally about a
+// country/culture → that locale's modern traditional attire) and a literal
+// **scene_override** deck. `topic_match` and `fallback` are DEPRECATED and retained
+// only so pre-v3 drafts still parse (backward compat) — new runs should emit
+// 'signature', 'locale_override', or 'scene_override'.
 //
 // Source: docs/plans/2026-06-12-spotlight-portrait-blue-rebrand.md
 //         (supersedes docs/plans/2026-05-04-topic-aware-costume-and-dramatic-hook.md)
@@ -128,9 +130,10 @@ export type CarouselSlide = z.infer<typeof CarouselSlideSchema>;
 export const CreatorOutfitSchema = z.object({
   category: z.string().min(2).max(60),
   prompt_phrase: z.string().min(20).max(400),
-  // 'signature' (v3 default) | 'scene_override' (rare literal-setting deck).
+  // 'signature' (v3 default) | 'locale_override' (topic defined by a country/culture)
+  // | 'scene_override' (rare literal-setting deck).
   // 'topic_match' | 'fallback' DEPRECATED — kept for pre-v3 backward compat.
-  source: z.enum(['signature', 'scene_override', 'topic_match', 'fallback']),
+  source: z.enum(['signature', 'locale_override', 'scene_override', 'topic_match', 'fallback']),
   reasoning: z.string().min(10).max(200),
 });
 

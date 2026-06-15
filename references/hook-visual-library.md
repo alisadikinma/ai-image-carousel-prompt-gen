@@ -609,11 +609,14 @@ Category-level engagement data mapped from research sources already cited in hoo
 
 ## Section 10: Costume/Wardrobe Library
 
-> **v3.0 — TOPIC-COSTUME SWITCHING RETIRED.** The creator no longer changes outfit
-> per topic. The default is the **single signature smart-casual outfit** below, used
-> on every creator-face slide and every topic. Topic is conveyed by the **floating
-> topic elements** (see Spotlight Portrait Template at the top of this file), never
-> by costume. The only exception is a literal **scene-override** deck.
+> **v3.0 — PER-KEYWORD COSTUME SWITCHING RETIRED.** The creator no longer changes
+> outfit per profession/keyword. The default is the **single signature smart-casual
+> outfit** below, used on every creator-face slide and every topic. Topic is
+> conveyed by the **floating topic elements** (see Spotlight Portrait Template at the
+> top of this file), never by costume. **Two narrow exceptions** override the
+> signature look: a **locale/culture-defining topic** (the topic is fundamentally
+> about a country/culture → wear that locale's modern traditional attire,
+> `locale_override`) and a literal **scene-override** deck.
 
 ### Signature Outfit (v3 DEFAULT wardrobe)
 
@@ -632,15 +635,18 @@ enterprise audience and maximizes AI-likeness consistency + brand recognition.
 `creator_outfit.source = signature` for this default. `creator_outfit.source = scene_override`
 only when a deck demands a literal setting outfit.
 
-### Selection Rule (Signature-first, Scene-Override exception)
+### Selection Rule (Signature-first; Locale + Scene exceptions)
 
 1. **User override** (always wins) — if the user explicitly specifies wardrobe → use that.
-2. **Scene-override (rare)** — if the deck's narrative is a literal specific environment (on-stage keynote, courtroom B-roll, etc.), use the scene-appropriate costume from the Scene → Costume Override Table below. `source = scene_override`.
-3. **Signature outfit (default — almost always)** — otherwise the Signature Outfit above. `source = signature`.
+2. **Locale/culture override** — if the topic is **fundamentally defined by a specific country/culture** (the place *is* the story, e.g. India AI-training jobs, Japan robot hotels), dress the creator in that locale's **modern, credible traditional/national attire** (e.g. a tailored kurta for India) — no caricature, no stereotyped props. `source = locale_override`. Trigger ONLY when the topic wouldn't exist without that place; a country merely mentioned in passing does NOT count.
+3. **Scene-override (rare)** — if the deck's narrative is a literal specific environment (on-stage keynote, courtroom B-roll, etc.), use the scene-appropriate costume from the Scene → Costume Override Table below. `source = scene_override`.
+4. **Signature outfit (default — almost always)** — otherwise the Signature Outfit above. `source = signature`.
 
-There is no topic-keyword matching and no per-profession costume switching in v3.
-The profession/lifestyle costume cards further below are a **non-default
-scene-override reference library** only.
+The `locale_override` is the **sole topic-driven exception** — it keys on the
+topic's DEFINING place/culture, not on profession keywords. There is otherwise no
+topic-keyword matching and no per-profession costume switching in v3. The
+profession/lifestyle costume cards further below are a **non-default scene-override
+reference library** only.
 
 **Scene → Costume Override Table:**
 
@@ -658,6 +664,17 @@ scene-override reference library** only.
 | Neutral studio / plain background | **Use the Signature Outfit (default)** | no scene context to override; signature outfit is the v3 floor |
 
 **Rule:** If the hook visual places the creator in a night market holding giant cockroach skewers, the costume is **casual streetwear** — NOT a finance blazer, even if the topic is investment-related. The scene always wins over the topic.
+
+**Locale/Culture Override Examples** (the one place where a topic's *defining* locale DOES drive the costume — modern professional attire, credible, no caricature):
+
+| Locale-defining topic | Costume Override (`locale_override`) |
+|--------|-----------------|
+| India (e.g. AI training jobs paid in rupees) | tailored modern kurta / Nehru-collar jacket, neutral tone |
+| Japan (e.g. Japan's robot hotels) | refined modern take on Japanese minimalist attire (clean structured layers) |
+| Middle East / Gulf | crisp modern thobe-inspired styling, neutral, professional |
+| Indonesia (home) | the Signature Outfit, OR a modern batik shirt when the topic is *about* Indonesia |
+
+Use only when the place is the *story*. Keep it modern + dignified — this is relatability, not cosplay.
 
 Costume descriptions are prompt-ready — copy the **Prompt Phrase** directly into the `[Wardrobe]` slot.
 
