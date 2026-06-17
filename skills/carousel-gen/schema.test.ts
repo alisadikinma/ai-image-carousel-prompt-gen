@@ -701,6 +701,162 @@ describe('CarouselGenOutputSchema — creator_outfit field', () => {
   });
 });
 
+describe('CarouselSlideSchema — people_spotlight contract (needs_real_faces)', () => {
+  it('accepts a profile slide flagged needs_real_faces with people[] + face_layout', () => {
+    const input = buildValidBilingualOutput();
+    // Slide 2 (index 1) is a "SIAPA <Name>?" profile slide depicting a real person.
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        i === 1
+          ? {
+              ...s,
+              needs_real_faces: true,
+              people: [{ name: 'Ashish Vaswani', role: 'lead author' }],
+              face_layout: 'photo_band_top' as const,
+            }
+          : s,
+      ),
+    };
+
+    const parsed = CarouselGenOutputSchema.parse(mutated);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.slides[1].needs_real_faces).toBe(true);
+    expect(parsed.slides[1].people).toHaveLength(1);
+    expect(parsed.slides[1].people?.[0].name).toBe('Ashish Vaswani');
+    expect(parsed.slides[1].people?.[0].role).toBe('lead author');
+    expect(parsed.slides[1].face_layout).toBe('photo_band_top');
+  });
+
+  it('accepts a group profile slide with multiple people (founders)', () => {
+    const input = buildValidBilingualOutput();
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        i === 2
+          ? {
+              ...s,
+              needs_real_faces: true,
+              people: [
+                { name: 'Michael Truell' },
+                { name: 'Sualeh Asif' },
+                { name: 'Arvid Lunnemark' },
+                { name: 'Aman Sanger' },
+              ],
+              face_layout: 'photo_band_top' as const,
+            }
+          : s,
+      ),
+    };
+
+    const parsed = CarouselGenOutputSchema.parse(mutated);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.slides[2].people).toHaveLength(4);
+    // role is optional — omitted here.
+    expect(parsed.slides[2].people?.[0].role).toBeUndefined();
+  });
+
+  it('accepts a legacy slide with NONE of the new fields (backward compat)', () => {
+    const input = buildValidBilingualOutput();
+    // Sanity: fixture must not already carry the new fields, so this asserts the
+    // optional path rather than coincidentally passing.
+    input.slides.forEach((s) => {
+      expect((s as Record<string, unknown>).needs_real_faces).toBeUndefined();
+      expect((s as Record<string, unknown>).people).toBeUndefined();
+      expect((s as Record<string, unknown>).face_layout).toBeUndefined();
+    });
+
+    const parsed = CarouselGenOutputSchema.parse(input);
+    if (parsed.status !== 'complete') {
+      throw new Error('expected complete envelope');
+    }
+    expect(parsed.slides[1].needs_real_faces).toBeUndefined();
+    expect(parsed.slides[1].people).toBeUndefined();
+  });
+
+  it('rejects needs_real_faces=true with an empty people array', () => {
+    const input = buildValidBilingualOutput();
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        i === 1
+          ? { ...s, needs_real_faces: true, people: [], face_layout: 'photo_band_top' as const }
+          : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(mutated);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const messages = zerr.issues.map((i) => i.message).join(' | ');
+      expect(messages).toMatch(/needs_real_faces requires at least one entry in people/);
+    }
+  });
+
+  it('rejects needs_real_faces=true with people omitted entirely', () => {
+    const input = buildValidBilingualOutput();
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        i === 1 ? { ...s, needs_real_faces: true, face_layout: 'photo_band_top' as const } : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+  });
+
+  it("rejects needs_real_faces=true with face_layout='none'", () => {
+    const input = buildValidBilingualOutput();
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        i === 1
+          ? {
+              ...s,
+              needs_real_faces: true,
+              people: [{ name: 'Ashish Vaswani' }],
+              face_layout: 'none' as const,
+            }
+          : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+    try {
+      CarouselGenOutputSchema.parse(mutated);
+    } catch (err) {
+      const zerr = err as ZodError;
+      const messages = zerr.issues.map((i) => i.message).join(' | ');
+      expect(messages).toMatch(/needs_real_faces requires a face_layout other than 'none'/);
+    }
+  });
+
+  it('rejects a person entry with a name shorter than 2 chars', () => {
+    const input = buildValidBilingualOutput();
+    const mutated = {
+      ...input,
+      slides: input.slides.map((s, i) =>
+        i === 1
+          ? {
+              ...s,
+              needs_real_faces: true,
+              people: [{ name: 'A' }],
+              face_layout: 'photo_band_top' as const,
+            }
+          : s,
+      ),
+    };
+
+    expect(() => CarouselGenOutputSchema.parse(mutated)).toThrow(ZodError);
+  });
+});
+
 describe('CarouselGenOutputSchema — type narrowing', () => {
   it('narrows to CompleteCarouselOutput when status=complete', () => {
     const input = buildValidBilingualOutput();

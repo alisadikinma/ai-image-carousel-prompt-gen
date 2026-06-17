@@ -60,6 +60,43 @@ export const CarouselSlideSchema = z
     is_cta: z.boolean(),
     // Only valid on direct_answer slides; constraint enforced in superRefine.
     direct_answer_block: z.string().min(150).max(600).optional(),
+    // -----------------------------------------------------------------------
+    // people_spotlight contract (2026-06-17) — the "brain" that makes the
+    // plugin self-aware about needing REAL human faces, portable to every
+    // consumer. The plugin DETECTS a person-profile slide (e.g. "SIAPA
+    // <Name>?" / "Who is X?", or copy centring on named founders/authors/CEOs)
+    // and emits this contract so the consumer can fulfil it from whatever
+    // photo source it has (IG-source crop, Wikidata, operator upload) and the
+    // image model / compositor places real faces in the reserved band.
+    //
+    // The plugin only emits the NEED + the people's real NAMES — it never
+    // renders or stores the photo bytes. A bare consumer can still feed its
+    // own face references; the reserved band + framed-photo treatment are
+    // authored into image_prompt so the layout already makes room.
+    //
+    // All three fields are OPTIONAL for backward compat — pre-feature slides
+    // omit them. When needs_real_faces===true, superRefine requires a
+    // non-empty people[] and a face_layout other than 'none'.
+    // -----------------------------------------------------------------------
+    needs_real_faces: z.boolean().optional(),
+    people: z
+      .array(
+        z.object({
+          // Real full name — used by the consumer to RESOLVE the photo
+          // (source-slide face match / Wikidata). NEVER rendered as on-image
+          // text by the plugin.
+          name: z.string().min(2).max(80),
+          // Optional short role/label (e.g. "lead author", "co-founder") for
+          // a caption beside the framed photo.
+          role: z.string().max(60).optional(),
+        }),
+      )
+      .max(6)
+      .optional(),
+    // Where the consumer should place the real face cut-outs. 'photo_band_top'
+    // = a reserved horizontal band the image_prompt left blank; 'none' =
+    // explicitly no faces (invalid together with needs_real_faces=true).
+    face_layout: z.enum(['photo_band_top', 'photo_band_inline', 'none']).optional(),
   })
   .superRefine((slide, ctx) => {
     const hasSingle = !!slide.copy;
@@ -103,6 +140,28 @@ export const CarouselSlideSchema = z
           'direct_answer_block is only valid on direct_answer layout slides',
         path: ['direct_answer_block'],
       });
+    }
+
+    // people_spotlight: a slide that declares it needs real faces MUST name at
+    // least one person (so the consumer knows whose photo to resolve) and pick
+    // a real placement band.
+    if (slide.needs_real_faces === true) {
+      if (!slide.people || slide.people.length === 0) {
+        ctx.addIssue({
+          code: 'custom',
+          message:
+            'needs_real_faces requires at least one entry in people (whose photo to place)',
+          path: ['people'],
+        });
+      }
+      if (slide.face_layout === undefined || slide.face_layout === 'none') {
+        ctx.addIssue({
+          code: 'custom',
+          message:
+            "needs_real_faces requires a face_layout other than 'none' (where to place the faces)",
+          path: ['face_layout'],
+        });
+      }
     }
   });
 
