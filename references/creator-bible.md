@@ -158,6 +158,58 @@ When the carousel topic centers on a **public figure** — criminal, head of sta
 
 **Summary: Hook + CTA + Foreshadow + Thumbnail = creator face mandatory. Body slides about public figure = public figure's face primary, creator as optional companion.**
 
+### People Spotlight — real faces on person-PROFILE body slides (needs_real_faces contract)
+
+A **profile slide** is a body slide whose JOB is to introduce specific real **people** —
+"who are they?" — not to teach a concept. The default sketchnote/explainer body slide is
+**face-free** (icons + text), so without this rule a profile slide renders a generic doodle
+avatar of a person it should actually SHOW. This is the documented exception.
+
+**When to flag it — detection (set the contract):**
+
+- The headline is a profile question: **`SIAPA <Name>?`** / **"Who is X?"** / "Meet the
+  founders" / "Kenalan sama …".
+- OR the slide copy centres on **named real people** — founders, co-founders, a CEO, a paper's
+  author, a named team (e.g. "4 MIT dropouts who started Cursor", "Ashish Vaswani, lead author of
+  *Attention Is All You Need*").
+
+When either is true, emit the slide's **people_spotlight contract** (see `schema.ts`):
+
+```json
+{
+  "needs_real_faces": true,
+  "people": [{ "name": "Ashish Vaswani", "role": "lead author" }],
+  "face_layout": "photo_band_top"
+}
+```
+
+- `people[]` = the real full name(s) (+ optional short role). **1 person or a group** — list each
+  named person. The name is used by the CONSUMER to RESOLVE the photo (from its own source: an
+  Instagram-source slide crop, Wikidata, an operator upload).
+- `face_layout` = where the consumer drops the real cut-outs. `photo_band_top` = a reserved band.
+
+**How to author the `image_prompt` for a flagged slide:**
+
+1. **Reserve a clear horizontal photo band** (upper region) — keep it EMPTY of icons/text/doodle
+   on the solid brand base, sized for a row of real face cut-outs. The consumer composites the
+   real photos INTO this band.
+2. Treat the people as **framed photos / pinned-polaroid cut-outs** on the brand surface (small
+   hand-drawn frame, drop shadow, optional role caption) — a real photo pinned to the board, the
+   bridge between a real face and the sketchnote look.
+3. **Do NOT doodle, draw, or invent the named person's face** — the plugin has no idea what they
+   look like; a doodle avatar or a generic invented face is wrong. Reserve the band and let the
+   consumer place the real photo.
+4. **Never render the person's real NAME as on-image text** — the consumer supplies the photo; the
+   name lives only in the `people[]` contract, never baked into the rendered slide.
+
+**Graceful degrade:** a bare consumer with no photo source can feed its own face reference for each
+`people[]` entry — the reserved band + framed-photo treatment already make room, so the layout
+holds either way. This is the portable intelligence: the slide self-declares it needs real faces;
+fulfilment is the consumer's job.
+
+This contract is **independent of `--style`** — it applies on `sketchnote` (framed photo on the
+blue base) and `cinematic` (photoreal portraits) alike; only the framing treatment differs.
+
 ## 6. Wardrobe Default — Signature Outfit (v3 Spotlight Portrait)
 
 > **One signature outfit, every slide, every topic — by default.** v3 retires

@@ -265,3 +265,50 @@ describe('version sync — package.json === plugin.json === 3.0.4', () => {
     expect(plugin.version).toBe('3.0.4');
   });
 });
+
+// ---------------------------------------------------------------------------
+// people_spotlight — real faces on person-profile slides (2026-06-17)
+//
+// The "brain" that makes the plugin self-aware about needing REAL human faces.
+// A profile body slide ("SIAPA <Name>?" / "Who is X?", or copy centring on
+// named founders/CEOs/authors) must emit the people_spotlight contract +
+// reserve a photo band — NOT doodle the named person. These guards pin the
+// rule into the load-bearing reference docs so it can't silently regress.
+// ---------------------------------------------------------------------------
+
+describe('creator-bible.md — People Spotlight contract (real faces on profile slides)', () => {
+  const text = read(REF('creator-bible.md'));
+
+  it('defines a People Spotlight section that emits the needs_real_faces contract', () => {
+    expect(text).toMatch(/People Spotlight/i);
+    expect(text).toMatch(/needs_real_faces/);
+    expect(text).toMatch(/\bpeople\b/);
+    expect(text).toMatch(/face_layout/);
+  });
+
+  it('carries the detection triggers (SIAPA <Name>? / who is X / named founders)', () => {
+    expect(text).toMatch(/SIAPA/);
+    expect(text).toMatch(/who is/i);
+  });
+
+  it('reserves a photo band and forbids doodling/inventing the named person', () => {
+    expect(text).toMatch(/photo band/i);
+    expect(text).toMatch(/framed photo|pinned[- ]?polaroid/i);
+    expect(text).toMatch(/do not (doodle|draw|invent)/i);
+  });
+
+  it('forbids rendering the real person NAME as on-image text', () => {
+    expect(text).toMatch(/never (render|write|bake).{0,40}name|name.{0,40}(never|not).{0,20}on-image/i);
+  });
+});
+
+describe('style-presets.md — sketchnote profile-slide exception (reserve real-photo band)', () => {
+  const text = read(REF('style-presets.md'));
+
+  it('routes a named-people profile body slide to a real-photo band, not a pure doodle', () => {
+    expect(text).toMatch(/needs_real_faces/);
+    expect(text).toMatch(/photo band/i);
+    // The exception must explicitly override the default "body = doodle, no human" routing.
+    expect(text).toMatch(/People Spotlight/i);
+  });
+});

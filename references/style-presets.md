@@ -43,12 +43,18 @@ differs is the *content treatment*, by `layout_hint`:
 | Slide role (`layout_hint`) | Execution |
 |---|---|
 | `cover` (hook, slide 1) + `cta` (last slide) + any `human_fingerprint` | **PHOTOGRAPHIC Spotlight Portrait** — apply the **Spotlight Portrait Template** from `hook-visual-library.md` verbatim: a real, calm, credible **creator face + upper body from the provided face reference** (`{{CREATOR_FACE}}` token IS emitted on these slides), signature outfit, **≥3 floating topic UI elements** (glassy tool cards / logos / screenshots) around the upper body, bold bilingual headline with 2–4 gold accent words in the bottom gradient zone. NOT a doodle. NO hand-drawn human. |
+| `body` PROFILE slide — introduces specific **named real people** ("SIAPA `<Name>`?", "Who is X?", named founders/CEOs/authors) | **DOODLE INFOGRAPHIC + RESERVED REAL-PHOTO BAND** — keep the §1–§11 doodle treatment for the icons/text, but emit the **People Spotlight contract** (`needs_real_faces:true` + `people[]` + `face_layout:'photo_band_top'`, see `creator-bible.md`) and **reserve a clear empty photo band** in the upper region for real face cut-outs (framed pinned-polaroid on the blue base). **Do NOT doodle/invent the named person** — the consumer composites their real photo into the band. |
 | `body`, `peak`, `direct_answer`, everything else | **HAND-DRAWN DOODLE** (the §1–§11 rules below) on the blue base — flat marker illustration, light ink, no photographic human. |
 
 > Why hybrid: the doodle body slides are the brand's teaching superpower (keep them); the
 > hook and CTA need a human face to stop the scroll and drive the action, so those two
 > roles use the photographic Spotlight Portrait. Both halves share the blue base so the
 > carousel reads as one coherent set.
+>
+> **People Spotlight exception:** a doodle body slide that PROFILES specific real people is
+> the one place a body slide carries real faces — it stays a doodle infographic but reserves a
+> real-photo band instead of doodling the person. A doodle/invented avatar of a real named
+> person is WRONG. See `creator-bible.md` → "People Spotlight".
 
 ---
 
