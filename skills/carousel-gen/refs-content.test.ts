@@ -250,19 +250,19 @@ describe('global-config.md — text-overlay purity + single CTA (v3.0.4)', () =>
 });
 
 // ---------------------------------------------------------------------------
-// version-sync guard — package.json === plugin.json === 3.0.4
+// version-sync guard — package.json === plugin.json === 3.0.6
 // ---------------------------------------------------------------------------
 
-describe('version sync — package.json === plugin.json === 3.0.4', () => {
-  it('all version sources are pinned at 3.0.4', () => {
+describe('version sync — package.json === plugin.json === 3.0.6', () => {
+  it('all version sources are pinned at 3.0.6', () => {
     const pkg = JSON.parse(read(resolve(REPO_ROOT, 'package.json'))) as {
       version: string;
     };
     const plugin = JSON.parse(
       read(resolve(REPO_ROOT, '.claude-plugin', 'plugin.json')),
     ) as { version: string };
-    expect(pkg.version).toBe('3.0.4');
-    expect(plugin.version).toBe('3.0.4');
+    expect(pkg.version).toBe('3.0.6');
+    expect(plugin.version).toBe('3.0.6');
   });
 });
 
