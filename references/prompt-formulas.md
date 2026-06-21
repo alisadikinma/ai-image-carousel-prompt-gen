@@ -65,7 +65,7 @@ Do NOT embed lens specs inside scene description prose.
 Every text overlay block MUST include ALL three of these rules — omitting any one causes rendering failures:
 
 1. **Remaining text in white** — after specifying accent-colored keywords, explicitly state "remaining text in white"
-2. **Not crammed at the very bottom** — include "positioned starting from the vertical center of the image extending downward, not crammed at the very bottom"
+2. **Not crammed at the very bottom** — include "positioned around the vertical center of the image with the text block centered on the middle of the canvas within roughly the central third, not pushed into the lower third and never crammed at the very bottom"
 3. **Subtitle must not be white** — include "subtitle must not be white" after the subtitle line specification
 
 Missing any of these three = REJECTED. These are the top causes of bad text hierarchy in generated images.
@@ -183,7 +183,7 @@ See `global-config.md` Language section for current defaults. Override: user spe
 Bottom half of the image has a smooth dark gradient zone. Extremely large, bold, impactful condensed uppercase text
 reading "[HEADLINE IN [config: main_headline_language]]" with the words "[KEYWORD 1]", "[KEYWORD 2]", and "[KEYWORD 3]" in [config: accent_color].
 The text uses the largest possible font size that fills the width, extra bold weight,
-positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
+positioned around the vertical center of the image with the text block centered on the middle of the canvas within roughly the central third, not pushed into the lower third and never crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line reading "[SUBTITLE TRANSLATION]" in [config: subtitle_color] at slightly smaller size,
 creating clear visual hierarchy — the subtitle must NOT be white like the main headline.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
@@ -513,7 +513,7 @@ Bottom half of the image has a smooth dark gradient zone. Extremely large, bold,
 reading "[HOOK HEADLINE — scored 3/5+]" with the words "[POWER WORD]", "[KEYWORD 2]", and "[KEYWORD 3]"
 in [config: accent_color]. The word "[POWER WORD]" in slightly larger size, visually dominant. Remaining text in white.
 The text uses the largest possible font size that fills the width, extra bold weight,
-positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
+positioned around the vertical center of the image with the text block centered on the middle of the canvas within roughly the central third, not pushed into the lower third and never crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
 as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
@@ -547,7 +547,7 @@ Lens: [lens]mm f/[aperture], [angle], [depth of field].
 Bottom half of the image has a smooth dark gradient zone. Extremely large, bold, impactful condensed uppercase text
 reading "[HEADLINE IN BAHASA]" with the words "[KEYWORD 1]", "[KEYWORD 2]", and "[KEYWORD 3]" in [config: accent_color].
 The text uses the largest possible font size that fills the width, extra bold weight,
-positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
+positioned around the vertical center of the image with the text block centered on the middle of the canvas within roughly the central third, not pushed into the lower third and never crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
 as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
@@ -619,7 +619,7 @@ Bottom half of the image has a smooth dark gradient zone. Extremely large, bold,
 reading "[FORESHADOW HEADLINE — creates FOMO/urgency to keep swiping]"
 with the words "[KEYWORD 1]", "[KEYWORD 2]", and "[KEYWORD 3]" in [config: accent_color].
 The text uses the largest possible font size that fills the width, extra bold weight,
-positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
+positioned around the vertical center of the image with the text block centered on the middle of the canvas within roughly the central third, not pushed into the lower third and never crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
 as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
@@ -659,7 +659,7 @@ Lens: [lens]mm f/[aperture], [angle]. [Depth of field].
 Bottom half of the image has a smooth dark gradient zone. Extremely large, bold, impactful condensed uppercase text
 reading "[HEADLINE IN BAHASA]" with the words "[KEYWORD 1]", "[KEYWORD 2]", and "[KEYWORD 3]" in [config: accent_color].
 The text uses the largest possible font size that fills the width, extra bold weight,
-positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
+positioned around the vertical center of the image with the text block centered on the middle of the canvas within roughly the central third, not pushed into the lower third and never crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
 as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
@@ -688,7 +688,7 @@ Lens: [lens]mm f/[aperture], [angle]. [Depth of field].
 Bottom half of the image has a smooth dark gradient zone. Extremely large, bold, impactful condensed uppercase text
 reading "[HEADLINE IN BAHASA]" with the words "[KEYWORD 1]", "[KEYWORD 2]", and "[KEYWORD 3]" in [config: accent_color].
 The text uses the largest possible font size that fills the width, extra bold weight,
-positioned starting from the vertical center of the image extending downward, not crammed at the very bottom.
+positioned around the vertical center of the image with the text block centered on the middle of the canvas within roughly the central third, not pushed into the lower third and never crammed at the very bottom.
 Below the main headline, a [config: subtitle_language] subtitle line in [config: subtitle_color] at slightly smaller size — subtitle must not be white.
 Render the creator's brand icon from reference image creator-brand.png centered in the middle of the image
 as a small circular badge at faint and barely-visible, positioned directly above the @handle watermark — use the exact icon from the file, do not generate a new one.
